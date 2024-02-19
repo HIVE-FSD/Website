@@ -13,19 +13,16 @@ A community driven discussions platform
 
     ```
     cd your-project
-
 1.  Install dependencies:
 
     ```
     npm install
-
 ## Usage
 
 1.  Start the server:
 
     ```
     npm start
-
 1.  Open your web browser and go to `http://localhost:3000` to view the application.
 
 ## Technologies Used
