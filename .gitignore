@@ -1,0 +1,18 @@
+# Dependency directories
+node_modules/
+
+# Environment variables file
+.env
+
+# Log files
+*.log
+
+# Compiled binary files (e.g., .o, .obj, .exe, .dll, etc.)
+*.o
+*.obj
+*.exe
+*.dll
+
+# OS generated files
+.DS_Store
+Thumbs.db
