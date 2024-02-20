@@ -7,12 +7,12 @@ A community driven discussions platform
 1.  Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/your-project.git   
+    git clone https://github.com/HIVE-FSD/Website   
 
 1.  Navigate to the project directory:
 
     ```
-    cd your-project
+    cd Website
 1.  Install dependencies:
 
     ```
