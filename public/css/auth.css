@@ -17,9 +17,14 @@
 
 .auth-title {
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 2rem;
     line-height: 2rem;
     font-weight: 700;
+    border-bottom: 1px solid orange;
+    width: fit-content;
+    padding-bottom: 10px;
+    margin: auto;
+    color: azure;
 }
 
 .auth-form {
@@ -49,7 +54,7 @@
 }
 
 .input-group input:focus {
-    border-color: rgba(167, 139, 250);
+    border-color: orangered;
 }
 
 
@@ -61,13 +66,13 @@
 
 
 .alt-auth a:hover {
-    text-decoration: underline rgba(167, 139, 250, 1);
+    text-decoration: underline orange;
 }
 
 .auth-btn {
     display: block;
     width: 100%;
-    background-color: rgba(167, 139, 250, 1);
+    background-color: orange;
     padding: 0.75rem;
     text-align: center;
     color: rgba(17, 24, 39, 1);
@@ -79,7 +84,7 @@
 }
 
 .auth-btn:hover {
-    box-shadow: 0px 0px 10px rgba(117, 111, 204, 0.747);
+    background-color: rgba(255, 166, 0, 0.8);
 
 }
 

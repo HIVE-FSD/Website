@@ -16,7 +16,7 @@ router.get('/signup', (req, res) => {
 });
 
 router.post('/signup', [
-    body('username').notEmpty().trim().escape(),
+    body('username').notEmpty().trim().escape().withMessage('Invalid username'),
     body('password').isLength({ min: 3 }).withMessage('Password must be at least 3 characters long'),
     body('confirmPassword').custom((value, { req }) => {
         if (value !== req.body.password) {
@@ -27,7 +27,16 @@ router.post('/signup', [
 ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        const errorMessages = errors.array().map(error => error.msg);
+        let errorMessage;
+        if (errorMessages.includes('Invalid username')) {
+            errorMessage = 'username';
+        } else if (errorMessages.includes('Password must be at least 3 characters long')) {
+            errorMessage = 'password';
+        } else if (errorMessages.includes('Password confirmation does not match password')) {
+            errorMessage = 'confirmPassword';
+        }
+        return res.redirect(`/signup?signupError=true&errorMessage=${errorMessage}`);
     }
 
     const { username, password } = req.body;
@@ -36,7 +45,7 @@ router.post('/signup', [
         // Check if username already exists
         const existingUser = await User.getUserByUsername(username);
         if (existingUser) {
-            return res.status(400).json({ error: 'Username already exists' });
+            return res.redirect('/signup?signupError=true');
         }
 
         // Hash the password

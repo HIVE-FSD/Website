@@ -2,9 +2,17 @@
 
 <div class="form-container">
     <p class="auth-title">Sign up</p>
-    <% if (req.query.signupSuccess) { %>
-        <div class="alert alert-success" role="alert">
-            Account created successfully. You can now login.
+    <% if (req.query.signupError) { %>
+        <div class="alert alert-danger" role="alert">
+            <% if (req.query.errorMessage==='username' ) { %>
+                Please provide a valid username.
+                <% } else if (req.query.errorMessage==='password' ) { %>
+                    Password must be at least 3 characters long.
+                    <% } else if (req.query.errorMessage==='confirmPassword' ) { %>
+                        Password confirmation does not match password.
+                        <% } else { %>
+                            Invalid credentials.
+                            <% } %>
         </div>
         <% } %>
             <form class="auth-form" method="POST" action="/signup">

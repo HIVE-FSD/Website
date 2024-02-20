@@ -25,21 +25,17 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get('/', async (req, res) => {
     if (!req.session.user) {
-        // Redirect to login page if user is not logged in
         return res.redirect('/login');
     }
 
-    const username = req.session.user.username; // Retrieve username from session
+    const username = req.session.user.username;
 
     try {
-        // Fetch user data from the database based on the username
         const user = await User.getUserByUsername(username);
         if (!user) {
-            // Handle case where user is not found
             return res.status(404).send('User not found');
         }
 
-        // Render homepage template with user-specific data
         res.render('index', { title: 'Home', user });
     } catch (err) {
         console.error(err.message);
