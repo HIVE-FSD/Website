@@ -21,7 +21,7 @@ class User {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(result[0]); // Make sure result[0] is not undefined
+                    resolve(result[0]);
                 }
             });
         });
