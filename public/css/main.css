@@ -13,7 +13,7 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
-    background-color: black;
+    background-color: #181818;
     color: azure;
     flex-wrap: wrap;
     width: 100vw;
@@ -115,7 +115,7 @@ footer {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px 30px 20px;
-    background-color: black;
+    background-color: #181818;
     flex-direction: column;
 
 }
