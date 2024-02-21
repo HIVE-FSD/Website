@@ -14,9 +14,12 @@
 
 <body>
 
-    <%- include('../components/navbar.ejs') %>
-        <main><%- body %></main>
-        <%- include('../components/footer.ejs') %>
+    <div class="main-layout">
+        <%- include('../components/navbar.ejs') %>
+            <main class="main-body"><%- body %></main>
+            <%- include('../components/footer.ejs') %>
+
+    </div>
 
 
 </body>

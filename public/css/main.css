@@ -1,3 +1,12 @@
+.main-layout {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
 nav {
     height: 70px;
     display: flex;
@@ -7,6 +16,7 @@ nav {
     background-color: black;
     color: azure;
     flex-wrap: wrap;
+    width: 100vw;
 }
 
 .nav-logo {
@@ -96,4 +106,50 @@ nav {
     nav.open {
         height: 180px;
     }
+}
+
+footer {
+    height: 150px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px 30px 20px;
+    background-color: black;
+    flex-direction: column;
+
+}
+
+footer img {
+    height: 50px;
+}
+
+.footer-logo-container {
+    border-bottom: 1px solid azure;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.footer-menu {
+    width: 50%;
+    min-width: 320px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-menu a {
+    color: azure;
+    text-decoration-line: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.footer-menu a:hover {
+    text-decoration-line: underline;
+    text-decoration-color: orangered;
+    color: rgb(255, 169, 8);
 }
