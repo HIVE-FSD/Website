@@ -1,3 +1,7 @@
+:root {
+    --orange: rgb(242, 146, 47)
+  }
+
 .main-layout {
     width: 100vw;
     min-height: 100vh;
@@ -5,10 +9,18 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    gap: 2.5rem;
+}
+
+/* Navbar styles */
+
+.nav-cover{
+    height: 60px;
+    width: 100%;
 }
 
 nav {
-    height: 70px;
+    height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -17,6 +29,9 @@ nav {
     color: azure;
     flex-wrap: wrap;
     width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 .nav-logo {
@@ -36,18 +51,15 @@ nav {
 
 #navSearch {
     width: 50%;
-    height: 30px;
-    padding: 10px 5px;
-    text-align: center;
+    height: 35px;
+    padding: 10px 20px;
     border-radius: 5px;
-    border: none;
-    font-size: 16px;
+    font-size: 1.1rem;
     min-width: 400px;
 }
 
 #navSearch:focus {
     outline: none;
-    border: 2px solid orangered;
 }
 
 .nav-list {
@@ -60,6 +72,8 @@ nav {
 
 .nav-list li {
     list-style-type: none;
+    display: flex;
+    align-items: center;
 }
 
 .nav-profile {
@@ -108,13 +122,16 @@ nav {
     }
 }
 
+/* Navbar styles */
+
+/* Footer styles */
 footer {
     height: 150px;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px 30px 20px;
+    padding: 10px 20px 30px 40px;
     background-color: #181818;
     flex-direction: column;
 
@@ -125,7 +142,7 @@ footer img {
 }
 
 .footer-logo-container {
-    border-bottom: 1px solid azure;
+    border-bottom: 1px solid var(--orange);
     padding-bottom: 20px;
     margin-bottom: 20px;
     width: 100%;
@@ -153,3 +170,257 @@ footer img {
     text-decoration-color: orangered;
     color: rgb(255, 169, 8);
 }
+
+/* Footer styles */
+
+/* Post styles */
+
+
+.post-super{
+    width: 100%;
+}
+
+.post {
+    background-color: rgb(15, 15, 15);
+    padding: 15px 20px;
+    border-radius: 5px;
+    width: 100%;
+    display: flex;
+    gap: 15px;
+}
+
+.votes-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.vote-btn{
+    cursor: pointer;
+}
+
+.votes-container span.plus{
+    color: var(--orange);
+}
+.votes-container span.minus{
+    color: lightblue;
+}
+
+.post-main {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+    gap: 10px;
+}
+
+.post-main .more {
+    cursor: pointer;
+}
+
+.post-close {
+    display: none;
+}
+
+.comment-functions , .post-functions {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 7px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: .5px solid var(--orange);
+    color: rgba(240, 255, 255, 0.5);
+}
+
+
+.comment-functions div , .post-functions div {
+    display: flex;
+    align-items: center;
+    font-size: medium;
+    gap: 3px;
+    cursor: pointer;
+}
+
+.post-inner-functions, .comment-inner-functions{
+    gap: 10px !important;
+}
+
+.comment-functions span, .post-functions div span {
+    font-size: small;
+}
+.post-comment-section{
+    display: none;
+}
+
+.post-super.modal {
+    position: fixed;
+    top: 0;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.5);
+    max-width: none;
+    width: 100vw;
+    height: 100vh;
+    
+}
+
+.post-super.modal .post {
+    width: 800px;
+    border: 1px solid var(--orange);
+    position: relative;
+}
+
+
+.post-super.modal .post-close {
+    display: block;
+    position: absolute;
+    right: 10px;
+    top: -30px;
+    cursor: pointer;
+}
+
+.post-super.modal .post-comment-section{
+    display: block;
+    width: 100%;
+}
+
+.post-commentText {
+    width: 100%;
+    border-radius: 0.375rem;
+    border: 1px solid rgba(55, 65, 81, 1);
+    outline: 0;
+    background-color: transparent;
+    padding: 0.75rem 1rem;
+    color: azure;
+}
+
+.post-commentText:focus {
+    border-color: rgba(255, 166, 0, 1);
+}
+
+.post-comment-btn-container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.post-comment-btn-container button {
+    background-color: var(--orange);
+    padding: 10px 20px;
+    text-align: center;
+    color: azure;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.post-comment-btn-container button:hover {
+    background-color: rgba(255, 166, 0, 0.8);
+}
+
+.post-comment-title {
+    font-size: large;
+    margin-bottom: 10px;
+}
+
+@media (max-width:830px) {
+    .post-super.modal .post{
+        width: 90%;
+    }
+}
+
+/* Post styles */
+
+/* Comment styles */
+
+.post-comments-list{
+    width: 100%;
+    max-height: 200px;
+    overflow: auto;
+}
+
+.post-comments-list::-webkit-scrollbar {
+    width: 10px; /* width of the scrollbar */
+    border-radius: 25%;
+}
+
+.post-comments-list::-webkit-scrollbar-thumb {
+    background: #888; /* color of the scrollbar */
+}
+
+.post-comments-list::-webkit-scrollbar-thumb:hover {
+    background: #555; /* color of the scrollbar on hover */
+}
+
+
+
+.post-comments-list li{
+    list-style: none;
+}
+
+.post-comment .votes-container{
+    width: fit-content;
+    margin-top: 5px;
+}
+
+.post-comment{
+    margin: 20px 5px 20px 20px;
+    padding-left: 10px;
+    border-left: 1px solid var(--orange);
+    display: flex;
+    gap: 10px;
+}
+.comment-header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: fit-content;
+    font-weight: 300;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.comment-user{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    width: fit-content;
+}
+
+.comment-user span{
+    font-weight: 200;
+}
+
+.comment-functions{
+    margin-bottom: 10px;
+}
+
+.comment-time{
+    font-weight: 300;
+    font-size: .7rem;
+    
+}
+
+/* Comment styles */
+
+
+/* Home styles */
+.home-posts-container{
+    min-width: 60%;
+    max-width: 90%;
+    display: flex;    
+    flex-direction: column;
+    gap: 1rem;
+}
+
+
+/* Home styles */

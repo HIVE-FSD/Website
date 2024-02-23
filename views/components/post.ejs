@@ -1,0 +1,104 @@
+<% function truncateText(text, maxLength) { if (text.length> maxLength) {
+    return text.slice(0, maxLength) + '...<span class="more">more</span>';
+    } else {
+    return text;
+    }
+    }
+    %>
+
+<% function formatTimeAgo(datetimeString) { 
+    const now=new Date(); 
+    const commentedOn=new Date(datetimeString); 
+    const diffMs=now - commentedOn;
+    const diffSeconds=Math.floor(diffMs / 1000);
+    const diffMinutes=Math.floor(diffSeconds /60); 
+    const diffHours=Math.floor(diffMinutes / 60);
+    const diffDays=Math.floor(diffHours / 24); const
+    diffYears=Math.floor(diffDays / 365); if (diffYears> 0) {
+    return `${diffYears} year${diffYears > 1 ? 's' : ''} ago`;
+    } else if (diffDays > 0) {
+    return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    } else if (diffHours > 0) {
+    return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+    } else if (diffMinutes > 0) {
+    return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`;
+    } else {
+    return `${diffSeconds} second${diffSeconds > 1 ? 's' : ''} ago`;
+    }
+    } %>
+
+<div class="post-super">
+    <div class="post">
+        <div class="votes-container">
+            <span class="material-symbols-outlined add-vote-btn vote-btn" onclick="addVote(this)">
+                expand_less
+            </span>
+            <span class="votes-value"><%= post.votes %></span>
+            <span class="material-symbols-outlined remove-vote-btn vote-btn" onclick="removeVote(this)">
+                expand_more
+            </span>
+        </div>
+        <span class="material-symbols-outlined post-close" onclick="closeContent(this)">close</span>
+        <div class="post-main">
+            <h1>
+                <%= post.title %>
+            </h1>
+            <p class="post-description" onclick="expandContent(this)"><%- truncateText(post.content, 75) %></p>
+            <div class="post-functions">
+                <span class="post-time">
+                    <%= formatTimeAgo(post.postedon) %> at <%= post.community %>
+                </span>
+                <div class="post-inner-functions">
+                    <div onclick="toggleCommentArea(this)"><span class="material-symbols-outlined">comment</span> Comment</div>
+                    <div><span class="material-symbols-outlined">flag</span> Report</div>
+                </div>
+            </div>
+            <div class="post-comment-section">
+                <div class="post-comment-area" style="display: none;">
+                    <textarea class="post-commentText" rows="2" cols="50"></textarea>
+                    <div class="post-comment-btn-container">
+                        <button onclick="postComment(this)">Comment</button>
+                        <button onclick="cancelComment(this)">Cancel</button>
+                    </div>
+                </div>
+                <h3 class="post-comment-title" >Comments</h3>
+                <ul class="post-comments-list">
+                    <%- include('postComments', { comments: post.comments }) %>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function expandContent(paragraph) {
+    const postSuper = paragraph.closest('.post-super');
+    postSuper.classList.add('modal');
+    paragraph.innerHTML = '<%= post.content %>';
+}
+
+function closeContent(close) {
+    const postSuper = close.closest('.post-super');
+    const paragraph = postSuper.querySelector('.post-description');
+    const commentArea = postSuper.querySelector('.post-comment-area');
+    commentArea.style.display = 'none';
+    postSuper.classList.remove('modal');
+    paragraph.innerHTML = '<%- truncateText(post.content, 75) %>';
+}
+
+function toggleCommentArea(commentButton) {
+    const postSuper = commentButton.closest('.post-super');
+    const commentArea = postSuper.querySelector('.post-comment-area');
+    commentArea.style.display = 'block';
+    expandContent(postSuper.querySelector('.post-description'));
+}
+function toggleReplyArea(commentButton) {
+    const postSuper = commentButton.closest('.post-comment-main');
+    const commentArea = postSuper.querySelector('.post-comment-area');
+    commentArea.style.display = 'block';
+    expandContent(postSuper.querySelector('.post-description'));
+}
+</script>
+
+<script src="js/post.js"></script>

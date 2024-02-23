@@ -22,7 +22,9 @@ app.use('/assets', express.static(__dirname + 'public/assets'))
 app.use(expressEjsLayouts)
 app.set('layout', './layouts/mainLayout')
 app.set("view engine", 'ejs')
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+    extended: true
+}));
 
 app.get('/', async (req, res) => {
     if (!req.session.user) {
@@ -37,7 +39,10 @@ app.get('/', async (req, res) => {
             return res.status(404).send('User not found');
         }
 
-        res.render('index', { title: 'Home', user });
+        res.render('index', {
+            title: 'Home',
+            user
+        });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -45,7 +50,9 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/about', (req, res) => {
-    res.render('about', { title: "About" })
+    res.render('about', {
+        title: "About"
+    })
 })
 
 
