@@ -15,7 +15,7 @@ body {
     overflow-x: hidden;
 }
 
- input {
+input {
     border-radius: 0.375rem;
     border: 1px solid rgba(55, 65, 81, 1);
     outline: 0;
@@ -23,6 +23,25 @@ body {
     color: rgba(243, 244, 246, 1);
 }
 
- input:focus {
+input:focus {
     border-color: rgb(242, 146, 47);
+}
+
+a {
+    color: rgb(242, 146, 47);
+    text-decoration: none;
+}
+
+body::-webkit-scrollbar {
+    width: 10px;
+    background: rgb(24, 24, 24);
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: rgb(242, 146, 47); 
+    border-radius: 3px; 
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(242, 144, 47, 0.8); 
 }

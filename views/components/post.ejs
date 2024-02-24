@@ -46,7 +46,7 @@
             <p class="post-description" onclick="expandContent(this)"><%- truncateText(post.content, 75) %></p>
             <div class="post-functions">
                 <span class="post-time">
-                    <%= formatTimeAgo(post.postedon) %> at <%= post.community %>
+                    <%= formatTimeAgo(post.postedon) %> at <%= post.buzzSpace %>
                 </span>
                 <div class="post-inner-functions">
                     <div onclick="toggleCommentArea(this)"><span class="material-symbols-outlined">comment</span> Comment</div>

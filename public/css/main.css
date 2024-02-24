@@ -1,6 +1,6 @@
 :root {
     --orange: rgb(242, 146, 47)
-  }
+}
 
 .main-layout {
     width: 100vw;
@@ -12,9 +12,82 @@
     gap: 2.5rem;
 }
 
+
+button {
+    background-color: var(--orange);
+    padding: 10px 20px;
+    text-align: center;
+    color: azure;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: rgba(255, 166, 0, 0.8);
+}
+
+.home {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.home-right-cover {
+    width: 300px;
+    position: relative;
+}
+
+.home-right {
+    background-color: rgb(15, 15, 15);
+    border: 1px solid var(--orange);
+    height: fit-content;
+    padding: 20px 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 320px;
+    text-align: center;
+    position: fixed;
+}
+
+.home-right-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.home-right-bottom {
+    padding-top: 1rem;
+    border-top: 2px solid rgba(55, 65, 81, 1);
+}
+
+@media (max-width:1000px) {
+    .home {
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 3rem;
+    }
+
+    .home-right-cover {
+        position: static;
+        width: auto;
+        min-width: 80%;
+        max-width: 90%;
+    }
+
+    .home-right {
+        position: static;
+        width: 100%;
+        max-width: none;
+    }
+
+}
+
 /* Navbar styles */
 
-.nav-cover{
+.nav-cover {
     height: 60px;
     width: 100%;
 }
@@ -32,6 +105,7 @@ nav {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 100;
 }
 
 .nav-logo {
@@ -86,7 +160,7 @@ nav {
     margin: 0 5px;
 }
 
-.nav-left{
+.nav-left {
     padding-top: 5px;
 }
 
@@ -137,7 +211,7 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px 30px 40px;
+    padding: 10px 20px 30px 20px;
     background-color: #181818;
     flex-direction: column;
 
@@ -182,7 +256,7 @@ footer img {
 /* Post styles */
 
 
-.post-super{
+.post-super {
     width: 100%;
 }
 
@@ -196,20 +270,21 @@ footer img {
     border: 1px solid rgba(55, 65, 81, .7);
 }
 
-.votes-container{
+.votes-container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.vote-btn{
+.vote-btn {
     cursor: pointer;
 }
 
-.votes-container span.plus{
+.votes-container span.plus {
     color: var(--orange);
 }
-.votes-container span.minus{
+
+.votes-container span.minus {
     color: lightblue;
 }
 
@@ -229,7 +304,8 @@ footer img {
     display: none;
 }
 
-.comment-functions , .post-functions {
+.comment-functions,
+.post-functions {
     width: 100%;
     display: flex;
     align-items: center;
@@ -242,7 +318,8 @@ footer img {
 }
 
 
-.comment-functions div , .post-functions div {
+.comment-functions div,
+.post-functions div {
     display: flex;
     align-items: center;
     font-size: medium;
@@ -250,16 +327,19 @@ footer img {
     cursor: pointer;
 }
 
-.post-inner-functions, .comment-inner-functions{
+.post-inner-functions,
+.comment-inner-functions {
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px !important;
 }
 
-.comment-functions span, .post-functions div span {
+.comment-functions span,
+.post-functions div span {
     font-size: small;
 }
-.post-comment-section{
+
+.post-comment-section {
     display: none;
 }
 
@@ -274,7 +354,7 @@ footer img {
     max-width: none;
     width: 100vw;
     height: 100vh;
-    
+
 }
 
 .post-super.modal .post {
@@ -292,7 +372,7 @@ footer img {
     cursor: pointer;
 }
 
-.post-super.modal .post-comment-section{
+.post-super.modal .post-comment-section {
     display: block;
     width: 100%;
 }
@@ -311,7 +391,7 @@ footer img {
     border-color: rgba(255, 166, 0, 1);
 }
 
-.post-comment-btn-container{
+.post-comment-btn-container {
     width: 100%;
     display: flex;
     align-items: center;
@@ -320,19 +400,6 @@ footer img {
     margin: 10px 0;
 }
 
-.post-comment-btn-container button {
-    background-color: var(--orange);
-    padding: 10px 20px;
-    text-align: center;
-    color: azure;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.post-comment-btn-container button:hover {
-    background-color: rgba(255, 166, 0, 0.8);
-}
 
 .post-comment-title {
     font-size: large;
@@ -340,7 +407,7 @@ footer img {
 }
 
 @media (max-width:830px) {
-    .post-super.modal .post{
+    .post-super.modal .post {
         width: 90%;
     }
 }
@@ -349,48 +416,52 @@ footer img {
 
 /* Comment styles */
 
-.post-comment-main{
+.post-comment-main {
     min-width: 250px;
 }
 
-.post-comments-list{
+.post-comments-list {
     width: 100%;
     max-height: 200px;
     overflow: auto;
 }
 
 .post-comments-list::-webkit-scrollbar {
-    width: 10px; /* width of the scrollbar */
+    width: 10px;
+    /* width of the scrollbar */
     border-radius: 25%;
 }
 
 .post-comments-list::-webkit-scrollbar-thumb {
-    background: #888; /* color of the scrollbar */
+    background: #888;
+    /* color of the scrollbar */
 }
 
 .post-comments-list::-webkit-scrollbar-thumb:hover {
-    background: #555; /* color of the scrollbar on hover */
+    background: #555;
+    /* color of the scrollbar on hover */
 }
 
 
 
-.post-comments-list li{
+.post-comments-list li {
     list-style: none;
 }
 
-.post-comment .votes-container{
+.post-comment .votes-container {
     width: fit-content;
     margin-top: 5px;
 }
 
-.post-comment{
+.post-comment {
     margin: 20px 5px 20px 20px;
     padding-left: 10px;
     border-left: 1px solid var(--orange);
     display: flex;
     gap: 10px;
 }
-.comment-header{
+
+.comment-header {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -401,7 +472,7 @@ footer img {
     margin-bottom: 15px;
 }
 
-.comment-user{
+.comment-user {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -409,28 +480,28 @@ footer img {
     width: fit-content;
 }
 
-.comment-user span{
+.comment-user span {
     font-weight: 200;
 }
 
-.comment-functions{
+.comment-functions {
     margin-bottom: 10px;
 }
 
-.comment-time{
+.comment-time {
     font-weight: 300;
     font-size: .7rem;
-    
+
 }
 
 /* Comment styles */
 
 
 /* Home styles */
-.home-posts-container{
+.home-posts-container {
     min-width: 60%;
     max-width: 90%;
-    display: flex;    
+    display: flex;
     flex-direction: column;
     gap: 1rem;
 }
