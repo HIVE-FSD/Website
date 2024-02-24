@@ -26,33 +26,35 @@ app.use(express.urlencoded({
     extended: true
 }));
 
-app.get('/', async (req, res) => {
-    if (!req.session.user) {
-        return res.redirect('/login');
-    }
-
-    const username = req.session.user.username;
-
-    try {
-        const user = await User.getUserByUsername(username);
-        if (!user) {
-            return res.status(404).send('User not found');
+const renderPage = (route, file, props) =>{
+    app.get(route, async (req, res) => {
+        if (!req.session.user) {
+            return res.redirect('/login');
         }
+    
+        const username = req.session.user.username;
+    
+        try {
+            const user = await User.getUserByUsername(username);
+            if (!user) {
+                return res.status(404).send('User not found');
+            }
+    
+            res.render(file, {...props, user});
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).send('Server Error');
+        }
+    });
 
-        res.render('index', {
-            title: 'Home',
-            user
-        });
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
-});
+}
 
-app.get('/about', (req, res) => {
-    res.render('about', {
-        title: "About"
-    })
+renderPage('/', 'index', {
+    title: 'Home'
+})
+
+renderPage('/overview', 'overview', {
+    title: 'Overview'
 })
 
 

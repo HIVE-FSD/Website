@@ -119,9 +119,54 @@
   }
 ];
 
+const buzzSpaces = [
+  {
+    name: 'testSpace',
+    id: 1
+  },
+  {
+    name: 'testSpace1',
+    id: 2
+  },
+  {
+    name: 'testSpace2',
+    id: 3
+  },
+  {
+    name: 'testSpace3',
+    id: 3
+  },
+  {
+    name: 'testSpace4',
+    id: 4
+  },
+  {
+    name: 'testSpace5',
+    id: 5
+  },
+]
+
 %>
 
 <div class="home">
+  <div class="home-communities-cover">
+
+    <div class="home-communities-container">
+      <h2>
+        Your BuzzSpaces
+      </h2>
+      <ul>
+        <% buzzSpaces.map((space)=> { %>
+          <li>
+            <span class="material-symbols-outlined">
+              communities
+            </span>
+            <%= space.name %>
+          </li>
+          <% }); %>
+      </ul>
+    </div>
+  </div>
 
   <div class="home-posts-container">
     <% posts.map((post, index)=> { %>
