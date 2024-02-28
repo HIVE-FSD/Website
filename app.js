@@ -15,9 +15,9 @@ app.use(session({
 
 //Static files
 app.use(express.static('public'))
-app.use('/css', express.static(__dirname + 'public/css'))
-app.use('/js', express.static(__dirname + 'public/js'))
-app.use('/assets', express.static(__dirname + 'public/assets'))
+app.use('/css', express.static(__dirname + '/public/css'))
+app.use('/js', express.static(__dirname + '/public/js'))
+app.use('/assets', express.static(__dirname + '/public/assets'))
 
 app.use(expressEjsLayouts)
 app.set('layout', './layouts/mainLayout')
@@ -56,6 +56,15 @@ renderPage('/', 'index', {
 renderPage('/overview', 'overview', {
     title: 'Overview'
 })
+
+renderPage('/buzzspace', 'buzzSpace', {
+    title: 'BuzzSpace'
+})
+
+const buzzSpaceRoutes = require('./routes/buzzSpaceRoutes');
+
+// Add buzzSpaceRoutes to your app
+app.use('/buzzspace', buzzSpaceRoutes);
 
 
 // Routes

@@ -118,84 +118,55 @@
     ]
   }
 ];
-
-const buzzSpaces = [
-  {
-    name: 'testSpace',
-    image : "https://picsum.photos/100/100",
-    id: 1
-  },
-  {
-    name: 'testSpace1',
-    image : "https://picsum.photos/100/100",
-    id: 2
-  },
-  {
-    name: 'testSpace2',
-    image : "https://picsum.photos/100/100",
-    id: 3
-  },
-  {
-    name: 'testSpace3',
-    image : "https://picsum.photos/100/100",
-    id: 3
-  },
-  {
-    name: 'testSpace4',
-    image : "https://picsum.photos/100/100",
-    id: 4
-  },
-  {
-    name: 'testSpace5',
-    image : "https://picsum.photos/100/100",
-    id: 5
-  },
-]
-
 %>
 
-<div class="home">
-  
-
-  <div class="home-posts-container">
-    <% posts.map((post, index)=> { %>
-      <%- include('components/post', { post: post, index: index }) %>
-        <% }); %>
-  </div>
-  <div class="home-right-cover">
-
-    <div class="home-right">
-      <div class="home-new-post home-right-inner">
-        <p>Share your thoughts through a post.</p>
-        <button>New Post</button>
-      </div>
-      <div class="home-new-space home-right-inner">
-        <p>Summon people to a new BuzzSpace!!</p>
-        <button>New BuzzSpace</button>
-      </div>
-      <div class="home-right-bottom">
-        <p>Not sure where you are?</p>
-        <p>
-          Get an
-          <a href="/overview">Overview</a>
-          of your new HIVE!
-        </p>
-      </div>
+<div class="buzzSpace-main">
+    <div class="buzzSpace-header">
+        <img class="space-cover" src="https://picsum.photos/1000/100" alt="">
+        <div class="buzzSpace-header-inner">
+            <div class="buzzSpace-header-inner-left">
+                <div class="space-logo">
+                    <img src="https://picsum.photos/100/100" alt="">
+                </div>
+                <h1>
+                    <%= title %>
+                </h1>
+            </div>
+            <div class="buzzSpace-header-inner-right">
+                <button>
+                    Join
+                </button>
+                <button>Create Post</button>
+            </div>
+        </div>
     </div>
 
+    <div class="buzzSpace-content">
 
-      <div class="home-communities-container">
-        <h2>
-          Your BuzzSpaces
-        </h2>
-        <ul>
-          <% buzzSpaces.map((space)=> { %>
-            <li>
-              <img src=<%= space.image %> alt="">
-              <%= space.name %>
-            </li>
-            <% }); %>
-        </ul>
-      </div>
-  </div>
+        <div class="space-posts-container">
+            <% posts.map((post, index)=> { %>
+                <%- include('components/post', { post: post, index: index }) %>
+                    <% }); %>
+        </div>
+        <div class="buzzSpace-info">
+            <h2>About</h2>
+            <p>
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit eaque ipsam quam, mollitia tempore nulla
+                ipsum quia sequi modi et nostrum neque, ratione sit architecto facilis nisi. Consequuntur, velit nihil.
+            </p>
+            <h5>created by</h5>
+            <div class="space-info-creator">
+                <img src="https://picsum.photos/100/100" alt="">
+                <p>Talion</p>
+            </div>
+            <h5>created on</h5>
+            <div class="space-info-creator">
+                <span class="material-symbols-outlined">
+                    event
+                </span>
+                <p>March 7th 2020</p>
+            </div>
+        </div>
+    </div>
+
 </div>
