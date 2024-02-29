@@ -53,8 +53,8 @@ renderPage('/', 'index', {
     title: 'Home'
 })
 
-renderPage('/overview', 'overview', {
-    title: 'Overview'
+renderPage('/faqs', 'faqs', {
+    title: 'HIVE | FAQs'
 })
 
 renderPage('/buzzspace', 'buzzSpace', {
