@@ -1,18 +1,19 @@
-const mysql = require('mysql');
+const mongoose = require('mongoose');
 
-const db = mysql.createConnection({
-    host: 'monorail.proxy.rlwy.net',
-    user: 'root',
-    password: '-f23H16he5D2a3h25A4chaG4AfdbB2dc',
-    database: 'railway',
-    port: '54579',
-});
 
-db.connect((err) => {
-    if (err) {
-        throw err;
+// MongoDB connection URI
+const mongoURI = "mongodb://127.0.0.1:27017/lab6";
+
+// Function to connect to MongoDB
+const connectToMongo = async () => {
+    try {
+        console.log("Initiating connection!");
+        // Establish connection to MongoDB
+        await mongoose.connect(mongoURI);
+        console.log(`Connected to ${mongoURI}`);
+    } catch (error) {
+        console.error("Error connecting to MongoDB:", error);
     }
-    console.log('MySQL connected...');
-});
+};
 
-module.exports = db;
+connectToMongo()

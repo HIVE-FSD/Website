@@ -2,10 +2,9 @@ const express = require("express")
 const expressEjsLayouts = require("express-ejs-layouts")
 const authRoutes = require('./routes/authRoutes');
 const session = require('express-session');
-const User = require("./models/User");
+const User = require("./Controllers/User");
 const app = express()
 const port = 3000
-
 
 app.use(session({
     secret: 'Ballaya',
@@ -57,11 +56,12 @@ renderPage('/faqs', 'faqs', {
     title: 'HIVE | FAQs'
 })
 
-renderPage('/buzzspace', 'buzzSpace', {
-    title: 'BuzzSpace'
+renderPage('/topbuzzspaces', 'topBuzzSpaces', {
+    title: 'Top BuzzSpaces'
 })
 
 const buzzSpaceRoutes = require('./routes/buzzSpaceRoutes');
+const connectToMongo = require("./db");
 
 // Add buzzSpaceRoutes to your app
 app.use('/buzzspace', buzzSpaceRoutes);

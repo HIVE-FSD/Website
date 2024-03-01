@@ -1,32 +1,17 @@
-const db = require('../db');
+const mongoose = require('mongoose');
 
-class User {
-    static async createUser(username, password) {
-        return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO users (username, password) VALUES (?, ?)';
-            db.query(sql, [username, password], (err, result) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(result);
-                }
-            });
-        });
+const userSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true
     }
+});
 
-    static async getUserByUsername(username) {
-        return new Promise((resolve, reject) => {
-            const sql = 'SELECT * FROM users WHERE username = ?';
-            db.query(sql, [username], (err, result) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(result[0]);
-                }
-            });
-        });
-    }
-
-}
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;
