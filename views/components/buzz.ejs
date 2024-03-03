@@ -27,43 +27,43 @@
     }
     } %>
 
-<div class="post-super">
-    <div class="post">
+<div class="buzz-super">
+    <div class="buzz">
         <div class="votes-container">
             <span class="material-symbols-outlined add-vote-btn vote-btn" onclick="addVote(this)">
                 expand_less
             </span>
-            <span class="votes-value"><%= post.votes %></span>
+            <span class="votes-value"><%= buzz.votes %></span>
             <span class="material-symbols-outlined remove-vote-btn vote-btn" onclick="removeVote(this)">
                 expand_more
             </span>
         </div>
-        <span class="material-symbols-outlined post-close" onclick="closeContent(this)">close</span>
-        <div class="post-main">
+        <span class="material-symbols-outlined buzz-close" onclick="closeContent(this)">close</span>
+        <div class="buzz-main">
             <h1>
-                <%= post.title %>
+                <%= buzz.title %>
             </h1>
-            <p class="post-description" onclick="expandContent(this)"><%- truncateText(post.content, 75) %></p>
-            <div class="post-functions">
-                <span class="post-time">
-                    <%= formatTimeAgo(post.postedon) %> at <a href=<%= "/buzzspace/"+post.buzzSpace  %>><%= post.buzzSpace %></a>
+            <p class="buzz-description" onclick="expandContent(this)"><%- truncateText(buzz.content, 75) %></p>
+            <div class="buzz-functions">
+                <span class="buzz-time">
+                    <%= formatTimeAgo(buzz.buzzedon) %> at <a href=<%= "/buzzspace/"+buzz.buzzSpace  %>><%= buzz.buzzSpace %></a>
                 </span>
-                <div class="post-inner-functions">
+                <div class="buzz-inner-functions">
                     <div onclick="toggleCommentArea(this)"><span class="material-symbols-outlined">comment</span> Comment</div>
                     <div><span class="material-symbols-outlined">flag</span> Report</div>
                 </div>
             </div>
-            <div class="post-comment-section">
-                <div class="post-comment-area" style="display: none;">
-                    <textarea class="post-commentText" rows="2" cols="50"></textarea>
-                    <div class="post-comment-btn-container">
-                        <button onclick="postComment(this)">Comment</button>
+            <div class="buzz-comment-section">
+                <div class="buzz-comment-area" style="display: none;">
+                    <textarea class="buzz-commentText" rows="2" cols="50"></textarea>
+                    <div class="buzz-comment-btn-container">
+                        <button onclick="buzzComment(this)">Comment</button>
                         <button onclick="cancelComment(this)">Cancel</button>
                     </div>
                 </div>
-                <h3 class="post-comment-title" >Comments</h3>
-                <ul class="post-comments-list">
-                    <%- include('postComments', { comments: post.comments }) %>
+                <h3 class="buzz-comment-title" >Comments</h3>
+                <ul class="buzz-comments-list">
+                    <%- include('buzzComments', { comments: buzz.comments }) %>
                 </ul>
             </div>
         </div>
@@ -73,32 +73,32 @@
 
 <script>
     function expandContent(paragraph) {
-    const postSuper = paragraph.closest('.post-super');
-    postSuper.classList.add('modal');
-    paragraph.innerHTML = '<%= post.content %>';
+    const buzzSuper = paragraph.closest('.buzz-super');
+    buzzSuper.classList.add('modal');
+    paragraph.innerHTML = '<%= buzz.content %>';
 }
 
 function closeContent(close) {
-    const postSuper = close.closest('.post-super');
-    const paragraph = postSuper.querySelector('.post-description');
-    const commentArea = postSuper.querySelector('.post-comment-area');
+    const buzzSuper = close.closest('.buzz-super');
+    const paragraph = buzzSuper.querySelector('.buzz-description');
+    const commentArea = buzzSuper.querySelector('.buzz-comment-area');
     commentArea.style.display = 'none';
-    postSuper.classList.remove('modal');
-    paragraph.innerHTML = '<%- truncateText(post.content, 75) %>';
+    buzzSuper.classList.remove('modal');
+    paragraph.innerHTML = '<%- truncateText(buzz.content, 75) %>';
 }
 
 function toggleCommentArea(commentButton) {
-    const postSuper = commentButton.closest('.post-super');
-    const commentArea = postSuper.querySelector('.post-comment-area');
+    const buzzSuper = commentButton.closest('.buzz-super');
+    const commentArea = buzzSuper.querySelector('.buzz-comment-area');
     commentArea.style.display = 'block';
-    expandContent(postSuper.querySelector('.post-description'));
+    expandContent(buzzSuper.querySelector('.buzz-description'));
 }
 function toggleReplyArea(commentButton) {
-    const postSuper = commentButton.closest('.post-comment-main');
-    const commentArea = postSuper.querySelector('.post-comment-area');
+    const buzzSuper = commentButton.closest('.buzz-comment-main');
+    const commentArea = buzzSuper.querySelector('.buzz-comment-area');
     commentArea.style.display = 'block';
-    expandContent(postSuper.querySelector('.post-description'));
+    expandContent(buzzSuper.querySelector('.buzz-description'));
 }
 </script>
 
-<script src="js/post.js"></script>
+<script src="js/buzz.js"></script>

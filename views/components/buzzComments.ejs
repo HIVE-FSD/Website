@@ -21,7 +21,7 @@
 
     <% for (let i=0; i < comments.length; i++) { %>
         <li>
-            <div class="post-comment">
+            <div class="buzz-comment">
                 <div class="votes-container">
                     <span class="material-symbols-outlined add-vote-btn vote-btn" onclick="addVote(this)">
                         expand_less
@@ -33,7 +33,7 @@
                         expand_more
                     </span>
                 </div>
-                <div class="post-comment-main">
+                <div class="buzz-comment-main">
 
                     <div class="comment-header">
                         <span class="comment-user">
@@ -43,7 +43,7 @@
                             <%= comments[i].user %>
                         </span>
                     </div>
-                    <div class="post-comment-content">
+                    <div class="buzz-comment-content">
                         <%= comments[i].comment %>
                     </div>
                     <div class="comment-functions">
@@ -55,16 +55,16 @@
                             <div><span class="material-symbols-outlined">flag</span> Report</div>
                         </div>
                     </div>
-                    <div class="post-comment-area" style="display: none;">
-                        <textarea class="post-commentText" rows="2" cols="50"></textarea>
-                        <div class="post-comment-btn-container">
+                    <div class="buzz-comment-area" style="display: none;">
+                        <textarea class="buzz-commentText" rows="2" cols="50"></textarea>
+                        <div class="buzz-comment-btn-container">
                             <button onclick="CommentReply(this)">Reply</button>
                             <button onclick="cancelReply(this)">Cancel</button>
                         </div>
                     </div>
                     <% if (comments[i].replies && comments[i].replies.length> 0) { %>
-                        <ul class="post-comment-replies-list">
-                            <%- include('postComments', { comments: comments[i].replies }) %>
+                        <ul class="buzz-comment-replies-list">
+                            <%- include('buzzComments', { comments: comments[i].replies }) %>
                         </ul>
                         <% } %>
                 </div>

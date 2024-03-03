@@ -52,6 +52,10 @@ renderPage('/', 'index', {
     title: 'Home'
 })
 
+renderPage('/newbuzz', 'newbuzz', {
+    title: 'New Buzz'
+})
+
 renderPage('/faqs', 'faqs', {
     title: 'HIVE | FAQs'
 })

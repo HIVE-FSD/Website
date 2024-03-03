@@ -195,14 +195,14 @@ footer img {
 
 /* Footer styles */
 
-/* Post styles */
+/* Buzz styles */
 
 
-.post-super {
+.buzz-super {
     width: 100%;
 }
 
-.post {
+.buzz {
     background-color: rgb(15, 15, 15);
     padding: 15px 20px;
     border-radius: 5px;
@@ -230,7 +230,7 @@ footer img {
     color: lightblue;
 }
 
-.post-main {
+.buzz-main {
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -238,17 +238,17 @@ footer img {
     gap: 10px;
 }
 
-.post-main .more {
+.buzz-main .more {
     cursor: pointer;
     color: var(--orange);
 }
 
-.post-close {
+.buzz-close {
     display: none;
 }
 
 .comment-functions,
-.post-functions {
+.buzz-functions {
     width: 100%;
     display: flex;
     align-items: center;
@@ -262,7 +262,7 @@ footer img {
 
 
 .comment-functions div,
-.post-functions div {
+.buzz-functions div {
     display: flex;
     align-items: center;
     font-size: medium;
@@ -270,7 +270,7 @@ footer img {
     cursor: pointer;
 }
 
-.post-inner-functions,
+.buzz-inner-functions,
 .comment-inner-functions {
     flex-wrap: wrap;
     justify-content: center;
@@ -278,15 +278,15 @@ footer img {
 }
 
 .comment-functions span,
-.post-functions div span {
+.buzz-functions div span {
     font-size: small;
 }
 
-.post-comment-section {
+.buzz-comment-section {
     display: none;
 }
 
-.post-super.modal {
+.buzz-super.modal {
     position: fixed;
     top: 0;
     align-items: center;
@@ -301,14 +301,14 @@ footer img {
 
 }
 
-.post-super.modal .post {
+.buzz-super.modal .buzz {
     width: 800px;
     border: 1px solid var(--grey);
     position: relative;
 }
 
 
-.post-super.modal .post-close {
+.buzz-super.modal .buzz-close {
     display: block;
     position: absolute;
     right: 10px;
@@ -316,12 +316,12 @@ footer img {
     cursor: pointer;
 }
 
-.post-super.modal .post-comment-section {
+.buzz-super.modal .buzz-comment-section {
     display: block;
     width: 100%;
 }
 
-.post-commentText {
+.buzz-commentText {
     width: 100%;
     border-radius: 0.375rem;
     border: 1px solid var(--grey);
@@ -331,11 +331,11 @@ footer img {
     color: azure;
 }
 
-.post-commentText:focus {
+.buzz-commentText:focus {
     border-color: rgba(255, 166, 0, 1);
 }
 
-.post-comment-btn-container {
+.buzz-comment-btn-container {
     width: 100%;
     display: flex;
     align-items: center;
@@ -345,59 +345,59 @@ footer img {
 }
 
 
-.post-comment-title {
+.buzz-comment-title {
     font-size: large;
     margin-bottom: 10px;
 }
 
 @media (max-width:830px) {
-    .post-super.modal .post {
+    .buzz-super.modal .buzz {
         width: 90%;
     }
 }
 
-/* Post styles */
+/* Buzz styles */
 
 /* Comment styles */
 
-.post-comment-main {
+.buzz-comment-main {
     min-width: 250px;
 }
 
-.post-comments-list {
+.buzz-comments-list {
     width: 100%;
     max-height: 200px;
     overflow: auto;
 }
 
-.post-comments-list::-webkit-scrollbar {
+.buzz-comments-list::-webkit-scrollbar {
     width: 7px;
     /* width of the scrollbar */
     border-radius: 25%;
 }
 
-.post-comments-list::-webkit-scrollbar-thumb {
+.buzz-comments-list::-webkit-scrollbar-thumb {
     background: #888;
     /* color of the scrollbar */
 }
 
-.post-comments-list::-webkit-scrollbar-thumb:hover {
+.buzz-comments-list::-webkit-scrollbar-thumb:hover {
     background: #555;
     /* color of the scrollbar on hover */
 }
 
 
 
-.post-comments-list li {
+.buzz-comments-list li {
     list-style: none;
 }
 
-.post-comment .votes-container {
+.buzz-comment .votes-container {
     width: fit-content;
     margin-top: 5px;
 }
 
-.post-comment {
+.buzz-comment {
     margin: 20px 5px 20px 20px;
     padding-left: 10px;
     border-left: 1px solid var(--orange);
@@ -442,7 +442,7 @@ footer img {
 
 
 /* Home styles */
-.home-posts-container {
+.home-buzzs-container {
     min-width: 60%;
     display: flex;
     flex-direction: column;
@@ -589,7 +589,7 @@ footer img {
         max-width: none;
     }
 
-    .home-posts-container {
+    .home-buzzs-container {
         max-width: 90%;
     }
 
@@ -663,7 +663,7 @@ footer img {
     justify-content: end;
 }
 
-.space-posts-container {
+.space-buzzs-container {
     min-width: 60%;
     display: flex;
     flex-direction: column;
@@ -700,7 +700,7 @@ footer img {
 
 .buzzSpace-info h5 {
     color: rgba(240, 255, 255, 0.5);
-    text-align: start;
+    text-align: center;
 }
 
 .space-info-creator img {

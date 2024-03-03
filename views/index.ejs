@@ -1,7 +1,7 @@
-<% const posts = [ 
+<% const buzzs = [ 
   { 
     buzzSpace : "TestSpace",
-    postedon: "2024-02-20 12:10:00",
+    buzzedon: "2024-02-20 12:10:00",
     title: "A long Title",
     votes: 15,
     content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
@@ -45,23 +45,23 @@
       }
     ]
   },
-  // Additional dummy posts
+  // Additional dummy buzzs
   { 
     buzzSpace : "TestSpace2",
-    postedon: "2024-02-21 14:20:00",
+    buzzedon: "2024-02-21 14:20:00",
     title: "Another Long Title",
     votes: 20,
     content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
     comments: [
       {
         user: "Eve",
-        comment: "This is the first comment on the second post.",
+        comment: "This is the first comment on the second buzz.",
         votes: 50,
         commentedon: "2024-02-21 15:30:00",
         replies: [
           {
             user: "Frank",
-            comment: "Reply to the first comment on the second post.",
+            comment: "Reply to the first comment on the second buzz.",
             votes: 15,
             commentedon: "2024-02-21 16:45:00",
             replies: [
@@ -80,7 +80,7 @@
   },
   { 
     buzzSpace : "TestSpace3",
-    postedon: "2024-02-22 08:45:00",
+    buzzedon: "2024-02-22 08:45:00",
     title: "Short Title",
     votes: 10,
     content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
@@ -88,7 +88,7 @@
   },
   { 
     buzzSpace : "TestSpace4",
-    postedon: "2024-02-23 10:30:00",
+    buzzedon: "2024-02-23 10:30:00",
     title: "Title with No Comments",
     votes: 5,
     content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
@@ -96,21 +96,21 @@
   },
   { 
     buzzSpace : "TestSpace5",
-    postedon: "2024-02-23 13:15:00",
+    buzzedon: "2024-02-23 13:15:00",
     title: "Title with Multiple Comments",
     votes: 30,
     content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
     comments: [
       {
         user: "Grace",
-        comment: "First comment on the fifth post.",
+        comment: "First comment on the fifth buzz.",
         votes: 25,
         commentedon: "2024-02-23 14:00:00",
         replies: []
       },
       {
         user: "Henry",
-        comment: "Second comment on the fifth post.",
+        comment: "Second comment on the fifth buzz.",
         votes: 20,
         commentedon: "2024-02-23 15:30:00",
         replies: []
@@ -157,17 +157,17 @@ const buzzSpaces = [
 <div class="home">
   
 
-  <div class="home-posts-container">
-    <% posts.map((post, index)=> { %>
-      <%- include('components/post', { post: post, index: index }) %>
+  <div class="home-buzzs-container">
+    <% buzzs.map((buzz, index)=> { %>
+      <%- include('components/buzz', { buzz: buzz, index: index }) %>
         <% }); %>
   </div>
   <div class="home-right-cover">
 
     <div class="home-right">
-      <div class="home-new-post home-right-inner">
-        <p>Share your thoughts through a post.</p>
-        <button>New Post</button>
+      <div class="home-new-buzz home-right-inner">
+        <p>Share your thoughts through a buzz.</p>
+        <button>New Buzz</button>
       </div>
       <div class="home-new-space home-right-inner">
         <p>Summon people to a new BuzzSpace!!</p>
