@@ -52,6 +52,10 @@ nav {
     border-bottom: 1px solid var(--grey);
 }
 
+nav a {
+    color: azure;
+}
+
 .nav-logo {
     height: 40px;
 }
@@ -88,7 +92,8 @@ nav {
     min-width: 200px;
 }
 
-.nav-list li {
+.nav-list li,
+.nav-list a {
     list-style-type: none;
     display: flex;
     align-items: center;
@@ -239,6 +244,17 @@ footer img {
     gap: 10px;
 }
 
+.buzz-top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.buzz-top h6 {
+    color: rgba(240, 255, 255, 0.5);
+}
+
 .buzz-main .more {
     cursor: pointer;
     color: var(--orange);
@@ -246,6 +262,14 @@ footer img {
 
 .buzz-close {
     display: none;
+}
+
+.buzz-functions-left {
+    font-size: .9rem;
+}
+
+.buzz-functions-left p span {
+    color: azure;
 }
 
 .comment-functions,
@@ -276,6 +300,11 @@ footer img {
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px !important;
+}
+
+.buzz-inner-functions div:hover,
+.comment-inner-functions div:hover {
+    color: azure;
 }
 
 .comment-functions span,
@@ -487,7 +516,7 @@ footer img {
     padding-left: 5px;
 }
 
-.home-communities-container a{
+.home-communities-container a {
     display: flex;
     align-items: center;
     justify-content: start;
@@ -535,7 +564,7 @@ footer img {
 }
 
 .home-right-inner a,
-.home-right-inner button{
+.home-right-inner button {
     width: 100%;
 }
 
@@ -814,7 +843,7 @@ footer img {
 
 /* New Buzz-page styles */
 
-.newbuzz-container{
+.newbuzz-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -824,14 +853,14 @@ footer img {
 }
 
 .newbuzz-container input,
-.newbuzz-container textarea{
+.newbuzz-container textarea {
     min-height: 50px;
     width: 100%;
     padding: 1rem;
     font-size: 1.3rem;
 }
 
-.newbuzz-container button{
+.newbuzz-container button {
     align-self: flex-end;
     margin-right: 1rem;
 }
@@ -859,6 +888,7 @@ footer img {
     border: 1px solid var(--grey);
     border-radius: 20px;
 }
+
 .custom-select.drop {
     border: 1px solid var(--orange);
 }

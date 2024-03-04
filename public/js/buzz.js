@@ -1,35 +1,39 @@
 
-function postComment(commentButton) {
-    const postSuper = commentButton.closest('.post-super');
-    const commentText = postSuper.querySelector('.post-commentText').value;
-    // Add logic to post comment to backend or handle as needed
+function buzzComment(commentButton) {
+    const buzzSuper = commentButton.closest('.buzz-super');
+    const commentText = buzzSuper.querySelector('.buzz-commentText').value;
+    // Add logic to buzz comment to backend or handle as needed
     // For now, let's just log the comment text to console
-    console.log('Comment posted:', commentText);
+    console.log('Comment buzzed:', commentText);
     // Reset the comment area
-    postSuper.querySelector('.post-commentText').value = '';
-    postSuper.querySelector('.post-comment-area').style.display = 'none';
+    buzzSuper.querySelector('.buzz-commentText').value = '';
+    buzzSuper.querySelector('.buzz-comment-area').style.display = 'none';
 }
 
+
+
 function cancelComment(commentButton) {
-    const postSuper = commentButton.closest('.post-super');
-    postSuper.querySelector('.post-commentText').value = '';
-    postSuper.querySelector('.post-comment-area').style.display = 'none';
+    const buzzSuper = commentButton.closest('.buzz-super');
+    buzzSuper.querySelector('.buzz-commentText').value = '';
+    buzzSuper.querySelector('.buzz-comment-area').style.display = 'none';
 }
+
+
 function CommentReply(commentButton) {
-    const postSuper = commentButton.closest('.post-comment-main');
-    const commentText = postSuper.querySelector('.post-commentText').value;
-    // Add logic to post comment to backend or handle as needed
+    const buzzSuper = commentButton.closest('.buzz-comment-main');
+    const commentText = buzzSuper.querySelector('.buzz-commentText').value;
+    // Add logic to buzz comment to backend or handle as needed
     // For now, let's just log the comment text to console
-    console.log('Comment posted:', commentText);
+    console.log('Comment buzzed:', commentText);
     // Reset the comment area
-    postSuper.querySelector('.post-commentText').value = '';
-    postSuper.querySelector('.post-comment-area').style.display = 'none';
+    buzzSuper.querySelector('.buzz-commentText').value = '';
+    buzzSuper.querySelector('.buzz-comment-area').style.display = 'none';
 }
 
 function cancelReply(commentButton) {
-    const postSuper = commentButton.closest('.post-comment-main');
-    postSuper.querySelector('.post-commentText').value = '';
-    postSuper.querySelector('.post-comment-area').style.display = 'none';
+    const buzzSuper = commentButton.closest('.buzz-comment-main');
+    buzzSuper.querySelector('.buzz-commentText').value = '';
+    buzzSuper.querySelector('.buzz-comment-area').style.display = 'none';
 }
 
 function addVote(voteButton) {

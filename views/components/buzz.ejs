@@ -40,12 +40,18 @@
         </div>
         <span class="material-symbols-outlined buzz-close" onclick="closeContent(this)">close</span>
         <div class="buzz-main">
-            <h1>
-                <%= buzz.title %>
-            </h1>
+            <div class="buzz-top">
+                <h1>
+                    <%= buzz.title %>
+                </h1>
+                
+            </div>
             <p class="buzz-description" onclick="expandContent(this)"><%- truncateText(buzz.content, 75) %></p>
             <div class="buzz-functions">
-                <span class="buzz-time">
+                <span class="buzz-functions-left">
+                    <p>
+                        Posted by <span><%= buzz.user %></span>
+                    </p>
                     <%= formatTimeAgo(buzz.buzzedon) %> at <a href=<%= "/buzzspace/"+buzz.buzzSpace  %>><%= buzz.buzzSpace %></a>
                 </span>
                 <div class="buzz-inner-functions">
@@ -70,35 +76,34 @@
     </div>
 </div>
 
-
 <script>
     function expandContent(paragraph) {
-    const buzzSuper = paragraph.closest('.buzz-super');
-    buzzSuper.classList.add('modal');
-    paragraph.innerHTML = '<%= buzz.content %>';
-}
+        const buzzSuper = paragraph.closest('.buzz-super');
+        buzzSuper.classList.add('modal');
+        paragraph.innerHTML = '<%= buzz.content %>';
+    }
 
-function closeContent(close) {
-    const buzzSuper = close.closest('.buzz-super');
-    const paragraph = buzzSuper.querySelector('.buzz-description');
-    const commentArea = buzzSuper.querySelector('.buzz-comment-area');
-    commentArea.style.display = 'none';
-    buzzSuper.classList.remove('modal');
-    paragraph.innerHTML = '<%- truncateText(buzz.content, 75) %>';
-}
+    function closeContent(close) {
+        const buzzSuper = close.closest('.buzz-super');
+        const paragraph = buzzSuper.querySelector('.buzz-description');
+        const commentArea = buzzSuper.querySelector('.buzz-comment-area');
+        commentArea.style.display = 'none';
+        buzzSuper.classList.remove('modal');
+        paragraph.innerHTML = '<%- truncateText(buzz.content, 75) %>';
+    }
 
-function toggleCommentArea(commentButton) {
-    const buzzSuper = commentButton.closest('.buzz-super');
-    const commentArea = buzzSuper.querySelector('.buzz-comment-area');
-    commentArea.style.display = 'block';
-    expandContent(buzzSuper.querySelector('.buzz-description'));
-}
-function toggleReplyArea(commentButton) {
-    const buzzSuper = commentButton.closest('.buzz-comment-main');
-    const commentArea = buzzSuper.querySelector('.buzz-comment-area');
-    commentArea.style.display = 'block';
-    expandContent(buzzSuper.querySelector('.buzz-description'));
-}
+    function toggleCommentArea(commentButton) {
+        const buzzSuper = commentButton.closest('.buzz-super');
+        const commentArea = buzzSuper.querySelector('.buzz-comment-area');
+        commentArea.style.display = 'block';
+        expandContent(buzzSuper.querySelector('.buzz-description'));
+    }
+    function toggleReplyArea(commentButton) {
+        const buzzSuper = commentButton.closest('.buzz-comment-main');
+        const commentArea = buzzSuper.querySelector('.buzz-comment-area');
+        commentArea.style.display = 'block';
+        expandContent(buzzSuper.querySelector('.buzz-description'));
+    }
 </script>
 
 <script src="js/buzz.js"></script>
