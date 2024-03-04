@@ -1,6 +1,6 @@
 <% const buzzs = [ 
   { 
-    buzzSpace : "TestSpace",
+    buzzSpace : "testSpace",
     buzzedon: "2024-02-20 12:10:00",
     title: "A long Title",
     votes: 15,
@@ -47,7 +47,7 @@
   },
   // Additional dummy buzzs
   { 
-    buzzSpace : "TestSpace2",
+    buzzSpace : "testSpace2",
     buzzedon: "2024-02-21 14:20:00",
     title: "Another Long Title",
     votes: 20,
@@ -79,7 +79,7 @@
     ]
   },
   { 
-    buzzSpace : "TestSpace3",
+    buzzSpace : "testSpace3",
     buzzedon: "2024-02-22 08:45:00",
     title: "Short Title",
     votes: 10,
@@ -87,7 +87,7 @@
     comments: []
   },
   { 
-    buzzSpace : "TestSpace4",
+    buzzSpace : "testSpace4",
     buzzedon: "2024-02-23 10:30:00",
     title: "Title with No Comments",
     votes: 5,
@@ -95,7 +95,7 @@
     comments: []
   },
   { 
-    buzzSpace : "TestSpace5",
+    buzzSpace : "testSpace5",
     buzzedon: "2024-02-23 13:15:00",
     title: "Title with Multiple Comments",
     votes: 30,
@@ -167,7 +167,9 @@ const buzzSpaces = [
     <div class="home-right">
       <div class="home-new-buzz home-right-inner">
         <p>Share your thoughts through a buzz.</p>
-        <button>New Buzz</button>
+        <a href="/newbuzz">
+          <button>New Buzz</button>
+        </a>
       </div>
       <div class="home-new-space home-right-inner">
         <p>Summon people to a new BuzzSpace!!</p>
@@ -190,8 +192,10 @@ const buzzSpaces = [
         <ul>
           <% buzzSpaces.map((space)=> { %>
             <li>
-              <img src=<%= space.image %> alt="">
-              <%= space.name %>
+              <a href="<%= `/buzzSpace/${space.name}` %>">
+                <img src=<%= space.image %> alt="">
+                <%= space.name %>
+              </a>
             </li>
             <% }); %>
         </ul>

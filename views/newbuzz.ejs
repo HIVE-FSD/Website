@@ -1,0 +1,87 @@
+<% 
+const buzzSpaces = [
+  {
+    name: 'testSpace',
+    image : "https://picsum.photos/100/100",
+    id: 1
+  },
+  {
+    name: 'testSpace1',
+    image : "https://picsum.photos/100/100",
+    id: 2
+  },
+  {
+    name: 'testSpace2',
+    image : "https://picsum.photos/100/100",
+    id: 3
+  },
+  {
+    name: 'testSpace3',
+    image : "https://picsum.photos/100/100",
+    id: 3
+  },
+  {
+    name: 'testSpace4',
+    image : "https://picsum.photos/100/100",
+    id: 4
+  },
+  {
+    name: 'testSpace5',
+    image : "https://picsum.photos/100/100",
+    id: 5
+  },
+]
+
+%>
+<form class="newbuzz-container">
+  <div class="newbuzz-buzzspace">
+    <div class="custom-select" onclick="handelSelectDrop(this)">
+      <input type="hidden" name="selected-buzzSpace" value="">
+      <div class="select-selected">
+        Select BuzzSpace
+      </div>
+      <div class="select-items">
+        <% buzzSpaces.forEach((space)=> { %>
+          <div class="select-item" data-value="<%= space.name %>" onclick="selectBuzzSpace(this)">
+            <img src=<%=space.image %> alt="">
+            <%= space.name %>
+          </div>
+          <% }); %>
+      </div>
+    </div>
+  </div>
+
+  <input type="text" name="buzz-title" required placeholder="Title of your Buzz">
+  <textarea id="buzz-content" rows="4" required placeholder="Description"></textarea>
+  <button type="submit">Submit</button>
+</form>
+
+  
+  <script>
+    function selectBuzzSpace(element) {
+      const selectedValue = element.getAttribute('data-value');
+    const hiddenInput = element.closest('.custom-select').querySelector('input[type="hidden"]');
+
+    hiddenInput.value = selectedValue;
+    element.closest('.custom-select').querySelector('.select-selected').innerHTML = element.innerHTML;
+
+  }
+
+  function handelSelectDrop(element) {
+    element.classList.toggle("drop");
+  }
+
+  window.addEventListener('load', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const buzzSpaceParam = urlParams.get('buzzSpace');
+
+    if (buzzSpaceParam) {
+      const selectItem = document.querySelector(`.select-item[data-value="${buzzSpaceParam}"]`);
+      if (selectItem) {
+        selectBuzzSpace(selectItem);
+      }
+    }
+  });
+
+</script>
+

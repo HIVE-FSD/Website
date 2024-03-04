@@ -53,7 +53,7 @@ renderPage('/', 'index', {
 })
 
 renderPage('/newbuzz', 'newbuzz', {
-    title: 'New Buzz'
+    title: 'HIVE | New Buzz'
 })
 
 renderPage('/faqs', 'faqs', {
