@@ -1,6 +1,7 @@
 // authRoutes.js
 
 const express = require('express');
+const nodemailer = require('nodemailer');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const User = require('../Controllers/User');
@@ -14,9 +15,13 @@ router.get('/login', (req, res) => {
 router.get('/signup', (req, res) => {
     res.render('signup', { title: 'Sign up', layout: './layouts/authLayout', signupSuccess: req.query.signupSuccess, req: req });
 });
+router.get('/verification', (req, res) => {
+    res.render('verification', { title: 'Hive', layout: './layouts/authLayout', emailSent: req.query.emailSent, emailVerified: req.query.emailVerified, req: req });
+});
 
 router.post('/signup', [
     body('username').notEmpty().trim().escape().withMessage('Invalid username'),
+    body('email').isEmail().notEmpty().trim().escape().withMessage('Invalid email'),
     body('password').isLength({ min: 3 }).withMessage('Password must be at least 3 characters long'),
     body('confirmPassword').custom((value, { req }) => {
         if (value !== req.body.password) {
@@ -39,7 +44,7 @@ router.post('/signup', [
         return res.redirect(`/signup?signupError=true&errorMessage=${errorMessage}`);
     }
 
-    const { username, password } = req.body;
+    const { username, password, email } = req.body;
 
     try {
         // Check if username already exists
@@ -53,10 +58,12 @@ router.post('/signup', [
         const hashedPassword = await bcrypt.hash(password, salt);
 
         // Create new user
-        const newUser = await User.createUser(username, hashedPassword);
+        const newUser = await User.createUser(username, hashedPassword, email);
 
-        // Redirect with success message
-        res.redirect('/login?signupSuccess=true');
+        const verificationLink = `http://localhost:3000/verify/${newUser.id}`;
+        sendVerificationEmail(newUser.email, verificationLink);
+        res.redirect('/verification?emailSent=true');
+
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -72,9 +79,9 @@ router.post('/login', async (req, res) => {
             return res.redirect('/login?loginError=true');
         }
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
+        if (!isMatch || !(user.is_verified)) {
             return res.redirect('/login?loginError=true');
-        }
+        } 
         req.session.user = user;
         res.redirect('/');
 
@@ -83,5 +90,38 @@ router.post('/login', async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
+
+router.get('/verify/:userId', (req, res) => {
+    const userId = req.params.userId;
+    User.verifyUser(userId);
+    res.redirect('/verification?emailVerified=true');
+});
+
+
+function sendVerificationEmail(email, verificationLink) {
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'hive0024@gmail.com',
+            pass: 'gurk kczx gqxm latn'
+        }
+    });
+    
+    
+    const mailOptions = {
+        from: 'your@email.com',
+        to: email,
+        subject: 'Email Verification',
+        html: `<p>Click <a href="${verificationLink}">here</a> to verify your email address.</p>`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error('Error sending verification email:', error);
+        }
+    });
+}
+
+
 
 module.exports = router;

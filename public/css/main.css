@@ -773,6 +773,8 @@ footer img {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-bottom: 0px solid var(--grey);
+    transition: all .3s ease-in-out;
 }
 
 .faq-item .answer {
@@ -818,9 +820,52 @@ footer img {
 
 /* TopBuzzSpaces-page styles */
 
+.topSpaces-supreme {
+    width: 90%;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+}
+
+.topSpaces-supreme h1 {
+    font-weight: 500;
+    font-size: larger;
+    margin-bottom: 20px;
+}
+
+.topSpaces-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    width: 100%;
+    row-gap: 2rem;
+}
+
+@media (max-width:710px) {
+    .topSpaces-container{
+        grid-template-columns: auto auto;
+    }
+}
+@media (max-width:510px) {
+    .topSpaces-container{
+        grid-template-columns: auto;
+    }
+}
+
+.topSpaces-container li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
 .topSpaces-item {
     display: flex;
     gap: 20px;
+    color: azure;
+    cursor: auto;
 }
 
 
@@ -836,6 +881,7 @@ footer img {
 
 .topSpaces-item p {
     font-size: small;
+    color: rgba(240, 255, 255, 0.5);
 }
 
 /* TopBuzzSpaces-page styles */

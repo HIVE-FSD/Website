@@ -118,3 +118,23 @@
     text-align: center;
     margin-top: 20px;
 }
+
+.verification-message {
+    text-align: center;
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+.verification-message::before {
+    content: ' ';
+    display: block;
+    background: url('../assets/Hive-just-logo.png');
+    height: 150px;
+    width: 150px;
+    background-position: center;
+    background-size: cover;
+    position: absolute;
+    top: -175px;
+}

@@ -1,11 +1,12 @@
 const User = require('../models/User');
 
 class UserController {
-    static async createUser(username, password) {
+    static async createUser(username, password, email) {
         try {
             const newUser = new User({
                 username: username,
-                password: password
+                password: password,
+                email: email
             });
             await newUser.save();
             return newUser;
@@ -22,6 +23,16 @@ class UserController {
             throw error;
         }
     }
+
+    static async verifyUser(id){
+        try {
+            const user = await User.findByIdAndUpdate(id, { is_verified: true }, { new: true });
+            return user;
+        } catch (error) {
+            throw error; 
+        }
+    }
+    
 
     static async updateUser(username, newUsername, newPassword) {
         try {

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 // MongoDB connection URI
-const mongoURI = "mongodb://127.0.0.1:27017/lab6";
+const mongoURI = "mongodb://127.0.0.1:27017/hive";
 
 // Function to connect to MongoDB
 const connectToMongo = async () => {

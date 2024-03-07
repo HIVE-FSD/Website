@@ -1,0 +1,16 @@
+<% if (req.query.emailVerified) { %>
+    <div class="verification-message" >
+        <p>Email Verified Sucsessfully!!</p>
+        <p>
+            Please <a href="/login">Login.</a>
+        </p>
+    </div>
+<% } %>
+<% if (req.query.emailSent) { %>
+    <div class="verification-message" >
+        <p>Email Sent Sucsessfully!!</p>
+        <p>
+            Please check your email.
+        </p>
+    </div>
+<% } %>
