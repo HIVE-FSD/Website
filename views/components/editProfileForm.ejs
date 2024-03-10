@@ -1,0 +1,23 @@
+<div class="edit-profile">
+
+    <button onclick="openForm(this)" >Edit Profile</button>
+    <div class="edit-profile-form-cover">
+        <form class="edit-profile-form" >
+            <span class="material-symbols-outlined close" onclick="closeForm(this)">close</span>
+            <input type="text" name="display-name" placeholder="Display Name" >
+            <textarea name="bio" cols="30" rows="5" placeholder="Your Bio here..." ></textarea>
+            <button type="submit">Update</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openForm(btn) {
+        const buzzSuper = btn.closest('.edit-profile').querySelector('.edit-profile-form-cover');
+        buzzSuper.classList.add('modal');
+    }
+    function closeForm(close) {
+        const buzzSuper = close.closest('.edit-profile').querySelector('.edit-profile-form-cover');
+        buzzSuper.classList.remove('modal');
+    }
+</script>

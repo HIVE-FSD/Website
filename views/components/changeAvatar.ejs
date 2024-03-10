@@ -1,0 +1,53 @@
+<%
+  const imageSources = [
+    '/assets/avatars/male-1.png',
+    '/assets/avatars/female-1.png',
+    '/assets/avatars/male-2.png',
+    '/assets/avatars/female-2.png',
+    '/assets/avatars/male-3.png',
+    '/assets/avatars/female-3.png',
+    '/assets/avatars/male-4.png',
+    '/assets/avatars/female-4.png',
+    '/assets/avatars/male-5.png',
+    '/assets/avatars/female-5.png'
+  ];
+%>
+
+<div class="change-avatar">
+
+    <button onclick="openCA(this)" >Change Avatar</button>
+    <div class="change-avatar-cover">
+        
+        <div class="change-avatar-inner">
+            
+            <div class="avatars-container">
+                <span class="material-symbols-outlined close" onclick="closeCA(this)">close</span>
+                
+                <% imageSources.forEach(function (src, index) { %>
+                    <img src=<%= src %> class="avatar" alt="" onclick="selectAvatar(this, <%= index %>)">
+                <% }); %>
+            </div>
+            
+            <button>Done</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openCA(btn) {
+        const Super = btn.closest('.change-avatar').querySelector('.change-avatar-cover');
+        Super.classList.add('modal');
+    }
+    function closeCA(close) {
+        const Super = close.closest('.change-avatar').querySelector('.change-avatar-cover');
+        Super.classList.remove('modal');
+    }
+    function selectAvatar(img, index) {
+        const container = img.parentNode;
+        const avatars = container.querySelectorAll('.avatar');
+        avatars.forEach(function (avatar) {
+            avatar.classList.remove('selected');
+        });
+        img.classList.add('selected');
+    }
+</script>

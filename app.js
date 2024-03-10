@@ -1,3 +1,4 @@
+const connectToMongo = require("./db");
 const express = require("express")
 const expressEjsLayouts = require("express-ejs-layouts")
 const authRoutes = require('./routes/authRoutes');
@@ -49,7 +50,7 @@ const renderPage = (route, file, props) =>{
 }
 
 renderPage('/', 'index', {
-    title: 'Home'
+    title: 'HIVE | Home'
 })
 
 renderPage('/newbuzz', 'newbuzz', {
@@ -60,12 +61,19 @@ renderPage('/faqs', 'faqs', {
     title: 'HIVE | FAQs'
 })
 
+renderPage('/notifications', 'notifications', {
+    title: 'HIVE | My Notifications'
+})
+
 renderPage('/topbuzzspaces', 'topBuzzSpaces', {
     title: 'Top BuzzSpaces'
 })
 
+renderPage('/profile', 'profile', {
+    title: 'HIVE | My profile'
+})
+
 const buzzSpaceRoutes = require('./routes/buzzSpaceRoutes');
-const connectToMongo = require("./db");
 
 // Add buzzSpaceRoutes to your app
 app.use('/buzzspace', buzzSpaceRoutes);
@@ -73,5 +81,6 @@ app.use('/buzzspace', buzzSpaceRoutes);
 
 // Routes
 app.use(authRoutes);
+
 
 app.listen(port, () => console.log(`Server running on http://localhost:${port}`));

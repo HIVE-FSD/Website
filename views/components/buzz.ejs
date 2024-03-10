@@ -49,9 +49,10 @@
             <p class="buzz-description" onclick="expandContent(this)"><%- truncateText(buzz.content, 75) %></p>
             <div class="buzz-functions">
                 <span class="buzz-functions-left">
-                    <p>
-                        Posted by <span><%= buzz.user %></span>
-                    </p>
+                    <div>
+                        Posted by
+                        <%- include('profileCard', { username: buzz.user }) %>
+                    </div>
                     <%= formatTimeAgo(buzz.buzzedon) %> at <a href=<%= "/buzzspace/"+buzz.buzzSpace  %>><%= buzz.buzzSpace %></a>
                 </span>
                 <div class="buzz-inner-functions">

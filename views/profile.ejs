@@ -1,0 +1,286 @@
+<% const buzzs = [ 
+{ 
+  buzzSpace : "testSpace",
+  buzzedon: "2024-02-20 12:10:00",
+  title: "A long Title",
+  user: "KingKhan",
+  votes: 15,
+  content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
+  comments: [
+    {
+      user: "Alice",
+      comment: "This is the first comment.",
+      votes: 100,
+      commentedon: "2024-02-22 9:00:00",
+      replies: [
+        {
+          user: "Bob",
+          comment: "Reply to the first comment.",
+          votes: 10,
+          commentedon: "2024-02-22 10:05:00",
+          replies: [
+            {
+              user: "Alice",
+              comment: "Reply to Bob's reply.",
+              votes: 10,
+              commentedon: "2024-02-22 12:10:00",
+              replies: [] // No further replies
+            }
+          ]
+        },
+        {
+          user: "Charlie",
+          comment: "Another reply to the first comment.",
+          votes: 10,
+          commentedon: "2024-02-22 11:07:00",
+          replies: []
+        }
+      ]
+    },
+    {
+      user: "David",
+      comment: "Second comment without replies.",
+      votes: 10,
+      commentedon: "2024-02-22 10:15:00",
+      replies: [] // No replies for this comment
+    }
+  ]
+},
+{ 
+  buzzSpace : "testSpace2",
+  buzzedon: "2024-02-21 14:20:00",
+  title: "Another Long Title",
+  user: "KingKhan",
+  votes: 20,
+  content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
+  comments: [
+    {
+      user: "Eve",
+      comment: "This is the first comment on the second buzz.",
+      votes: 50,
+      commentedon: "2024-02-21 15:30:00",
+      replies: [
+        {
+          user: "Frank",
+          comment: "Reply to the first comment on the second buzz.",
+          votes: 15,
+          commentedon: "2024-02-21 16:45:00",
+          replies: [
+            {
+              user: "Eve",
+              comment: "Reply to Frank's reply.",
+              votes: 5,
+              commentedon: "2024-02-21 18:20:00",
+              replies: [] // No further replies
+            }
+          ]
+        }
+      ]
+    }
+  ]
+},
+{ 
+  buzzSpace : "testSpace3",
+  buzzedon: "2024-02-22 08:45:00",
+  title: "Short Title",
+  user: "KingKhan",
+  votes: 10,
+  content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
+  comments: []
+},
+{ 
+  buzzSpace : "testSpace4",
+  buzzedon: "2024-02-23 10:30:00",
+  title: "Title with No Comments",
+  user: "KingKhan",
+  votes: 5,
+  content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
+  comments: []
+},
+{ 
+  buzzSpace : "testSpace5",
+  buzzedon: "2024-02-23 13:15:00",
+  title: "Title with Multiple Comments",
+  user: "KingKhan",
+  votes: 30,
+  content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
+  comments: [
+    {
+      user: "Grace",
+      comment: "First comment on the fifth buzz.",
+      votes: 25,
+      commentedon: "2024-02-23 14:00:00",
+      replies: []
+    },
+    {
+      user: "Henry",
+      comment: "Second comment on the fifth buzz.",
+      votes: 20,
+      commentedon: "2024-02-23 15:30:00",
+      replies: []
+    }
+  ]
+}
+];
+
+const buzzSpaces = [
+  {
+    name: 'testSpace',
+    image : "https://picsum.photos/100/100",
+    id: 1,
+    joined: 22000
+  },
+  {
+    name: 'testSpace1',
+    image : "https://picsum.photos/100/100",
+    id: 2,
+    joined: 25000
+  },
+  {
+    name: 'testSpace2',
+    image : "https://picsum.photos/100/100",
+    id: 3,
+    joined: 220
+  },
+  {
+    name: 'testSpace3',
+    image : "https://picsum.photos/100/100",
+    id: 3,
+    joined: 100
+  },
+  {
+    name: 'testSpace4',
+    image : "https://picsum.photos/100/100",
+    id: 4,
+    joined: 550000
+  },
+  {
+    name: 'testSpace5',
+    image : "https://picsum.photos/100/100",
+    id: 5,
+    joined: 2200
+  },
+  {
+    name: 'testSpace6',
+    image : "https://picsum.photos/100/100",
+    id: 6,
+    joined: 500
+  },
+  {
+    name: 'testSpace7',
+    image : "https://picsum.photos/100/100",
+    id: 7,
+    joined: 75000
+  },
+  {
+    name: 'testSpace8',
+    image : "https://picsum.photos/100/100",
+    id: 8,
+    joined: 1234567
+  },
+  {
+    name: 'testSpace9',
+    image : "https://picsum.photos/100/100",
+    id: 9,
+    joined: 9999
+  },
+]
+
+%>
+
+
+<div class="profile-container">
+    <div class="profile-top">
+        <div class="profile-image">
+          <img src="https://github.com/shadcn.png" alt="">
+        </div>
+        <div class="profile-top-right">
+          
+          <h1>Person Name</h1>
+          <span class="profile-username">
+            <%= user.username %>
+          </span>
+          <div class="profile-bio">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit, nam sit earum fuga ex commodi nisi? Magnam neque accusantium atque.
+          </div>
+          <div class="btn-container">
+            <%- include('components/editProfileForm') %>
+            <%- include('components/changeAvatar') %>
+          </div>
+          
+        </div>
+    </div>
+    
+    <div class="profile-count">
+      <div class="buzz-count" onclick="toggleToBuzzes(this)" >
+        Buzzes
+        <span><%= buzzs.length %></span>
+      </div>
+      <div class="buzzSpace-count" onclick="toggleToBuzzSpaces(this)" >
+        BuzzSpaces
+        <span><%= buzzSpaces.length %></span>
+      </div>
+    </div>
+
+    <div class="profile-buzz-container">
+        <% buzzs.map((buzz, index)=> { %>
+            <%- include('components/buzz', { buzz: buzz, index: index }) %>
+            <% }); %>
+    </div>
+
+    <div class="profile-buzzSpaces-container">
+      
+    <% buzzSpaces.map((space, index)=> { %>
+      <a class="profile-buzzSpaces-item" href="<%= `/buzzSpace/${space.name}` %>">
+        <img src="<%= space.image %>" alt="<%= space.name %>">
+        <div class="profile-buzzSpaces-item-inner">
+          <h2>
+            <%= space.name %>
+          </h2>
+          <p>
+            <span>Sports</span>
+            <span><%= formatJoined(space.joined) %> Members</span>
+          </p>
+          <div class="profile-buzzSpaces-bio">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit eaque ipsam quam, mollitia tempore nulla ipsum quia sequi modi et nostrum neque, ratione sit architecto facilis nisi. Consequuntur, velit nihil.
+          </div>
+        </div>
+      </a>
+    <% }) %>
+      
+    </div>
+            
+</div>
+
+<%
+function formatJoined(number) {
+  if (number >= 1000000) {
+    return (number / 1000000).toFixed(1) + 'M';
+  } else if (number >= 1000) {
+    return (number / 1000).toFixed(1) + 'K';
+  } else {
+    return number.toString();
+  }
+}
+%>
+
+<script>
+  const toggleToBuzzes = (element) => {
+    const profileCount = element.closest('.profile-count');
+    profileCount.classList.remove('right');
+    const profileBuzzContainer = document.querySelector('.profile-buzz-container');
+    const profileBuzzSpacesContainer = document.querySelector('.profile-buzzSpaces-container');
+    profileBuzzContainer.style.display = 'flex';
+    profileBuzzSpacesContainer.style.display = 'none';
+  }
+
+  const toggleToBuzzSpaces = (element) => {
+    const profileCount = element.closest('.profile-count');
+    profileCount.classList.add('right');
+    const profileBuzzContainer = document.querySelector('.profile-buzz-container');
+    const profileBuzzSpacesContainer = document.querySelector('.profile-buzzSpaces-container');
+    profileBuzzContainer.style.display = 'none';
+    profileBuzzSpacesContainer.style.display = 'flex';
+  }
+
+</script>

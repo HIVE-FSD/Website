@@ -40,7 +40,7 @@
                             <span class="material-symbols-outlined">
                                 person
                             </span>
-                            <%= comments[i].user %>
+                            <%- include('profileCard', { username: comments[i].user }) %>
                         </span>
                     </div>
                     <div class="buzz-comment-content">
