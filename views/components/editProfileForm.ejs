@@ -1,11 +1,10 @@
 <div class="edit-profile">
-
-    <button onclick="openForm(this)" >Edit Profile</button>
+    <button onclick="openForm(this)">Edit Profile</button>
     <div class="edit-profile-form-cover">
-        <form class="edit-profile-form" >
+        <form class="edit-profile-form" onsubmit="submitForm(event)">
             <span class="material-symbols-outlined close" onclick="closeForm(this)">close</span>
-            <input type="text" name="display-name" placeholder="Display Name" >
-            <textarea name="bio" cols="30" rows="5" placeholder="Your Bio here..." ></textarea>
+            <input type="text" name="displayName" placeholder="Display Name">
+            <textarea name="bio" cols="30" rows="5" placeholder="Your Bio here..."></textarea>
             <button type="submit">Update</button>
         </form>
     </div>
@@ -16,8 +15,37 @@
         const buzzSuper = btn.closest('.edit-profile').querySelector('.edit-profile-form-cover');
         buzzSuper.classList.add('modal');
     }
+
     function closeForm(close) {
         const buzzSuper = close.closest('.edit-profile').querySelector('.edit-profile-form-cover');
         buzzSuper.classList.remove('modal');
+    }
+
+    async function submitForm(event) {
+        event.preventDefault(); // Prevent default form submission behavior
+
+        const form = event.target;
+        const formData = new FormData(form);
+        const userId = '<%= user._id %>'; // Assuming you have the user's ID available
+        const url = `/users/${userId}/update-profile`;
+
+        try {
+            const response = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(Object.fromEntries(formData)) // Convert FormData to JSON object
+            });
+
+            if (response.ok) {
+                console.log('Profile updated successfully');
+                closeForm(form.querySelector('.close'));
+            } else {
+                throw new Error('Failed to update profile');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
 </script>

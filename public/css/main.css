@@ -29,6 +29,16 @@ button:hover {
     background-color: rgba(255, 166, 0, 0.8);
 }
 
+/* Avatar styles */
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+/* Avatar styles */
+
 /* Navbar styles */
 
 .nav-cover {
@@ -224,6 +234,13 @@ footer img {
     right: -203px;
     z-index: 210;
     display: none !important;
+}
+
+.profile-card img {
+    width: 50%;
+    height: auto;
+    border: 5px solid var(--orange);
+    box-shadow: 0px 0px 20px rgba(242, 144, 47, 0.5);
 }
 
 .user-mention:hover .profile-card {
@@ -972,6 +989,90 @@ footer img {
 
 /* TopBuzzSpaces-page styles */
 
+/* New BuzzSpaces-page styles */
+
+.newbuzzSpaces-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    width: 90%;
+    margin: 50px auto;
+}
+
+.newbuzzSpaces-container button {
+    font-size: 1.2rem;
+    width: 200px;
+}
+
+.newbuzzSpaces-container input,
+.newbuzzSpaces-container textarea {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+}
+
+.buzzSpace-logo-group {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    align-self: flex-start;
+    margin-left: 2rem;
+    top: -75px;
+    z-index: 2;
+    border: 1px solid var(--grey);
+    border-radius: 50%;
+}
+
+.buzzSpace-logo-group span,
+.buzzSpace-cover-group span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -10;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    text-align: center;
+    background-color: var(--buzz-black);
+}
+
+.buzzSpace-logo-group span{
+    z-index: -1;
+    border-radius: 50%;
+
+}
+
+.buzzSpace-logo-group input {
+    display: none;
+}
+.logo-input-show {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    z-index: 3;
+}
+
+.buzzSpace-cover-group {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    border: 1px solid var(--grey);
+}
+
+.buzzSpace-cover-group input {
+    display: none;
+}
+
+.cover-input-show {
+    width: 100%;
+    height: 100%;
+}
+
+/* New BuzzSpaces-page styles */
 
 /* New Buzz-page styles */
 
@@ -1075,12 +1176,17 @@ footer img {
 
 
 .profile-image {
-    font-size: 70px;
+    font-size: 150px;
+    height: 200px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid var(--orange);
 }
 
 .profile-image img {
-    height: 200px;
-    width: 200px;
     border-radius: 50%;
 }
 
@@ -1322,7 +1428,7 @@ footer img {
 
 /* Avatar styles */
 
-.avatar {
+.avatars-container .avatar {
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -1330,7 +1436,7 @@ footer img {
     cursor: pointer;
 }
 
-.avatar.selected {
+.avatars-container .avatar.selected {
     border: 5px solid var(--orange);
 }
 
@@ -1372,7 +1478,7 @@ footer img {
 }
 
 .avatars-container {
-    display:flex;
+    display: flex;
     width: 500px;
     max-width: 90%;
     flex-wrap: wrap;

@@ -19,6 +19,28 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
         required: true
+    },
+    info: {
+        display_name: {
+            type: String,
+            default: "BuzzingUser"
+        },
+        bio: {
+            type: String,
+            default: ""
+        },
+        avatar_index: {
+            type: Number,
+            default: -1
+        },
+        buzz_count: {
+            type: Number,
+            default: 0
+        },
+        buzzSpace_count: {
+            type: Number,
+            default: 0
+        }
     }
 });
 

@@ -1,53 +1,62 @@
-<%
-  const imageSources = [
-    '/assets/avatars/male-1.png',
-    '/assets/avatars/female-1.png',
-    '/assets/avatars/male-2.png',
-    '/assets/avatars/female-2.png',
-    '/assets/avatars/male-3.png',
-    '/assets/avatars/female-3.png',
-    '/assets/avatars/male-4.png',
-    '/assets/avatars/female-4.png',
-    '/assets/avatars/male-5.png',
-    '/assets/avatars/female-5.png'
-  ];
-%>
-
 <div class="change-avatar">
-
-    <button onclick="openCA(this)" >Change Avatar</button>
+    <button onclick="openCA(this)">Change Avatar</button>
     <div class="change-avatar-cover">
-        
         <div class="change-avatar-inner">
-            
             <div class="avatars-container">
                 <span class="material-symbols-outlined close" onclick="closeCA(this)">close</span>
-                
-                <% imageSources.forEach(function (src, index) { %>
-                    <img src=<%= src %> class="avatar" alt="" onclick="selectAvatar(this, <%= index %>)">
-                <% }); %>
+                <% for (let index = 0; index < 10; index++) { %>
+                    <div onclick="selectAvatar(this, <%= index %>)">
+                        <%- include('avatar', { ind: index }) %>
+                    </div>
+                <% }; %>
             </div>
-            
-            <button>Done</button>
+            <button onclick="updateAvatarIndex(this)">Done</button>
         </div>
     </div>
 </div>
 
 <script>
     function openCA(btn) {
-        const Super = btn.closest('.change-avatar').querySelector('.change-avatar-cover');
-        Super.classList.add('modal');
+        const superDiv = btn.closest('.change-avatar').querySelector('.change-avatar-cover');
+        superDiv.classList.add('modal');
     }
+
     function closeCA(close) {
-        const Super = close.closest('.change-avatar').querySelector('.change-avatar-cover');
-        Super.classList.remove('modal');
+        const superDiv = close.closest('.change-avatar').querySelector('.change-avatar-cover');
+        superDiv.classList.remove('modal');
     }
-    function selectAvatar(img, index) {
-        const container = img.parentNode;
+
+    function selectAvatar(div, index) {
+        const container = div.parentNode;
         const avatars = container.querySelectorAll('.avatar');
         avatars.forEach(function (avatar) {
             avatar.classList.remove('selected');
         });
-        img.classList.add('selected');
+        div.querySelector('.avatar').classList.add('selected');
+        selectedAvatarIndex = index; // Store the selected index globally
+    }
+
+    function updateAvatarIndex(btn) {
+        console.log("Avatar index updated to: " + selectedAvatarIndex);
+        // Send an HTTP request to update avatar_index
+        const userId = '<%= user._id %>'; // Assuming you have the user's ID available
+        fetch(`/users/${userId}/update-avatar`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ avatarIndex: selectedAvatarIndex })
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Avatar index updated successfully');
+                closeCA(btn);
+            } else {
+                throw new Error('Failed to update avatar index');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     }
 </script>

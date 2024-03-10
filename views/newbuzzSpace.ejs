@@ -1,0 +1,42 @@
+<form class="newbuzzSpaces-container">
+    <div class="buzzSpace-cover-group" onclick="clickinput(this)">
+        <span class="material-symbols-outlined">
+            upload
+        </span>
+        <canvas id="CoverCan" class="cover-input-show"></canvas>
+        <input type="file" multiple="false" accept="image/*" name="cover" class="file-input" onchange="uploadCover(this)">
+    </div>
+    <div class="buzzSpace-logo-group" onclick="clickinput(this)">
+        <span class="material-symbols-outlined">
+            upload
+        </span>
+        <canvas id="LogoCan" class="logo-input-show"></canvas>
+        <input type="file" multiple="false" accept="image/*" name="logo" class="file-input" onchange="uploadLogo(this)">
+    </div>
+    <input type="text" name="buzzSpaceName" placeholder="Enter the name of your BuzzSpace">
+    <input type="text" name="buzzSpaceTag"
+        placeholder="What Category does your BuzzSpace fall into? ex:sports, study etc..">
+    <textarea name="description" cols="30" rows="5" placeholder="About yor BuzzSpace"></textarea>
+
+    <button type="submit">Submit</button>
+</form>
+
+<script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js">
+</script>
+<script>
+    function uploadCover(fileinput) {
+        var imgcanvas = document.getElementById("CoverCan");
+        var image = new SimpleImage(fileinput);
+        image.drawTo(imgcanvas);
+    }
+    function uploadLogo(fileinput) {
+        var imgcanvas = document.getElementById("LogoCan");
+        var image = new SimpleImage(fileinput);
+        image.drawTo(imgcanvas);
+    }
+
+    function clickinput(can) {
+        const input = can.querySelector('.file-input');
+        input.click()
+    }
+</script>

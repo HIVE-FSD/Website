@@ -192,16 +192,16 @@ const buzzSpaces = [
 <div class="profile-container">
     <div class="profile-top">
         <div class="profile-image">
-          <img src="https://github.com/shadcn.png" alt="">
+          <%- include('components/avatar', { ind: user.info.avatar_index }) %>
         </div>
         <div class="profile-top-right">
           
-          <h1>Person Name</h1>
+          <h1><%= user.info.display_name %></h1>
           <span class="profile-username">
             <%= user.username %>
           </span>
           <div class="profile-bio">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit, nam sit earum fuga ex commodi nisi? Magnam neque accusantium atque.
+            <%= user.info.bio %>
           </div>
           <div class="btn-container">
             <%- include('components/editProfileForm') %>

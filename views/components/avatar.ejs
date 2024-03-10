@@ -1,0 +1,22 @@
+<%
+  const imageSources = [
+    '/assets/avatars/male-1.png',
+    '/assets/avatars/female-1.png',
+    '/assets/avatars/male-2.png',
+    '/assets/avatars/female-2.png',
+    '/assets/avatars/male-3.png',
+    '/assets/avatars/female-3.png',
+    '/assets/avatars/male-4.png',
+    '/assets/avatars/female-4.png',
+    '/assets/avatars/male-5.png',
+    '/assets/avatars/female-5.png'
+  ];
+%>
+
+<% if (typeof ind !== 'undefined' && ind >= 0 && ind < imageSources.length) { %>
+  <img src="<%= imageSources[ind] %>" class="avatar" alt="">
+<% } else { %>
+  <span class="material-symbols-outlined profile-image">
+    person
+  </span>
+<% } %>
