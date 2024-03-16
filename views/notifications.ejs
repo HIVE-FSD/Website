@@ -1,0 +1,31 @@
+<% const notifications = [
+    { type: 'post', postTitle: "Why did Batman...", votes: 100 },
+    { type: 'buzzspace', buzzspace: "Batman", members: 1000 },
+    { type: 'comment', author: "Robin", postTitle: "Batman is the best!" },
+    { type: 'reply', author: "Joker", postTitle: "Why so serious, Batman?" },
+    { type: 'comment', author: "Harley Quinn", postTitle: "I love puddin'!" },
+    { type: 'reply', author: "Two-Face", postTitle: "Flip a coin, Batman!" },
+    { type: 'post', postTitle: "The Dark Knight Rises", votes: 500 },
+    { type: 'comment', author: "Catwoman", postTitle: "Meow, Batman." },
+    { type: 'buzzspace', buzzspace: "Gotham", members: 5000 },
+    { type: 'reply', author: "Riddler", postTitle: "Riddle me this, Batman!" }
+]; %>
+
+
+<div class="notifications-supreme">
+    <h1>Notifications</h1>
+
+    <div class="notifications-container">
+
+        <% notifications.map(notification=> { %>
+            <% if (notification.type==='post' ) { %>
+                <%- include('components/notification', { type: notification.type, postTitle: notification.postTitle,
+                    votes: notification.votes }) %>
+            <% } else if (notification.type==='buzzspace' ) { %>
+                <%- include('components/notification', { type: notification.type, buzzspace:notification.buzzspace, members: notification.members }) %>
+            <% } else { %>
+                <%- include('components/notification', { type: notification.type, author:notification.author, postTitle: notification.postTitle }) %>
+                <% } %>
+            <% }); %>
+    </div>
+</div>

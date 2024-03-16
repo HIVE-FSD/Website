@@ -1,6 +1,6 @@
 <header>
     <nav id="my-nav">
-        <div  class="nav-left">
+        <div class="nav-left">
             <a href="/">
 
                 <img class="nav-logo" src="assets/hive-right.png" alt="logo">
@@ -23,15 +23,19 @@
                     </a>
                 </li>
                 <li>
-                    <span class="material-symbols-outlined">
-                        notifications
-                    </span>
+                    <a href="/notifications" class="unread" >
+                        <span class="material-symbols-outlined">
+                            notifications
+                        </span>
+                    </a>
                 </li>
                 <li class="nav-profile">
-                    <span class="material-symbols-outlined">
-                        account_circle
-                    </span>
-                    <a href="/profile"><%= user.info.display_name %></a>
+                    <a href="/profile">
+                        <span class="material-symbols-outlined">
+                            account_circle
+                        </span>
+                        <%= user.info.display_name %>
+                    </a>
                 </li>
             </ul>
         </div>
