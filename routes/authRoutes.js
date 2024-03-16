@@ -45,7 +45,7 @@ router.post('/signup', [
     }
 
     const { username, password, email } = req.body;
-
+    
     try {
         // Check if username already exists
         const existingUser = await User.getUserByUsername(username);
