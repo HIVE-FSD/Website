@@ -26,7 +26,7 @@
 
         const form = event.target;
         const formData = new FormData(form);
-        const userId = '<%= user._id %>'; // Assuming you have the user's ID available
+        const userId = '<%= user._id %>';
         const url = `/users/${userId}/update-profile`;
 
         try {
@@ -35,7 +35,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(Object.fromEntries(formData)) // Convert FormData to JSON object
+                body: JSON.stringify(Object.fromEntries(formData))
             });
 
             if (response.ok) {
