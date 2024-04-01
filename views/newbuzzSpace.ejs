@@ -1,10 +1,11 @@
-<form class="newbuzzSpaces-container">
+<form class="newbuzzSpaces-container" enctype="multipart/form-data">
     <div class="buzzSpace-cover-group" onclick="clickinput(this)">
         <span class="material-symbols-outlined">
             upload
         </span>
         <canvas id="CoverCan" class="cover-input-show"></canvas>
-        <input type="file" multiple="false" accept="image/*" name="cover" class="file-input" onchange="uploadCover(this)">
+        <input type="file" multiple="false" accept="image/*" name="cover" class="file-input"
+            onchange="uploadCover(this)">
     </div>
     <div class="buzzSpace-logo-group" onclick="clickinput(this)">
         <span class="material-symbols-outlined">
@@ -18,17 +19,17 @@
         placeholder="What Category does your BuzzSpace fall into? ex:sports, study etc..">
     <textarea name="description" cols="30" rows="5" placeholder="About yor BuzzSpace"></textarea>
 
-    <button type="submit">Submit</button>
+    <button type="button" onclick="submitForm()">Submit</button>
 </form>
 
-<script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js">
-</script>
+<script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js"></script>
 <script>
     function uploadCover(fileinput) {
         var imgcanvas = document.getElementById("CoverCan");
         var image = new SimpleImage(fileinput);
         image.drawTo(imgcanvas);
     }
+
     function uploadLogo(fileinput) {
         var imgcanvas = document.getElementById("LogoCan");
         var image = new SimpleImage(fileinput);
@@ -37,6 +38,37 @@
 
     function clickinput(can) {
         const input = can.querySelector('.file-input');
-        input.click()
+        input.click();
     }
+
+    function submitForm() {
+        const form = document.querySelector('.newbuzzSpaces-container');
+        const formData = new FormData(form);
+
+        // Assuming you have access to the user's ID in a variable called userId
+        const userId = '<%= user._id %>';
+
+        // Append the user's ID to the form data
+        formData.append('creator', userId);
+
+        fetch('/buzzspace/createBuzzSpace', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(data => {
+                console.log(data); // Log the response from the server
+                // Optionally, handle the response or redirect the user
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+                // Optionally, display an error message to the user
+            });
+    }
+
 </script>

@@ -6,20 +6,22 @@
     const diffMinutes=Math.floor(diffSeconds /60); 
     const diffHours=Math.floor(diffMinutes / 60);
     const diffDays=Math.floor(diffHours / 24); const
-    diffYears=Math.floor(diffDays / 365); if (diffYears> 0) {
-    return `${diffYears} year${diffYears > 1 ? 's' : ''} ago`;
+    diffYears=Math.floor(diffDays / 365); 
+    
+    if (diffYears> 0) {
+        return `${diffYears} year${diffYears > 1 ? 's' : ''} ago`;
     } else if (diffDays > 0) {
-    return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+        return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
     } else if (diffHours > 0) {
-    return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+        return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
     } else if (diffMinutes > 0) {
-    return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`;
+        return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`;
     } else {
-    return `${diffSeconds} second${diffSeconds > 1 ? 's' : ''} ago`;
+        return `${diffSeconds} second${diffSeconds > 1 ? 's' : ''} ago`;
     }
-    } %>
+} %>
 
-    <% for (let i=0; i < comments.length; i++) { %>
+<% for (let i=0; i < comments.length; i++) { %>
         <li>
             <div class="buzz-comment">
                 <div class="votes-container">
@@ -66,8 +68,8 @@
                         <ul class="buzz-comment-replies-list">
                             <%- include('buzzComments', { comments: comments[i].replies }) %>
                         </ul>
-                        <% } %>
+                    <% } %>
                 </div>
             </div>
         </li>
-        <% } %>
+<% } %>

@@ -2,10 +2,7 @@
 function buzzComment(commentButton) {
     const buzzSuper = commentButton.closest('.buzz-super');
     const commentText = buzzSuper.querySelector('.buzz-commentText').value;
-    // Add logic to buzz comment to backend or handle as needed
-    // For now, let's just log the comment text to console
     console.log('Comment buzzed:', commentText);
-    // Reset the comment area
     buzzSuper.querySelector('.buzz-commentText').value = '';
     buzzSuper.querySelector('.buzz-comment-area').style.display = 'none';
 }
@@ -22,10 +19,7 @@ function cancelComment(commentButton) {
 function CommentReply(commentButton) {
     const buzzSuper = commentButton.closest('.buzz-comment-main');
     const commentText = buzzSuper.querySelector('.buzz-commentText').value;
-    // Add logic to buzz comment to backend or handle as needed
-    // For now, let's just log the comment text to console
     console.log('Comment buzzed:', commentText);
-    // Reset the comment area
     buzzSuper.querySelector('.buzz-commentText').value = '';
     buzzSuper.querySelector('.buzz-comment-area').style.display = 'none';
 }
@@ -51,7 +45,6 @@ function addVote(voteButton) {
         addVoteBtn.classList.add('plus');
         votesSpan.classList.add('plus');
 
-        // If expand_more button was previously clicked, decrement votes and remove 'minus' class
         if (removeVoteBtn.classList.contains('minus')) {
             votesSpan.textContent = parseInt(votesSpan.textContent) + 1;
             removeVoteBtn.classList.remove('minus');

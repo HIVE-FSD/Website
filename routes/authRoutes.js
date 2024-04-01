@@ -82,7 +82,7 @@ router.post('/login', async (req, res) => {
         if (!isMatch || !(user.is_verified)) {
             return res.redirect('/login?loginError=true');
         } 
-        req.session.user = user;
+        req.session.userID = user._id;
         res.redirect('/');
 
     } catch (err) {
@@ -109,7 +109,7 @@ function sendVerificationEmail(email, verificationLink) {
     
     
     const mailOptions = {
-        from: 'your@email.com',
+        from: 'hive0024@email.com',
         to: email,
         subject: 'Email Verification',
         html: `<p>Click <a href="${verificationLink}">here</a> to verify your email address.</p>`

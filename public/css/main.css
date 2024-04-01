@@ -224,8 +224,8 @@ footer img {
 }
 
 .profile-card {
-    width: 200px;
-    height: 250px;
+    width: 225px;
+    height: 275px;
     background-color: rgb(182, 91, 0);
     border-radius: 10px;
     transition: all .3s;
@@ -252,12 +252,12 @@ footer img {
 }
 
 .profile-card2 {
-    width: 200px;
-    height: 250px;
+    width: 225px;
+    height: 275px;
     background-color: var(--buzz-black);
     border-radius: 10px;
     transition: all .2s;
-    padding: 10%;
+    padding: 7%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -280,12 +280,11 @@ footer img {
     font-size: large;
     display: flex;
     flex-direction: column;
-}
-
-.profile-username {
-    font-size: smaller;
     border-left: 5px solid var(--orange);
     padding-left: .5rem;
+    border-right: 5px solid var(--orange);
+    padding-right: .5rem;
+    border-radius: 5px;
 }
 
 .profile-card2 .profile-image {
@@ -296,6 +295,17 @@ footer img {
     display: flex;
     justify-content: center;
     gap: 20px;
+}
+
+.profile-card2 .card-bio{
+    text-align: center;
+    font-size: .8rem;
+}
+
+.profile-card .count p .title{
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid var(--orange);
 }
 
 .profile-card .count p {

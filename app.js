@@ -4,7 +4,7 @@ const expressEjsLayouts = require("express-ejs-layouts")
 const authRoutes = require('./routes/authRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const session = require('express-session');
-const User = require("./Controllers/User");
+const User = require("./models/User");
 const app = express()
 const port = 3000
 
@@ -30,14 +30,14 @@ app.use(express.json());
 
 const renderPage = (route, file, props) =>{
     app.get(route, async (req, res) => {
-        if (!req.session.user) {
+        if (!req.session.userID) {
             return res.redirect('/login');
         }
-    
-        const username = req.session.user.username;
+        
+        const userID = req.session.userID;
     
         try {
-            const user = await User.getUserByUsername(username);
+            const user = await User.findById(userID);
             if (!user) {
                 return res.status(404).send('User not found');
             }
@@ -72,7 +72,7 @@ renderPage('/notifications', 'notifications', {
 })
 
 renderPage('/topbuzzspaces', 'topBuzzSpaces', {
-    title: 'Top BuzzSpaces'
+    title: 'HIVE | Top BuzzSpaces'
 })
 
 renderPage('/profile', 'profile', {
