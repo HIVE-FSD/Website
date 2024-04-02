@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const router = express.Router();
-const User = require("../Controllers/User");
+const User = require("../models/User");
 const { upload } = require('../Middleware/mutler.js');
 const BuzzSpaceController = require('../Controllers/BuzzSpaceController.js');
 
@@ -27,15 +27,15 @@ router.post('/createBuzzSpace', upload, async (req, res) => {
 
 
 router.get('/:name', async (req, res) => {
-    if (!req.session.user) {
+    if (!req.session.userID) {
         return res.redirect('/login');
     }
 
-    const username = req.session.user.username;
+    const userID = req.session.userID;
     const buzzspaceName = req.params.name;
 
     try {
-        const user = await User.getUserByUsername(username);
+        const user = await User.findById(userID);
         if (!user) {
             return res.status(404).send('User not found');
         }
