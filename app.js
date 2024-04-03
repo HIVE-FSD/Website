@@ -80,10 +80,12 @@ renderPage('/profile', 'profile', {
 })
 
 const buzzSpaceRoutes = require('./routes/buzzSpaceRoutes');
+const buzzSpace = require('./routes/buzzRoutes');
+
 
 // Add buzzSpaceRoutes to your app
 app.use('/buzzspace', buzzSpaceRoutes);
-
+app.use('/buzz', buzzSpace)
 
 // Routes
 app.use(authRoutes);
