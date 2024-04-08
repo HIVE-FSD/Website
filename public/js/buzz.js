@@ -1,28 +1,10 @@
 
-function buzzComment(commentButton) {
-    const buzzSuper = commentButton.closest('.buzz-super');
-    const commentText = buzzSuper.querySelector('.buzz-commentText').value;
-    console.log('Comment buzzed:', commentText);
-    buzzSuper.querySelector('.buzz-commentText').value = '';
-    buzzSuper.querySelector('.buzz-comment-area').style.display = 'none';
-}
-
-
-
 function cancelComment(commentButton) {
     const buzzSuper = commentButton.closest('.buzz-super');
     buzzSuper.querySelector('.buzz-commentText').value = '';
     buzzSuper.querySelector('.buzz-comment-area').style.display = 'none';
 }
 
-
-function CommentReply(commentButton) {
-    const buzzSuper = commentButton.closest('.buzz-comment-main');
-    const commentText = buzzSuper.querySelector('.buzz-commentText').value;
-    console.log('Comment buzzed:', commentText);
-    buzzSuper.querySelector('.buzz-commentText').value = '';
-    buzzSuper.querySelector('.buzz-comment-area').style.display = 'none';
-}
 
 function cancelReply(commentButton) {
     const buzzSuper = commentButton.closest('.buzz-comment-main');

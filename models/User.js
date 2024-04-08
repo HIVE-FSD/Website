@@ -41,7 +41,10 @@ const userSchema = new mongoose.Schema({
             type: Number,
             default: 0
         }
-    }
+    },
+    buzz_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Buzz' }],
+    buzzSpace_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'BuzzSpace' }],
+    joined_buzzSpace_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'BuzzSpace' }]
 });
 
 const User = mongoose.model('User', userSchema);

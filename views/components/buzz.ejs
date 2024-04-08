@@ -27,7 +27,7 @@
     }
     } %>
 
-<div class="buzz-super">
+<div class="buzz-super" >
     <div class="buzz">
         <div class="votes-container">
             <span class="material-symbols-outlined add-vote-btn vote-btn" onclick="addVote(this)">
@@ -46,12 +46,12 @@
                 </h1>
                 
             </div>
-            <p class="buzz-description" onclick="expandContent(this)"><%- truncateText(buzz.content, 75) %></p>
+            <p class="buzz-description" onclick="expandContent(this)"><%- truncateText(buzz.buzz, 75) %></p>
             <div class="buzz-functions">
                 <span class="buzz-functions-left">
                     <div>
                         Posted by
-                        <%- include('profileCard', { username: buzz.user }) %>
+                        <%- include('profileCard', { buzzer: buzz.buzzer }) %>
                     </div>
                     <%= formatTimeAgo(buzz.buzzedon) %> at <a href=<%= "/buzzspace/"+buzz.buzzSpace  %>><%= buzz.buzzSpace %></a>
                 </span>
@@ -76,12 +76,48 @@
         </div>
     </div>
 </div>
-
 <script>
+
+    function buzzComment(commentButton) {
+        const buzzSuper = commentButton.closest('.buzz-super');
+        const commentText = buzzSuper.querySelector('.buzz-commentText').value;
+        const buzzID = "<%= buzz.id %>"; 
+        const buzzer = "<%= user._id %>";
+
+        fetch('/buzz/newcomment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                buzzId: buzzID,
+                comment: commentText,
+                buzzer: buzzer
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Comment saved:', data);
+                // Optionally, you can update the UI to show the newly added comment
+                buzzSuper.querySelector('.buzz-commentText').value = '';
+                buzzSuper.querySelector('.buzz-comment-area').style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Error saving comment:', error);
+                // Handle error if necessary
+            });
+    }
+
+
     function expandContent(paragraph) {
         const buzzSuper = paragraph.closest('.buzz-super');
         buzzSuper.classList.add('modal');
-        paragraph.innerHTML = '<%= buzz.content %>';
+        paragraph.innerHTML = '<%= buzz.buzz %>';
     }
 
     function closeContent(close) {
@@ -90,7 +126,7 @@
         const commentArea = buzzSuper.querySelector('.buzz-comment-area');
         commentArea.style.display = 'none';
         buzzSuper.classList.remove('modal');
-        paragraph.innerHTML = '<%- truncateText(buzz.content, 75) %>';
+        paragraph.innerHTML = '<%- truncateText(buzz.buzz, 75) %>';
     }
 
     function toggleCommentArea(commentButton) {
@@ -99,6 +135,7 @@
         commentArea.style.display = 'block';
         expandContent(buzzSuper.querySelector('.buzz-description'));
     }
+
     function toggleReplyArea(commentButton) {
         const buzzSuper = commentButton.closest('.buzz-comment-main');
         const commentArea = buzzSuper.querySelector('.buzz-comment-area');

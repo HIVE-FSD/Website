@@ -384,6 +384,12 @@ footer img {
     font-size: .9rem;
 }
 
+.buzz-functions-left .profile-image{
+    font-size: 100px;
+    width: 125px;
+    height: 125px;
+}
+
 .buzz-functions-left p {
     display: flex;
 }
@@ -827,6 +833,7 @@ footer img {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    min-width: 300px;
     max-width: 320px;
     text-align: center;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.575);

@@ -2,10 +2,35 @@
 
 const express = require('express');
 const User = require('../models/User');
-const router = express.Router();
+const { checkAuth } = require('../Middleware/mainware');
+const { fetchBuzzes, fetchBuzzSpaces } = require('../Controllers/ProfileController');
+const { getBuzzsWithComments } = require('../Controllers/buzzController');
+const app = express.Router();
+
+const renderPage = async (route, file, props) => {
+    app.get(route, checkAuth, async (req, res) => {
+        try {
+            const { buzzSpace_ids, buzz_ids } = req.user;
+
+            const buzzes = await getBuzzsWithComments(buzz_ids);
+            const buzzSpaces = await fetchBuzzSpaces(buzzSpace_ids);
+
+            res.render(file, { ...props, user: req.user, buzzes, buzzSpaces });
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            // Handle error response
+            res.status(500).send('Server Error');
+        }
+    });
+};
+
+
+renderPage('/profile', 'profile', {
+    title: 'HIVE | My profile'
+})
 
 // PUT route to update user's avatar index
-router.put('/users/:userId/update-avatar', async (req, res) => {
+app.put('/users/:userId/update-avatar', async (req, res) => {
     const userId = req.params.userId;
     const { avatarIndex } = req.body;
     try {
@@ -24,7 +49,7 @@ router.put('/users/:userId/update-avatar', async (req, res) => {
 });
 
 // PUT route to update user's profile
-router.put('/users/:userId/update-profile', async (req, res) => {
+app.put('/users/:userId/update-profile', async (req, res) => {
     const userId = req.params.userId;
     const { displayName, bio } = req.body;
 
@@ -54,4 +79,4 @@ router.put('/users/:userId/update-profile', async (req, res) => {
     }
 });
 
-module.exports = router;
+module.exports = app;

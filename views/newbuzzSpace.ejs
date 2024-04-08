@@ -59,15 +59,20 @@
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
+                if (response.status === 201) {
+                    return response.json();
+                }
                 return response.text();
             })
             .then(data => {
-                console.log(data); // Log the response from the server
-                // Optionally, handle the response or redirect the user
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                } else {
+                    console.log(data); 
+                }
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
-                // Optionally, display an error message to the user
             });
     }
 

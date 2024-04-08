@@ -229,7 +229,6 @@ const buzzSpaces = [
 
   <div class="home-buzzs-container">
     <% buzzs.map((buzz, index)=> { %>
-      <%- include('components/buzz', { buzz: buzz, index: index }) %>
         <% }); %>
   </div>
   <div class="home-right-cover">
@@ -237,7 +236,7 @@ const buzzSpaces = [
     <div class="home-right">
       <div class="home-new-buzz home-right-inner">
         <p>Share your thoughts through a buzz.</p>
-        <a href="/newbuzz">
+        <a href="/buzz/newbuzz">
           <button>New Buzz</button>
         </a>
       </div>

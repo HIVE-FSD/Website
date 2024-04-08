@@ -1,0 +1,29 @@
+<%
+function formatJoined(number) {
+  if (number >= 1000000) {
+    return (number / 1000000).toFixed(1) + 'M';
+  } else if (number >= 1000) {
+    return (number / 1000).toFixed(1) + 'K';
+  } else {
+    return number.toString();
+  }
+}
+%>
+<a class="profile-buzzSpaces-item" href="<%= `/buzzSpace/${space.name}` %>">
+    <img src="/uploads/<%= space.logo %>" alt="<%= space.name %>">
+    <div class="profile-buzzSpaces-item-inner">
+        <h2>
+            <%= space.name %>
+        </h2>
+        <p>
+            <span>Sports</span>
+            <span>
+                <%= formatJoined(space.numberOfMembersJoined) %> Members
+            </span>
+        </p>
+        <div class="profile-buzzSpaces-bio">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit eaque ipsam quam, mollitia tempore nulla
+            ipsum quia sequi modi et nostrum neque, ratione sit architecto facilis nisi. Consequuntur, velit nihil.
+        </div>
+    </div>
+</a>

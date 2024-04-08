@@ -1,174 +1,78 @@
-<% const buzzs = [ 
-  { 
-    buzzSpace : "TestSpace",
-    buzzedon: "2024-02-20 12:10:00",
-    title: "A long Title",
-    votes: 15,
-    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
-    comments: [
-      {
-        user: "Alice",
-        comment: "This is the first comment.",
-        votes: 100,
-        commentedon: "2024-02-22 9:00:00",
-        replies: [
-          {
-            user: "Bob",
-            comment: "Reply to the first comment.",
-            votes: 10,
-            commentedon: "2024-02-22 10:05:00",
-            replies: [
-              {
-                user: "Alice",
-                comment: "Reply to Bob's reply.",
-                votes: 10,
-                commentedon: "2024-02-22 12:10:00",
-                replies: [] // No further replies
-              }
-            ]
-          },
-          {
-            user: "Charlie",
-            comment: "Another reply to the first comment.",
-            votes: 10,
-            commentedon: "2024-02-22 11:07:00",
-            replies: []
-          }
-        ]
-      },
-      {
-        user: "David",
-        comment: "Second comment without replies.",
-        votes: 10,
-        commentedon: "2024-02-22 10:15:00",
-        replies: [] // No replies for this comment
-      }
-    ]
-  },
-  // Additional dummy buzzs
-  { 
-    buzzSpace : "TestSpace2",
-    buzzedon: "2024-02-21 14:20:00",
-    title: "Another Long Title",
-    votes: 20,
-    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
-    comments: [
-      {
-        user: "Eve",
-        comment: "This is the first comment on the second buzz.",
-        votes: 50,
-        commentedon: "2024-02-21 15:30:00",
-        replies: [
-          {
-            user: "Frank",
-            comment: "Reply to the first comment on the second buzz.",
-            votes: 15,
-            commentedon: "2024-02-21 16:45:00",
-            replies: [
-              {
-                user: "Eve",
-                comment: "Reply to Frank's reply.",
-                votes: 5,
-                commentedon: "2024-02-21 18:20:00",
-                replies: [] // No further replies
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  { 
-    buzzSpace : "TestSpace3",
-    buzzedon: "2024-02-22 08:45:00",
-    title: "Short Title",
-    votes: 10,
-    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
-    comments: []
-  },
-  { 
-    buzzSpace : "TestSpace4",
-    buzzedon: "2024-02-23 10:30:00",
-    title: "Title with No Comments",
-    votes: 5,
-    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
-    comments: []
-  },
-  { 
-    buzzSpace : "TestSpace5",
-    buzzedon: "2024-02-23 13:15:00",
-    title: "Title with Multiple Comments",
-    votes: 30,
-    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
-    comments: [
-      {
-        user: "Grace",
-        comment: "First comment on the fifth buzz.",
-        votes: 25,
-        commentedon: "2024-02-23 14:00:00",
-        replies: []
-      },
-      {
-        user: "Henry",
-        comment: "Second comment on the fifth buzz.",
-        votes: 20,
-        commentedon: "2024-02-23 15:30:00",
-        replies: []
-      }
-    ]
+<% 
+function formatDate(dateString) {
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  
+  const date = new Date(dateString);
+  const month = months[date.getMonth()];
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  const suffix = getDaySuffix(day);
+
+  return `${month} ${day}${suffix} ${year}`;
+}
+
+function getDaySuffix(day) {
+  if (day >= 11 && day <= 13) {
+    return "th";
   }
-];
+  switch (day % 10) {
+    case 1: return "st";
+    case 2: return "nd";
+    case 3: return "rd";
+    default: return "th";
+  }
+}
 %>
 
 <div class="buzzSpace-main">
-    <div class="buzzSpace-header">
-        <img class="space-cover" src="https://picsum.photos/1000/100" alt="">
-        <div class="buzzSpace-header-inner">
-            <div class="buzzSpace-header-inner-left">
-                <div class="space-logo">
-                    <img src="https://picsum.photos/100/100" alt="">
-                </div>
-                <h1>
-                    <%= title %>
-                </h1>
-            </div>
-            <div class="buzzSpace-header-inner-right">
-                <button>
-                    Join
-                </button>
-                <a href="<%= `/newbuzz?buzzSpace=${title}` %>">
-                  <button>New Buzz</button>
-                </a>                              
-            </div>
+  <div class="buzzSpace-header">
+    <img class="space-cover" src="<%= `uploads/${buzzSpace.cover}` %>" alt="">
+    <div class="buzzSpace-header-inner">
+      <div class="buzzSpace-header-inner-left">
+        <div class="space-logo">
+          <img src="<%= `uploads/${buzzSpace.logo}` %>" alt="">
         </div>
+        <h1>
+          <%= buzzSpace.name %>
+        </h1>
+      </div>
+      <div class="buzzSpace-header-inner-right">
+        <button>
+          Join
+        </button>
+        <a href="<%= `/newbuzz?buzzSpace=${buzzSpace.name}` %>">
+          <button>New Buzz</button>
+        </a>                              
+      </div>
     </div>
-
-    <div class="buzzSpace-content">
-
-        <div class="space-buzzs-container">
-            <% buzzs.map((buzz, index)=> { %>
-                <%- include('components/buzz', { buzz: buzz, index: index }) %>
-            <% }); %>
-        </div>
-        <div class="buzzSpace-info">
-            <h2>About</h2>
-            <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit eaque ipsam quam, mollitia tempore nulla
-                ipsum quia sequi modi et nostrum neque, ratione sit architecto facilis nisi. Consequuntur, velit nihil.
-            </p>
-            <h5>created by</h5>
-            <div class="space-info-creator">
-                <img src="https://picsum.photos/100/100" alt="">
-                <p>Talion</p>
+  </div>
+  
+  <div class="buzzSpace-content">
+    
+    <div class="space-buzzs-container">
+      <% buzzes.map((buzz, index)=> { %>
+        <%-  include('components/buzz', { buzz: buzz, index: index })  %>
+        <% }); %>
+      </div>
+      <div class="buzzSpace-info">
+        <h2>About</h2>
+        <p>
+          <%= buzzSpace.description %>
+        </p>
+        <h5>created by</h5>
+        <div class="space-info-creator">
+          <img src="https://picsum.photos/100/100" alt="">
+          <p>Talion</p>
             </div>
             <h5>created on</h5>
             <div class="space-info-creator">
                 <span class="material-symbols-outlined">
                     event
-                </span>
-                <p>March 7th 2020</p>
+                  </span>
+                <p><%= formatDate(buzzSpace.createdOn) %></p>
+              </div>
             </div>
-        </div>
     </div>
 
 </div>

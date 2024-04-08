@@ -1,16 +1,12 @@
 const mongoose = require('mongoose');
 
-const buzzSchema = new mongoose.Schema({
-    buzzSpace: {
+const commentSchema = new mongoose.Schema({
+    buzz: {
         type: mongoose.Types.ObjectId,
-        ref: 'BuzzSpace',
-        required: false
-    },
-    title: {
-        type: String,
+        ref: 'Buzz',
         required: true
     },
-    buzz: {
+    comment: {
         type: String,
         required: true
     },
@@ -19,7 +15,7 @@ const buzzSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    buzzedon: {
+    commentedon: {
         type: Date,
         default: Date.now
     },
@@ -27,8 +23,9 @@ const buzzSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    comments: [{ type: mongoose.Types.ObjectId, ref: 'Comment' }]
-})
-const Buzz = mongoose.model('Buzz', buzzSchema);
+    replies: [{ type: mongoose.Types.ObjectId, ref: 'Comment' }]
+});
 
-module.exports = Buzz;
+const Comment = mongoose.model('Comment', commentSchema);
+
+module.exports = Comment;

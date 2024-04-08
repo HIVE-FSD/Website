@@ -1,26 +1,26 @@
 
 <div class="user-mention">
-    <span class="mention-name" >KingKhan</span>
+    <span class="mention-name" ><%= buzzer.display_name %></span>
     
     <div class="profile-card">
         <div class="profile-card2">
-            <%- include('avatar', { ind: index }) %>
+            <%- include('avatar', { ind: buzzer.avatar_index }) %>
         <div class="profile-name">
             <h2>
-                KingKhan
+                <%= buzzer.display_name %>
             </h2>
         </div>
         <div class="card-bio">
-            IIITS Student, Batch 2022
+            <%= buzzer.bio %>
         </div>
         <div class="count" >
             <p>
                 <span class="title">Buzzes</span> 
-                 <span>120</span>
+                 <span><%= buzzer.buzz_count %></span>
             </p>
             <p>
                 <span class="title">BuzzSpaces</span> 
-                 <span>10</span>
+                 <span><%= buzzer.buzzSpace_count %></span>
             </p>
         </div>
     </div>

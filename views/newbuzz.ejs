@@ -1,48 +1,14 @@
-<% 
-const buzzSpaces = [
-  {
-    name: 'testSpace',
-    image : "https://picsum.photos/100/100",
-    id: 1
-  },
-  {
-    name: 'testSpace1',
-    image : "https://picsum.photos/100/100",
-    id: 2
-  },
-  {
-    name: 'testSpace2',
-    image : "https://picsum.photos/100/100",
-    id: 3
-  },
-  {
-    name: 'testSpace3',
-    image : "https://picsum.photos/100/100",
-    id: 3
-  },
-  {
-    name: 'testSpace4',
-    image : "https://picsum.photos/100/100",
-    id: 4
-  },
-  {
-    name: 'testSpace5',
-    image : "https://picsum.photos/100/100",
-    id: 5
-  },
-]
 
-%>
 <form class="newbuzz-container">
   <div class="newbuzz-buzzspace">
     <div class="custom-select" onclick="handelSelectDrop(this)">
-      <input type="hidden" name="selected-buzzSpace" value="">
+      <input type="hidden" name="buzzSpace" value="">
       <div class="select-selected">
         Select BuzzSpace
       </div>
       <div class="select-items">
         <% buzzSpaces.forEach((space)=> { %>
-          <div class="select-item" data-value="<%= space.name %>" onclick="selectBuzzSpace(this)">
+          <div class="select-item" data-value="<%= space._id %>" onclick="selectBuzzSpace(this)">
             <img src=<%=space.image %> alt="">
             <%= space.name %>
           </div>
@@ -82,6 +48,47 @@ const buzzSpaces = [
       }
     }
   });
+
+  document.querySelector('.newbuzz-container').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent the default form submission behavior
+
+  const formData = new FormData(this); // Get the form data
+  
+  // Construct the data as JSON
+  const jsonData = {};
+  formData.forEach((value, key) => {
+    jsonData[key] = value;
+  });
+  const userId = '<%= user._id %>';
+  jsonData['buzzer'] = userId;
+
+  fetch('/buzz/createBuzz', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json' // Set content type to JSON
+    },
+    body: JSON.stringify(jsonData) // Convert data to JSON string
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    if (response.status === 201) {
+        return response.json();
+        window.location.href = '/profile';
+    }
+    return response.text();
+  })
+  .then(data => {
+    // Handle the response from the server
+    console.log('Form data submitted successfully:', data);
+  })
+  .catch(error => {
+    console.error('There was a problem submitting the form data:', error);
+  });
+});
+
+
 
 </script>
 

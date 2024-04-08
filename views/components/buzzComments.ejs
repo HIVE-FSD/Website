@@ -1,27 +1,20 @@
-<% function formatTimeAgo(datetimeString) { 
-    const now=new Date(); 
-    const commentedOn=new Date(datetimeString); 
-    const diffMs=now - commentedOn;
-    const diffSeconds=Math.floor(diffMs / 1000);
-    const diffMinutes=Math.floor(diffSeconds /60); 
-    const diffHours=Math.floor(diffMinutes / 60);
-    const diffDays=Math.floor(diffHours / 24); const
-    diffYears=Math.floor(diffDays / 365); 
-    
-    if (diffYears> 0) {
-        return `${diffYears} year${diffYears > 1 ? 's' : ''} ago`;
+<% function formatTimeAgo(datetimeString) { const now=new Date(); const commentedOn=new Date(datetimeString); const
+    diffMs=now - commentedOn; const diffSeconds=Math.floor(diffMs / 1000); const diffMinutes=Math.floor(diffSeconds
+    /60); const diffHours=Math.floor(diffMinutes / 60); const diffDays=Math.floor(diffHours / 24); const
+    diffYears=Math.floor(diffDays / 365); if (diffYears> 0) {
+    return `${diffYears} year${diffYears > 1 ? 's' : ''} ago`;
     } else if (diffDays > 0) {
-        return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
     } else if (diffHours > 0) {
-        return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+    return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
     } else if (diffMinutes > 0) {
-        return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`;
+    return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`;
     } else {
-        return `${diffSeconds} second${diffSeconds > 1 ? 's' : ''} ago`;
+    return `${diffSeconds} second${diffSeconds > 1 ? 's' : ''} ago`;
     }
-} %>
+    } %>
 
-<% for (let i=0; i < comments.length; i++) { %>
+    <% for (let i=0; i < comments.length; i++) { %>
         <li>
             <div class="buzz-comment">
                 <div class="votes-container">
@@ -42,7 +35,7 @@
                             <span class="material-symbols-outlined">
                                 person
                             </span>
-                            <%- include('profileCard', { username: comments[i].user }) %>
+                            <%- include('profileCard', { buzzer: buzz.buzzer }) %>
                         </span>
                     </div>
                     <div class="buzz-comment-content">
@@ -53,14 +46,15 @@
                             <%= formatTimeAgo(comments[i].commentedon) %>
                         </span>
                         <div class="comment-inner-functions">
-                            <div onclick="toggleReplyArea(this)" ><span class="material-symbols-outlined">comment</span> Reply</div>
+                            <div onclick="toggleReplyArea(this)"><span class="material-symbols-outlined">comment</span>
+                                Reply</div>
                             <div><span class="material-symbols-outlined">flag</span> Report</div>
                         </div>
                     </div>
                     <div class="buzz-comment-area" style="display: none;">
                         <textarea class="buzz-commentText" rows="2" cols="50"></textarea>
                         <div class="buzz-comment-btn-container">
-                            <button onclick="CommentReply(this)">Reply</button>
+                            <button onclick="CommentReply(this, '<%= comments[i].buzz %>', '<%= comments[i].id %>')">Reply</button>
                             <button onclick="cancelReply(this)">Cancel</button>
                         </div>
                     </div>
@@ -68,8 +62,44 @@
                         <ul class="buzz-comment-replies-list">
                             <%- include('buzzComments', { comments: comments[i].replies }) %>
                         </ul>
-                    <% } %>
+                        <% } %>
                 </div>
             </div>
         </li>
-<% } %>
+        <% } %>
+
+            <script>
+                function CommentReply(commentButton, buzzID, parent) {
+                    const buzzSuper = commentButton.closest('.buzz-comment-main');
+                    const commentText = buzzSuper.querySelector('.buzz-commentText').value;
+                    const buzzer = "<%= user._id %>";
+
+                    fetch('/buzz/newreply', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            buzzId: buzzID,
+                            comment: commentText,
+                            buzzer: buzzer,
+                            parent: parent
+                        })
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Comment saved:', data);
+                            // Optionally, you can update the UI to show the newly added comment
+                            buzzSuper.querySelector('.buzz-commentText').value = '';
+                            buzzSuper.querySelector('.buzz-comment-area').style.display = 'none';
+                        })
+                        .catch(error => {
+                            console.error('Error saving comment:', error);
+                        });
+                }
+            </script>

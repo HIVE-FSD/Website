@@ -1,14 +1,18 @@
 const Buzz = require('../models/Buzz');
+const BuzzSpace = require('../models/BuzzSpace');
+const User = require('../models/User');
 
 const createBuzz = async (req, res) => {
     try {
-        const { buzzSpaceName, buzz, title } = req.body;
+        const { buzzSpace, buzz, title, buzzer } = req.body;
         const newBuzz = new Buzz({
-            buzzSpaceName: buzzSpaceName,
+            buzzSpace: buzzSpace,
             buzz: buzz,
-            title: title
+            title: title,
+            buzzer: buzzer
         });
         await newBuzz.save();
+        await User.findByIdAndUpdate(buzzer, { $push: { buzz_ids: newBuzz._id }, $inc: { 'info.buzz_count': 1 } });
         res.status(201).send('Buzz created.');
     } catch (err) {
         console.log(err);
@@ -33,4 +37,49 @@ const editBuzz = async (req, res) => {
     return res.status(200).json({buzz1})
 }
 
-module.exports = { createBuzz, editBuzz };
+async function getBuzzsWithComments(buzzIds) {
+    try {
+        const buzzes = [];
+        for (const buzzId of buzzIds) {
+            const buzz = await Buzz.findById(buzzId).populate({
+                path: 'comments',
+                populate: {
+                    path: 'replies'
+                }
+            });
+            
+            const formattedComments = buzz.comments.map(comment => formatComment(comment));
+            let buzzSpace = await BuzzSpace.findById(buzz.buzzSpace);
+            let buzzer = await User.findById(buzz.buzzer);
+            buzzes.push({
+                id: buzz._id,
+                buzzSpace:  buzzSpace.name,
+                buzzedon: buzz.buzzedon,
+                title: buzz.title,
+                votes: buzz.votes,
+                buzz: buzz.buzz,
+                buzzer: buzzer.info,
+                comments: formattedComments
+            });
+        }
+        return buzzes;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function formatComment (comment) {
+    const formattedReplies = comment.replies.map(reply => formatComment(reply));
+    let buzzer = await User.findById(comment.buzzer);
+    return {
+        id: comment._id,
+        buzz: comment.buzz,
+        buzzer: buzzer.info,
+        comment: comment.comment,
+        votes: comment.votes,
+        commentedon: comment.commentedon,
+        replies: formattedReplies
+    };
+}
+
+module.exports = { createBuzz, editBuzz, getBuzzsWithComments };

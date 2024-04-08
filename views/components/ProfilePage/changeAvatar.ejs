@@ -6,7 +6,7 @@
                 <span class="material-symbols-outlined close" onclick="closeCA(this)">close</span>
                 <% for (let index = 0; index < 10; index++) { %>
                     <div onclick="selectAvatar(this, <%= index %>)">
-                        <%- include('avatar', { ind: index }) %>
+                        <%- include('../avatar', { ind: index }) %>
                     </div>
                 <% }; %>
             </div>
