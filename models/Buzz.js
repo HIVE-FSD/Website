@@ -23,12 +23,20 @@ const buzzSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    votes: {
-        type: Number,
-        default: 0
-    },
-    comments: [{ type: mongoose.Types.ObjectId, ref: 'Comment' }]
-})
+    upvotes: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }],
+    downvotes: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }],
+    comments: [{ 
+        type: mongoose.Types.ObjectId, 
+        ref: 'Comment' 
+    }]
+});
+
 const Buzz = mongoose.model('Buzz', buzzSchema);
 
 module.exports = Buzz;

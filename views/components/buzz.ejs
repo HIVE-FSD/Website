@@ -30,11 +30,11 @@
 <div class="buzz-super" >
     <div class="buzz">
         <div class="votes-container">
-            <span class="material-symbols-outlined add-vote-btn vote-btn" onclick="addVote(this)">
+            <span class="material-symbols-outlined add-vote-btn vote-btn <%= buzz.upvoted && 'plus' %>" onclick="upVote(this, '<%= buzz.id %>', 'buzz', '<%= user.id %>')">
                 expand_less
             </span>
-            <span class="votes-value"><%= buzz.votes %></span>
-            <span class="material-symbols-outlined remove-vote-btn vote-btn" onclick="removeVote(this)">
+            <span class="votes-value <%= buzz.downvoted && 'minus' %> <%= buzz.upvoted && 'plus' %> "><%= buzz.votes %></span>
+            <span class="material-symbols-outlined remove-vote-btn vote-btn <%= buzz.downvoted && 'minus' %> " onclick="downVote(this, '<%= buzz.id %>', 'buzz', '<%= user.id %>')">
                 expand_more
             </span>
         </div>
@@ -64,7 +64,7 @@
                 <div class="buzz-comment-area" style="display: none;">
                     <textarea class="buzz-commentText" rows="2" cols="50"></textarea>
                     <div class="buzz-comment-btn-container">
-                        <button onclick="buzzComment(this)">Comment</button>
+                        <button onclick="buzzComment(this, '<%= buzz.id %>')">Comment</button>
                         <button onclick="cancelComment(this)">Cancel</button>
                     </div>
                 </div>
@@ -78,10 +78,9 @@
 </div>
 <script>
 
-    function buzzComment(commentButton) {
+    function buzzComment(commentButton, buzzID) {
         const buzzSuper = commentButton.closest('.buzz-super');
         const commentText = buzzSuper.querySelector('.buzz-commentText').value;
-        const buzzID = "<%= buzz.id %>"; 
         const buzzer = "<%= user._id %>";
 
         fetch('/buzz/newcomment', {

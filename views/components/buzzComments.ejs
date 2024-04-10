@@ -18,13 +18,13 @@
         <li>
             <div class="buzz-comment">
                 <div class="votes-container">
-                    <span class="material-symbols-outlined add-vote-btn vote-btn" onclick="addVote(this)">
+                    <span class="material-symbols-outlined add-vote-btn vote-btn <%= comments[i].upvoted && 'plus' %> " onclick="upVote(this, '<%= comments[i].id %>', 'comment', '<%= user.id %>')">
                         expand_less
                     </span>
-                    <span class="votes-value">
+                    <span class="votes-value  <%= comments[i].downvoted && 'minus' %> <%= comments[i].upvoted && 'plus' %> ">
                         <%= comments[i].votes %>
                     </span>
-                    <span class="material-symbols-outlined remove-vote-btn vote-btn" onclick="removeVote(this)">
+                    <span class="material-symbols-outlined remove-vote-btn vote-btn <%= comments[i].downvoted && 'minus' %> " onclick="downVote(this, '<%= comments[i].id %>', 'comment', '<%= user.id %>')">
                         expand_more
                     </span>
                 </div>

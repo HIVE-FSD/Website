@@ -39,7 +39,7 @@ router.get('/:name', checkAuth, async (req, res) => {
         const buzzSpace = await BuzzSpace.findOne({ name: req.params.name });
         const buzzes = await Buzz.find({ buzzSpace: buzzSpace._id }, '_id');
         const buzzIds = buzzes.map(buzz => buzz._id);
-        const Formattedbuzzes = await getBuzzsWithComments(buzzIds);
+        const Formattedbuzzes = await getBuzzsWithComments(buzzIds, req.user._id);
 
         res.render('buzzSpace', { title: `Hive | ${buzzSpace.name}`, buzzes : Formattedbuzzes, buzzSpace, user: req.user, });
     } catch (err) {

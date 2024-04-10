@@ -19,10 +19,14 @@ const commentSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    votes: {
-        type: Number,
-        default: 0
-    },
+    upvotes: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }],
+    downvotes: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }],
     replies: [{ type: mongoose.Types.ObjectId, ref: 'Comment' }]
 });
 

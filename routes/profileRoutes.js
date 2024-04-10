@@ -10,9 +10,9 @@ const app = express.Router();
 const renderPage = async (route, file, props) => {
     app.get(route, checkAuth, async (req, res) => {
         try {
-            const { buzzSpace_ids, buzz_ids } = req.user;
+            const { _id, buzzSpace_ids, buzz_ids } = req.user;
 
-            const buzzes = await getBuzzsWithComments(buzz_ids);
+            const buzzes = await getBuzzsWithComments(buzz_ids, _id);
             const buzzSpaces = await fetchBuzzSpaces(buzzSpace_ids);
 
             res.render(file, { ...props, user: req.user, buzzes, buzzSpaces });

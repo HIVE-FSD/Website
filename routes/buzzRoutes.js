@@ -103,13 +103,56 @@ router.post('/newreply', async (req, res) => {
 });
 
 
-router.get('/comments/:id', async (req, res) => {
+router.post('/vote/:type/:action', async (req, res) => {
+    const { type, action } = req.params;
+    const { id, userId } = req.body;
+
     try {
-        const comment = await Comment.findById(req.params.id);
-        if (!comment) {
-            return res.status(404).json({ message: 'Comment not found' });
+        let targetModel;
+        let targetField;
+
+        // Determine whether it's a buzz or comment vote
+        if (type === 'buzz') {
+            targetModel = Buzz;
+            targetField = action === 'upvote' ? 'upvotes' : 'downvotes';
+        } else if (type === 'comment') {
+            targetModel = Comment;
+            targetField = action === 'upvote' ? 'upvotes' : 'downvotes';
+        } else {
+            return res.status(400).json({ message: 'Invalid vote type' });
         }
-        res.json(comment);
+
+        // Find the target document by ID
+        const target = await targetModel.findById(id);
+
+        // Handle upvote/downvote actions
+        if (action === 'upvote') {
+            // Remove user ID from opposite vote array if present
+            target.downvotes = target.downvotes.filter(uid => uid.toString() !== userId);
+
+            // Add user ID to the upvotes array if not already present
+            if (!target.upvotes.includes(userId)) {
+                target.upvotes.push(userId);
+            }
+        } else if (action === 'downvote') {
+            // Remove user ID from opposite vote array if present
+            target.upvotes = target.upvotes.filter(uid => uid.toString() !== userId);
+
+            // Add user ID to the downvotes array if not already present
+            if (!target.downvotes.includes(userId)) {
+                target.downvotes.push(userId);
+            }
+        } else if (action === 'removevote') {
+            // Remove user ID from both upvotes and downvotes arrays if present
+            target.upvotes = target.upvotes.filter(uid => uid.toString() !== userId);
+            target.downvotes = target.downvotes.filter(uid => uid.toString() !== userId);
+        } else {
+            return res.status(400).json({ message: 'Invalid action' });
+        }
+
+        // Save the updated document back to the database
+        await target.save();
+        res.json({ message: 'Vote updated successfully' });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

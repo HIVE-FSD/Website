@@ -24,11 +24,11 @@
     <div class="profile-count">
       <div class="buzz-count" onclick="toggleToBuzzes(this)" >
         Buzzes
-        <span><%= buzzes.length %></span>
+        <span><%= user.info.buzz_count %></span>
       </div>
       <div class="buzzSpace-count" onclick="toggleToBuzzSpaces(this)" >
         BuzzSpaces
-        <span><%= buzzSpaces.length %></span>
+        <span><%= user.info.buzzSpace_count %></span>
       </div>
     </div>
 
@@ -41,7 +41,6 @@
     </div>
     
     <div class="profile-buzzSpaces-container">
-    
       <% buzzSpaces.map((space, index)=> { %>
         <%- include('components/ProfilePage/profileBuzzSpace.ejs', { space }) %>
       <% }) %>

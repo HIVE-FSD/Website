@@ -1,5 +1,17 @@
 const mongoose = require('mongoose');
 
+const notificationSchema = new mongoose.Schema({
+    type: {
+        type: String,
+        enum: ['post', 'buzzspace', 'comment', 'reply'],
+        required: true
+    },
+    message: {
+        type: String,
+        required: true
+    }
+});
+
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -44,7 +56,8 @@ const userSchema = new mongoose.Schema({
     },
     buzz_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Buzz' }],
     buzzSpace_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'BuzzSpace' }],
-    joined_buzzSpace_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'BuzzSpace' }]
+    joined_buzzSpace_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'BuzzSpace' }],
+    notifications: [notificationSchema]
 });
 
 const User = mongoose.model('User', userSchema);

@@ -74,8 +74,8 @@
       throw new Error('Network response was not ok');
     }
     if (response.status === 201) {
+      window.location.href = '/profile';
         return response.json();
-        window.location.href = '/profile';
     }
     return response.text();
   })
