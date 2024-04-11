@@ -1,4 +1,5 @@
 const BuzzSpace = require('../models/BuzzSpace');
+const User = require('../models/User')
 
 const createBuzzSpace = async (buzzSpaceName, buzzSpaceTag, description, coverImage, logoImage, creator) => {
     try {
@@ -34,4 +35,39 @@ const editBuzzSpace = async (req, res) => {
     return res.status(200).json({ buzzSpace1 })
 }
 
-module.exports = { createBuzzSpace, editBuzzSpace };
+const joinBuzzSpace = async (req, res) => {
+    const { buzzSpaceId, userId } =  req.body;
+    let existingUser;
+    let existingBuzzSpace;
+    try{
+        existingUser = await User.findById(userId);
+        
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({ message: "Error finding user" });
+    }
+    try{
+        existingBuzzSpace = await BuzzSpace.findById(buzzSpaceId);
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({ message: "Error finding BuzzSpace" });
+    }
+    if(!existingUser) return res.status(404).json({message: "User doesn't exist"})
+    if(!existingBuzzSpace) return res.status(404).json({message: "BuzSpace doesn't exist"})
+    if(existingUser.joined_buzzSpace_ids.includes(buzzSpaceId))
+        return res.status(201).json({message: "You already joined the BuzzSpace!!"})
+
+    existingUser.joined_buzzSpace_ids.push(buzzSpaceId);
+    existingBuzzSpace.numberOfMembersJoined++;
+    try{
+        await existingUser.save();
+        await existingBuzzSpace.save();
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({ message: "Error saving user or buzz space" });
+    }
+
+    res.status(200).json({ message: "Successfully joined the BuzzSpace!" });
+}
+
+module.exports = { createBuzzSpace, editBuzzSpace, joinBuzzSpace };
