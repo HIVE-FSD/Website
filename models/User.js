@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const notificationSchema = new mongoose.Schema({
     type: {
-        type: String,
+        type: mongoose.Schema.Types.Mixed,
         enum: ['post', 'buzzspace', 'comment', 'reply'],
         required: true
     },

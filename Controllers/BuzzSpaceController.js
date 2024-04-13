@@ -59,6 +59,30 @@ const joinBuzzSpace = async (req, res) => {
 
     existingUser.joined_buzzSpace_ids.push(buzzSpaceId);
     existingBuzzSpace.numberOfMembersJoined++;
+    
+    let buzzSpaceCreator;
+try {
+    buzzSpaceCreator = await User.findById(existingBuzzSpace.creator);
+    if (buzzSpaceCreator) { // Check if buzzSpaceCreator exists
+        const notificationMessage = `${existingUser.username} joined your BuzzSpace "${existingBuzzSpace.name}"`;
+        const notification = {
+            type: 'buzzspace',
+            message: notificationMessage
+        };
+        if (buzzSpaceCreator.notifications) { // Ensure notifications array exists
+           console.log('hello');
+            buzzSpaceCreator.notifications.push(notification);
+            await buzzSpaceCreator.save(); // Save changes to buzzSpaceCreator
+        } else {
+            console.log("BuzzSpace creator's notifications array does not exist.");
+        }
+    } else {
+        console.log("BuzzSpace creator not found.");
+    }
+} catch (err) {
+    console.log(err);
+}
+
     try{
         await existingUser.save();
         await existingBuzzSpace.save();

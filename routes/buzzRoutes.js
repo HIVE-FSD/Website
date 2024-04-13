@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const Buzz = require("../models/Buzz");
+const User = require("../models/User");
 const { createBuzz, editBuzz } = require('../Controllers/buzzController.js');
 const { body, validationResult } = require('express-validator');
 const { fetchBuzzSpaces } = require('../Controllers/ProfileController.js');
@@ -59,7 +60,6 @@ router.post('/newcomment', async (req, res) => {
     try {
         const { buzzId, comment, buzzer } = req.body;
 
-        // Create a new comment object
         const newComment = new Comment({
             buzz: buzzId,
             comment,
@@ -68,6 +68,23 @@ router.post('/newcomment', async (req, res) => {
 
         const savedComment = await newComment.save();
         
+        const buzz = await Buzz.findById(buzzId).populate('buzzer');;
+        if (buzz && buzz.buzzer) {
+            const notificationMessage = `${buzzer} commented on your buzz: "${buzz.title}""`;
+            const notification = {
+                type: 'comment',
+                message: notificationMessage
+            };
+            if (buzz.buzzer && buzz.buzzer.notifications) { 
+                buzz.buzzer.notifications.push(notification);
+                await buzz.buzzer.save();
+            } else {
+                console.log(`Buzz creator's notifications array does not exist. "${buzzer.username}"`);
+            }
+        } else {
+            console.log("Buzz or buzz creator not found.");
+        }
+
         await Buzz.findByIdAndUpdate(buzzId, { $push: { comments: { $each: [savedComment._id], $position: 0 } } });
 
         res.status(201).json(savedComment);
@@ -81,26 +98,44 @@ router.post('/newreply', async (req, res) => {
     try {
         const { buzzId, parent, comment, buzzer } = req.body;
 
-        // Create a new comment object
-        const newComment = new Comment({
+        const newReply = new Comment({
             buzz: buzzId,
+            parent: parent,
             comment,
             buzzer
         });
 
-        const savedComment = await newComment.save();
-        const updatedParent = await Comment.findByIdAndUpdate(parent, { $push: { replies: { $each: [savedComment._id], $position: 0 } } });
+        const savedReply = await newReply.save();
 
-        if (!updatedParent) {
+        const parentComment = await Comment.findById(parent);
+
+        if (!parentComment) {
             return res.status(404).json({ message: 'Parent comment not found' });
         }
 
-        res.status(201).json(savedComment);
+        const notificationMessage = `${buzzer} replied to your comment: "${parentComment.comment}"`;
+        const notification = {
+            type: 'reply',
+            message: notificationMessage
+        };
+
+        const originalCommenter = await User.findById(parentComment.buzzer);
+        if (originalCommenter && originalCommenter.notifications) {
+            originalCommenter.notifications.push(notification);
+            await originalCommenter.save();
+        } else {
+            console.log("Original commenter or notifications array not found.");
+        }
+
+        await Comment.findByIdAndUpdate(parent, { $push: { replies: { $each: [savedReply._id], $position: 0 } } });
+
+        res.status(201).json(savedReply);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
+
 
 
 router.post('/vote/:type/:action', async (req, res) => {
@@ -124,7 +159,7 @@ router.post('/vote/:type/:action', async (req, res) => {
 
         // Find the target document by ID
         const target = await targetModel.findById(id);
-
+        const previousUpvotes = target.upvotes.length;
         // Handle upvote/downvote actions
         if (action === 'upvote') {
             // Remove user ID from opposite vote array if present
@@ -148,6 +183,25 @@ router.post('/vote/:type/:action', async (req, res) => {
             target.downvotes = target.downvotes.filter(uid => uid.toString() !== userId);
         } else {
             return res.status(400).json({ message: 'Invalid action' });
+        }
+
+        const currentUpvotes = target.upvotes.length;
+        const upvotesIncrement = currentUpvotes - previousUpvotes;
+        const totalUpvotes = currentUpvotes + upvotesIncrement;
+        if (upvotesIncrement > 0 && totalUpvotes % 100 === 0) {
+            const notificationMessage = `Congratulations! This ${type === 'buzz' ? 'Buzz' : 'Comment'} reached ${totalUpvotes} upvotes!`;
+            const notification = {
+                type: 'post', 
+                message: notificationMessage
+            };
+
+            const user = await User.findById(userId);
+            if (user) {
+                user.notifications.push(notification);
+                await user.save();
+            } else {
+                console.log("User not found.");
+            }
         }
 
         // Save the updated document back to the database
