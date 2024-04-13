@@ -4,7 +4,7 @@ const router = express.Router();
 const User = require("../models/User");
 const { upload } = require('../Middleware/mutler.js');
 const BuzzSpace = require('../models/BuzzSpace.js');
-const { createBuzzSpace } = require('../Controllers/BuzzSpaceController.js');
+const { createBuzzSpace, editBuzzSpace, joinBuzzSpace } = require('../Controllers/BuzzSpaceController.js');
 const { checkAuth } = require('../Middleware/mainware.js');
 const { getBuzzsWithComments } = require('../Controllers/buzzController.js');
 const Buzz = require('../models/Buzz.js');
@@ -55,5 +55,7 @@ router.get('/:name', checkAuth, async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
+
+router.post('/joinBuzzSpace', joinBuzzSpace);
 
 module.exports = router;

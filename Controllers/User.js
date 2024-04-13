@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const BuzzSpace = require('../models/BuzzSpace')
 
 class UserController {
     static async createUser(username, password, email) {
