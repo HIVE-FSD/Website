@@ -19,7 +19,7 @@ router.post('/createBuzzSpace', upload, async (req, res) => {
 
         // Create new buzzspace object
         const buzzSpace = await createBuzzSpace(buzzSpaceName, buzzSpaceTag, description, coverImage, logoImage, creator);
-        await User.findByIdAndUpdate(creator, { $push: { buzzSpace_ids: buzzSpace._id } , $inc: { 'info.buzzSpace_count': 1 }});
+        await User.findByIdAndUpdate(creator, { $push: { buzzSpace_ids: buzzSpace._id }, $inc: { 'info.buzzSpace_count': 1 } });
 
         const redirectRoute = `/buzzspace/${buzzSpace.name}`;
 
@@ -30,7 +30,15 @@ router.post('/createBuzzSpace', upload, async (req, res) => {
     }
 });
 
-
+router.get('/buzzspaces', async (req, res) => {
+    try {
+        const buzzspaces = await BuzzSpace.find({}, 'id name logo category numberOfMembersJoined');
+        res.json(buzzspaces);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
 
 
 router.get('/:name', checkAuth, async (req, res) => {
@@ -41,7 +49,7 @@ router.get('/:name', checkAuth, async (req, res) => {
         const buzzIds = buzzes.map(buzz => buzz._id);
         const Formattedbuzzes = await getBuzzsWithComments(buzzIds, req.user._id);
 
-        res.render('buzzSpace', { title: `Hive | ${buzzSpace.name}`, buzzes : Formattedbuzzes, buzzSpace, user: req.user, });
+        res.render('buzzSpace', { title: `Hive | ${buzzSpace.name}`, buzzes: Formattedbuzzes, buzzSpace, user: req.user, });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

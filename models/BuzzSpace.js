@@ -13,7 +13,7 @@ const buzzSpaceSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    tag: {
+    category: {
         type: String,
         required: true
     },
