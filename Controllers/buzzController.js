@@ -132,13 +132,16 @@ const filterBuzzPostsByDate = async (date) => {
 };
 
 // Get the current date and time
-const now = new Date();
 
-let recentPosts = [];
 
 // Function to fetch recent posts
 const fetchRecentPosts = async () => {
-    while (recentPosts.length < 10) {
+    const now = new Date();
+    let recentPosts = [];
+    const HalfaYear = new Date();
+    HalfaYear.setDate(HalfaYear.getDate() - 183);
+
+    while (recentPosts.length < 10 && now > HalfaYear) {
         const filteredPosts = await filterBuzzPostsByDate(now);
 
         if (filteredPosts.length > 0) {

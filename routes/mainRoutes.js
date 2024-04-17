@@ -12,9 +12,10 @@ const renderPage = (route, file, props) => {
 };
 
 app.get('/', checkAuth, async (req, res) => {
-    const buzzes = await getBuzzsWithComments( await fetchRecentPosts())
+    const user = req.user
+    const buzzes = await getBuzzsWithComments( await fetchRecentPosts(), user._id)
 
-    res.render('index', { title: 'HIVE | Home', user: req.user, buzzes });
+    res.render('index', { title: 'HIVE | Home', user, buzzes });
 })
 
 renderPage('/newbuzzspace', 'newbuzzSpace', {
