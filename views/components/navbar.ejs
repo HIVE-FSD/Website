@@ -17,7 +17,7 @@
 
             <ul class="nav-list">
                 <li>
-                    <a href="/newbuzz">
+                    <a href="/buzz/newbuzz">
                         <span class="material-symbols-outlined">
                             add
                         </span>
@@ -73,7 +73,6 @@
             matchArr.forEach(item => {
                 const listItem = document.createElement('div');
                 listItem.className = 'autocomplete-item';
-                console.log(item);
                 listItem.innerHTML = `
                 <a class="a" href="/buzzspace/${item.name}">
                     <div class="search-logo">

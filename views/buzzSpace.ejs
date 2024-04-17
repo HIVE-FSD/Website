@@ -38,10 +38,16 @@ function getDaySuffix(day) {
         </h1>
       </div>
       <div class="buzzSpace-header-inner-right">
-        <button>
+        <% if (!joined) {%>
+        <button onclick="joinBuzzSpace('<%= buzzSpace._id%>', '<%= user._id%>')">
           Join
         </button>
-        <a href="<%= `/newbuzz?buzzSpace=${buzzSpace.name}` %>">
+        <% }else{%>
+          <button onclick="">
+            Leave
+          </button>
+       <% } %>
+        <a href="<%= `/buzz/newbuzz?buzzSpace=${buzzSpace.name}` %>">
           <button>New Buzz</button>
         </a>                              
       </div>
@@ -76,3 +82,33 @@ function getDaySuffix(day) {
     </div>
 
 </div>
+
+<script>
+  async function joinBuzzSpace(buzzSpaceId, userId) {
+    const url = '/buzzspace/joinBuzzSpace';
+    const data = { buzzSpaceId, userId };
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            throw new Error(errorMessage.message || 'Failed to join BuzzSpace');
+        }
+
+        const responseData = await response.json();
+        console.log(responseData.message); // Output success message
+        // You can perform any additional actions here after successfully joining the BuzzSpace
+
+    } catch (error) {
+        console.error('Error joining BuzzSpace:', error.message);
+        // Handle the error appropriately, such as displaying an error message to the user
+    }
+}
+</script>

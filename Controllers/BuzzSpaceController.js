@@ -63,7 +63,6 @@ const joinBuzzSpace = async (req, res) => {
     let buzzSpaceCreator;
 try {
     buzzSpaceCreator = await User.findById(existingBuzzSpace.creator);
-    if (buzzSpaceCreator) { // Check if buzzSpaceCreator exists
         const notificationMessage = `${existingUser.username} joined your BuzzSpace "${existingBuzzSpace.name}"`;
         const notification = {
             type: 'buzzspace',
@@ -76,9 +75,7 @@ try {
         } else {
             console.log("BuzzSpace creator's notifications array does not exist.");
         }
-    } else {
-        console.log("BuzzSpace creator not found.");
-    }
+    
 } catch (err) {
     console.log(err);
 }
