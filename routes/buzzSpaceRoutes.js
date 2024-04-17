@@ -45,12 +45,14 @@ router.get('/:name', checkAuth, async (req, res) => {
 
     try {
         const buzzSpace = await BuzzSpace.findOne({ name: req.params.name });
+        const user = req.user;
+        const joined = user.joined_buzzSpace_ids.includes(buzzSpace._id);
         const buzzes = await Buzz.find({ buzzSpace: buzzSpace._id }, '_id');
         const buzzIds = buzzes.map(buzz => buzz._id);
         const Formattedbuzzes = await getBuzzsWithComments(buzzIds, req.user._id);
 
-        res.render('buzzSpace', { title: `Hive | ${buzzSpace.name}`, buzzes: Formattedbuzzes, buzzSpace, user: req.user, });
-    } catch (err) {
+        res.render('buzzSpace', { title: `Hive | ${buzzSpace.name}`, buzzes: Formattedbuzzes, buzzSpace, user: req.user, joined});
+    }   catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
     }

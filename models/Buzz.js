@@ -37,6 +37,8 @@ const buzzSchema = new mongoose.Schema({
     }]
 });
 
+
+
 const Buzz = mongoose.model('Buzz', buzzSchema);
 
 module.exports = Buzz;

@@ -38,9 +38,15 @@ function getDaySuffix(day) {
         </h1>
       </div>
       <div class="buzzSpace-header-inner-right">
+        <% if (!joined) {%>
         <button onclick="joinBuzzSpace('<%= buzzSpace._id%>', '<%= user._id%>')">
           Join
         </button>
+        <% }else{%>
+          <button onclick="">
+            Leave
+          </button>
+       <% } %>
         <a href="<%= `/buzz/newbuzz?buzzSpace=${buzzSpace.name}` %>">
           <button>New Buzz</button>
         </a>                              
