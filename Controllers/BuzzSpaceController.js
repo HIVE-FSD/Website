@@ -94,4 +94,5 @@ try {
     res.status(200).json({ message: "Successfully joined the BuzzSpace!" });
 }
 
+
 module.exports = { createBuzzSpace, editBuzzSpace, joinBuzzSpace };

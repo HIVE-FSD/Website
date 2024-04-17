@@ -1,128 +1,4 @@
-<% const buzzs = [ 
-  { 
-    buzzSpace : "testSpace",
-    buzzedon: "2024-02-20 12:10:00",
-    title: "A long Title",
-    user: "KingKhan",
-    votes: 15,
-    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
-    comments: [
-      {
-        user: "Alice",
-        comment: "This is the first comment.",
-        votes: 100,
-        commentedon: "2024-02-22 9:00:00",
-        replies: [
-          {
-            user: "Bob",
-            comment: "Reply to the first comment.",
-            votes: 10,
-            commentedon: "2024-02-22 10:05:00",
-            replies: [
-              {
-                user: "Alice",
-                comment: "Reply to Bob's reply.",
-                votes: 10,
-                commentedon: "2024-02-22 12:10:00",
-                replies: [] // No further replies
-              }
-            ]
-          },
-          {
-            user: "Charlie",
-            comment: "Another reply to the first comment.",
-            votes: 10,
-            commentedon: "2024-02-22 11:07:00",
-            replies: []
-          }
-        ]
-      },
-      {
-        user: "David",
-        comment: "Second comment without replies.",
-        votes: 10,
-        commentedon: "2024-02-22 10:15:00",
-        replies: [] // No replies for this comment
-      }
-    ]
-  },
-  { 
-    buzzSpace : "testSpace2",
-    buzzedon: "2024-02-21 14:20:00",
-    title: "Another Long Title",
-    user: "KingKhan",
-    votes: 20,
-    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
-    comments: [
-      {
-        user: "Eve",
-        comment: "This is the first comment on the second buzz.",
-        votes: 50,
-        commentedon: "2024-02-21 15:30:00",
-        replies: [
-          {
-            user: "Frank",
-            comment: "Reply to the first comment on the second buzz.",
-            votes: 15,
-            commentedon: "2024-02-21 16:45:00",
-            replies: [
-              {
-                user: "Eve",
-                comment: "Reply to Frank's reply.",
-                votes: 5,
-                commentedon: "2024-02-21 18:20:00",
-                replies: [] // No further replies
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  { 
-    buzzSpace : "testSpace3",
-    buzzedon: "2024-02-22 08:45:00",
-    title: "Short Title",
-    user: "KingKhan",
-    votes: 10,
-    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
-    comments: []
-  },
-  { 
-    buzzSpace : "testSpace4",
-    buzzedon: "2024-02-23 10:30:00",
-    title: "Title with No Comments",
-    user: "KingKhan",
-    votes: 5,
-    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
-    comments: []
-  },
-  { 
-    buzzSpace : "testSpace5",
-    buzzedon: "2024-02-23 13:15:00",
-    title: "Title with Multiple Comments",
-    user: "KingKhan",
-    votes: 30,
-    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla in illum quis laudantium magnam, facere rem optio sed magni.",
-    comments: [
-      {
-        user: "Grace",
-        comment: "First comment on the fifth buzz.",
-        votes: 25,
-        commentedon: "2024-02-23 14:00:00",
-        replies: []
-      },
-      {
-        user: "Henry",
-        comment: "Second comment on the fifth buzz.",
-        votes: 20,
-        commentedon: "2024-02-23 15:30:00",
-        replies: []
-      }
-    ]
-  }
-];
-
+<% 
 const buzzSpaces = [
   {
     name: 'testSpace',
@@ -228,8 +104,9 @@ const buzzSpaces = [
   
 
   <div class="home-buzzs-container">
-    <% buzzs.map((buzz, index)=> { %>
-        <% }); %>
+    <% buzzes.map((buzz, index)=> { %>
+      <%-  include('components/buzz', { buzz: buzz, index: index })  %>
+      <% }); %>
   </div>
   <div class="home-right-cover">
 

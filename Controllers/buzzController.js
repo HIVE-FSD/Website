@@ -106,4 +106,55 @@ async function formatComment(comment, _id) {
     };
 }
 
-module.exports = { createBuzz, editBuzz, getBuzzsWithComments };
+
+// Function to filter buzz posts based on date
+const filterBuzzPostsByDate = async (date) => {
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date(date);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    try {
+        const posts = await Buzz.find({
+            buzzedon: {
+                $gte: startOfDay,
+                $lte: endOfDay
+            }
+        }).limit(10);
+
+        return posts;
+    } catch (error) {
+        console.error('Error filtering posts:', error);
+        throw error; // Propagate the error to handle it where the function is called
+    }
+};
+
+// Get the current date and time
+const now = new Date();
+
+let recentPosts = [];
+
+// Function to fetch recent posts
+const fetchRecentPosts = async () => {
+    while (recentPosts.length < 10) {
+        const filteredPosts = await filterBuzzPostsByDate(now);
+
+        if (filteredPosts.length > 0) {
+            // Extract only the 'id' field from each post
+            const postIds = filteredPosts.map(post => post.id);
+            recentPosts.push(...postIds);
+           
+        }
+         
+        now.setDate(now.getDate() - 1); // Move to the previous day
+    }
+
+    // Slice the array to get only the first 10 post IDs
+    recentPosts = recentPosts.slice(0, 10);
+
+    return recentPosts;
+};
+
+
+module.exports = { createBuzz, editBuzz, getBuzzsWithComments, fetchRecentPosts };
