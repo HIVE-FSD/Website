@@ -5,8 +5,9 @@ const User = require('../models/User');
 const createBuzz = async (req, res) => {
     try {
         const { buzzSpace, buzz, title, buzzer } = req.body;
+        const buzzSpaceInfo = await BuzzSpace.findOne({ name: buzzSpace });
         const newBuzz = new Buzz({
-            buzzSpace: buzzSpace,
+            buzzSpace: buzzSpaceInfo._id,
             buzz: buzz,
             title: title,
             buzzer: buzzer

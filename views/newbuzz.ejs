@@ -8,8 +8,8 @@
       </div>
       <div class="select-items">
         <% buzzSpaces.forEach((space)=> { %>
-          <div class="select-item" data-value="<%= space._id %>" onclick="selectBuzzSpace(this)">
-            <img src=<%=space.image %> alt="">
+          <div class="select-item" data-value="<%= space.name %>" onclick="selectBuzzSpace(this)">
+            <img src="<%= `uploads/${space.logo}` %>" alt="">
             <%= space.name %>
           </div>
           <% }); %>
@@ -50,7 +50,7 @@
   });
 
   document.querySelector('.newbuzz-container').addEventListener('submit', function(event) {
-  event.preventDefault(); // Prevent the default form submission behavior
+  event.preventDefault(); 
 
   const formData = new FormData(this); // Get the form data
   
