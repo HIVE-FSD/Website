@@ -2,7 +2,6 @@
     <nav id="my-nav">
         <div class="nav-left">
             <a href="/">
-
                 <img class="nav-logo" src="assets/hive-right.png" alt="logo">
             </a>
             <span id="hamburger-icon" class="material-symbols-outlined">
@@ -11,8 +10,10 @@
         </div>
 
         <div class="nav-menu">
-
-            <input type="text" name="navSearch" id="navSearch" placeholder="Search BuzzSpaces">
+            <div class="autocomplete">
+                <input type="text" name="navSearch" id="navSearch" class="nav-search-input" placeholder="Search BuzzSpaces">
+                <div class="autocomplete-dropdown" id="autocomplete-list"></div>
+            </div>
 
             <ul class="nav-list">
                 <li>
@@ -23,7 +24,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/notifications" class="unread" >
+                    <a href="/notifications" class="unread">
                         <span class="material-symbols-outlined">
                             notifications
                         </span>
@@ -44,3 +45,59 @@
 </header>
 
 <script src="js/navbar.js"></script>
+
+<script>
+    const fetchData = async () => {
+        try {
+            const response = await fetch('/buzzspace/all');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error.message);
+            return [];
+        }
+    };
+
+    const autocomplete = async (inp) => {
+        inp.addEventListener('input', async function(e) {
+            let val = this.value;
+            const data = await fetchData();
+            let matchArr = data.filter(item => item.name.toLowerCase().startsWith(val.toLowerCase()));
+            const autocompleteList = document.getElementById('autocomplete-list');
+            
+            autocompleteList.innerHTML = '';
+            
+            matchArr.forEach(item => {
+                const listItem = document.createElement('div');
+                listItem.className = 'autocomplete-item';
+                console.log(item);
+                listItem.innerHTML = `
+                <a class="a" href="/buzzspace/${item.name}">
+                    <div class="search-logo">
+                    <img class="logo" src="/uploads/${item.logo}" alt="${item.name}">
+                    ${item.name}
+                </div>
+                    <span class="category">${item.category}</span>
+                </a>
+                `;
+                listItem.addEventListener('click', function() {
+                    inp.value = item.name;
+                    autocompleteList.innerHTML = '';
+                });
+                autocompleteList.appendChild(listItem);
+            });
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('nav-search-input')) {
+                document.getElementById('autocomplete-list').innerHTML = '';
+            }
+        });
+    };
+
+    // Initialize autofill component
+    autocomplete(document.getElementById('navSearch'));
+</script>

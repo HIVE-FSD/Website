@@ -30,7 +30,7 @@ router.post('/createBuzzSpace', upload, async (req, res) => {
     }
 });
 
-router.get('/buzzspaces', async (req, res) => {
+router.get('/all', async (req, res) => {
     try {
         const buzzspaces = await BuzzSpace.find({}, 'id name logo category numberOfMembersJoined');
         res.json(buzzspaces);

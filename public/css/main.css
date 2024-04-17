@@ -162,6 +162,124 @@ nav a {
     }
 }
 
+
+
+/* styles.css */
+
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Navigation styles */
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+}
+
+.nav-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.nav-list li {
+    margin-left: 15px;
+}
+
+/* Styles for the autocomplete container */
+.autocomplete {
+    position: relative;
+    display: inline-block;
+}
+
+/* Styles for the input field */
+.nav-search-input {
+    width: 200px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid var(--grey);
+    border-radius: 4px;
+}
+
+/* Styles for the autocomplete dropdown */
+.autocomplete-dropdown {
+    position: absolute;
+    border: 1px solid var(--orange);
+    border-top: none;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color:rgb(25, 23, 25);
+    color: white;
+    overflow-y: auto;
+    max-height: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+/* Style the items in the dropdown */
+.autocomplete-item {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+.autocomplete-item:hover {
+    background-color: rgb(25, 23, 25);
+}
+
+/* Style the logo */
+.logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 50%; /* Make the logo circular */
+}
+
+/* Style the category */
+.category {
+    font-size: small;
+    color: rgba(240, 255, 255, 0.5);
+    padding: 3px 5px;
+    border: 1px solid var(--grey);
+    border-radius: 5px;
+    width: fit-content;
+    margin-left: auto;
+    margin-left: 260px;
+}
+.search-logo{
+    display: flex;
+    align-items: center;
+}
+.a{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+/* Style the scrollbar */
+.autocomplete-dropdown::-webkit-scrollbar {
+    width: 8px;
+}
+
+.autocomplete-dropdown::-webkit-scrollbar-thumb {
+    background-color: #888;
+}
+
+.autocomplete-dropdown::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+
 /* Navbar styles */
 
 /* Footer styles */

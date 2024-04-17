@@ -5,7 +5,7 @@ const createBuzzSpace = async (buzzSpaceName, buzzSpaceTag, description, coverIm
     try {
         const newBuzzSpace = new BuzzSpace({
             name: buzzSpaceName,
-            tag: buzzSpaceTag,
+            category: buzzSpaceTag,
             description: description,
             cover: coverImage,
             logo: logoImage,
