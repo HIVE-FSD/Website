@@ -626,6 +626,32 @@ footer img {
     }
 }
 
+.buzz-actions-container{
+    position: relative;
+}
+.buzz-actions {
+    position: absolute;
+    display: none !important;
+    left: 0;
+    top: 25px;
+}
+.buzz-actions div{
+    display: flex;
+    gap: .5rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.buzz-actions-container:hover .buzz-actions{
+    display: flex !important;
+    flex-direction: column;
+    border: 1px solid var(--grey);
+    padding: .7rem;
+    gap: .7rem;
+    background-color: var(--buzz-black);
+    border-radius: 5px;
+}
+
 /* Buzz styles */
 
 /* Comment styles */

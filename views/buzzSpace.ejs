@@ -103,8 +103,7 @@ function getDaySuffix(day) {
         }
 
         const responseData = await response.json();
-        console.log(responseData.message); // Output success message
-        // You can perform any additional actions here after successfully joining the BuzzSpace
+        window.location.reload();
 
     } catch (error) {
         console.error('Error joining BuzzSpace:', error.message);

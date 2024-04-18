@@ -57,12 +57,21 @@ async function getBuzzsWithComments(buzzIds, _id) {
             let votes = buzz.upvotes.length - buzz.downvotes.length
             let upvoted = false
             let downvoted = false
+            let canDelete = false
+            let canEdit = false
             if (buzz.upvotes.includes(_id)) {
                 upvoted = true
             }
             if (buzz.downvotes.includes(_id)) {
                 downvoted = true
             }
+            if (buzz.buzzer.toString() === _id.toString()) {
+                canDelete = true
+                canEdit = true
+            } else if (buzzSpace.creator.toString() === _id.toString()) {
+                canDelete = true                
+            }
+            
             buzzes.push({
                 id: buzz._id,
                 buzzSpace: buzzSpace.name,
@@ -73,7 +82,9 @@ async function getBuzzsWithComments(buzzIds, _id) {
                 downvoted,
                 buzz: buzz.buzz,
                 buzzer: buzzer.info,
-                comments: formattedComments
+                comments: formattedComments,
+                canDelete,
+                canEdit
             });
         }
         return buzzes;

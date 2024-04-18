@@ -40,7 +40,7 @@
         </div>
         <span class="material-symbols-outlined buzz-close" onclick="closeContent(this)">close</span>
         <div class="buzz-main">
-            <div class="buzz-top">
+            <div class="buzz-top" onclick="expandContent(this)">
                 <h1>
                     <%= buzz.title %>
                 </h1>
@@ -58,6 +58,32 @@
                 <div class="buzz-inner-functions">
                     <div onclick="toggleCommentArea(this)"><span class="material-symbols-outlined">comment</span> Comment</div>
                     <div><span class="material-symbols-outlined">flag</span> Report</div>
+                    <% if (buzz.canEdit || buzz.canDelete) { %>
+                    <div class="buzz-actions-container">
+                        <span class="material-symbols-outlined buzz-actions-toggle">
+                            more_vert
+                        </span>
+                        <div class="buzz-actions">
+                            <% if (buzz.canDelete) { %>
+                            <div>
+                                <span class="material-symbols-outlined">
+                                    delete
+                                </span>
+                                Delete
+                            </div>
+                            <% } %>
+
+                            <% if (buzz.canEdit) { %>
+                            <div>
+                                <span class="material-symbols-outlined">
+                                    edit
+                                </span>
+                                Edit
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                    <% } %>
                 </div>
             </div>
             <div class="buzz-comment-section">
@@ -113,9 +139,10 @@
     }
 
 
-    function expandContent(paragraph) {
-        const buzzSuper = paragraph.closest('.buzz-super');
+    function expandContent(buzz) {
+        const buzzSuper = buzz.closest('.buzz-super');
         buzzSuper.classList.add('modal');
+        const paragraph = buzzSuper.querySelector('.buzz-description')
         paragraph.innerHTML = '<%= buzz.buzz %>';
     }
 

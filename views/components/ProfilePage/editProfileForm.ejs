@@ -1,7 +1,7 @@
 <div class="edit-profile">
     <button onclick="openForm(this)">Edit Profile</button>
     <div class="edit-profile-form-cover">
-        <form class="edit-profile-form" onsubmit="submitForm(event)">
+        <form class="edit-profile-form" onsubmit="submitForm(event)" autocomplete="off">
             <span class="material-symbols-outlined close" onclick="closeForm(this)">close</span>
             <input type="text" name="displayName" placeholder="Display Name">
             <textarea name="bio" cols="30" rows="5" placeholder="Your Bio here..."></textarea>
@@ -39,7 +39,7 @@
             });
 
             if (response.ok) {
-                console.log('Profile updated successfully');
+                window.location.reload();
                 closeForm(form.querySelector('.close'));
             } else {
                 throw new Error('Failed to update profile');

@@ -37,8 +37,6 @@
     }
 
     function updateAvatarIndex(btn) {
-        console.log("Avatar index updated to: " + selectedAvatarIndex);
-        // Send an HTTP request to update avatar_index
         const userId = '<%= user._id %>'; // Assuming you have the user's ID available
         fetch(`/users/${userId}/update-avatar`, {
             method: 'PUT',
@@ -49,7 +47,7 @@
         })
         .then(response => {
             if (response.ok) {
-                console.log('Avatar index updated successfully');
+                window.location.reload();
                 closeCA(btn);
             } else {
                 throw new Error('Failed to update avatar index');

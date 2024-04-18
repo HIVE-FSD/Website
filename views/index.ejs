@@ -1,105 +1,3 @@
-<% 
-const buzzSpaces = [
-  {
-    name: 'testSpace',
-    image : "https://picsum.photos/100/100",
-    id: 1,
-    joined: 22000
-  },
-  {
-    name: 'testSpace1',
-    image : "https://picsum.photos/100/100",
-    id: 2,
-    joined: 25000
-  },
-  {
-    name: 'testSpace2',
-    image : "https://picsum.photos/100/100",
-    id: 3,
-    joined: 220
-  },
-  {
-    name: 'testSpace3',
-    image : "https://picsum.photos/100/100",
-    id: 3,
-    joined: 100
-  },
-  {
-    name: 'testSpace4',
-    image : "https://picsum.photos/100/100",
-    id: 4,
-    joined: 550000
-  },
-  {
-    name: 'testSpace5',
-    image : "https://picsum.photos/100/100",
-    id: 5,
-    joined: 2200
-  },
-  {
-    name: 'testSpace6',
-    image : "https://picsum.photos/100/100",
-    id: 6,
-    joined: 500
-  },
-  {
-    name: 'testSpace7',
-    image : "https://picsum.photos/100/100",
-    id: 7,
-    joined: 75000
-  },
-  {
-    name: 'testSpace8',
-    image : "https://picsum.photos/100/100",
-    id: 8,
-    joined: 1234567
-  },
-  {
-    name: 'testSpace9',
-    image : "https://picsum.photos/100/100",
-    id: 9,
-    joined: 9999
-  },
-  {
-    name: 'testSpace10',
-    image : "https://picsum.photos/100/100",
-    id: 10,
-    joined: 123
-  },
-  {
-    name: 'testSpace11',
-    image : "https://picsum.photos/100/100",
-    id: 11,
-    joined: 987654321
-  },
-  {
-    name: 'testSpace12',
-    image : "https://picsum.photos/100/100",
-    id: 12,
-    joined: 777777
-  },
-  {
-    name: 'testSpace13',
-    image : "https://picsum.photos/100/100",
-    id: 13,
-    joined: 8888888
-  },
-  {
-    name: 'testSpace14',
-    image : "https://picsum.photos/100/100",
-    id: 14,
-    joined: 111111
-  },
-  {
-    name: 'testSpace15',
-    image : "https://picsum.photos/100/100",
-    id: 15,
-    joined: 999
-  }
-]
-
-%>
-
 <div class="home">
   
 
@@ -132,21 +30,21 @@ const buzzSpaces = [
       </div>
     </div>
 
-
+ 
       <div class="home-communities-container">
         <h2>
           Joined BuzzSpaces
         </h2>
         <ul>
-          <% buzzSpaces.map((space)=> { %>
+          <% joinedSpaces.map((space)=> { %>
             <li>
               <a class="homeSpaces-item" href="<%= `/buzzSpace/${space.name}` %>">
-                <img src="<%= space.image %>" alt="<%= space.name %>">
+                <img src="<%= `uploads/${space.logo}` %>" alt="<%= space.name %>">
                 <div class="homeSpaces-item-inner">
                   <h4>
                     <%= space.name %>
                   </h4>
-                  <p>Sports</p>
+                  <p><%= space.category %></p>
                 </div>
               </a>
             </li>
