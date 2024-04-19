@@ -1,15 +1,39 @@
-<% const notifications = [
-    { type: 'post', postTitle: "Why did Batman...", votes: 100 },
-    { type: 'buzzspace', buzzspace: "Batman", members: 1000 },
-    { type: 'comment', author: "Robin", postTitle: "Batman is the best!" },
-    { type: 'reply', author: "Joker", postTitle: "Why so serious, Batman?" },
-    { type: 'comment', author: "Harley Quinn", postTitle: "I love puddin'!" },
-    { type: 'reply', author: "Two-Face", postTitle: "Flip a coin, Batman!" },
-    { type: 'post', postTitle: "The Dark Knight Rises", votes: 500 },
-    { type: 'comment', author: "Catwoman", postTitle: "Meow, Batman." },
-    { type: 'buzzspace', buzzspace: "Gotham", members: 5000 },
-    { type: 'reply', author: "Riddler", postTitle: "Riddle me this, Batman!" }
-]; %>
+<% 
+    const notifications = [
+        {
+          type: 'post',
+          message: 'New post added to the community!',
+          request: null
+        },
+        {
+          type: 'buzzspace',
+          message: 'New buzzspace created!',
+          request: null
+        },
+        {
+          type: 'comment',
+          message: 'Someone commented on your post!',
+          request: null
+        },
+        {
+          type: 'reply',
+          message: 'Someone replied to your comment!',
+          request: null
+        },
+        {
+          type: 'request',
+          message: 'You have a new friend request!',
+          request: {
+            user: {
+              _id: 'user123',
+              username: 'friend_requester'
+            },
+            buzzspace: null
+          }
+        }
+    ]; 
+
+%>
 
 
 <div class="notifications-supreme">
@@ -18,14 +42,8 @@
     <div class="notifications-container">
 
         <% notifications.map(notification=> { %>
-            <% if (notification.type==='post' ) { %>
-                <%- include('components/notification', { type: notification.type, postTitle: notification.postTitle,
-                    votes: notification.votes }) %>
-            <% } else if (notification.type==='buzzspace' ) { %>
-                <%- include('components/notification', { type: notification.type, buzzspace:notification.buzzspace, members: notification.members }) %>
-            <% } else { %>
-                <%- include('components/notification', { type: notification.type, author:notification.author, postTitle: notification.postTitle }) %>
-                <% } %>
+                <%- include('components/notification', { notification }) %>
+            
             <% }); %>
     </div>
 </div>

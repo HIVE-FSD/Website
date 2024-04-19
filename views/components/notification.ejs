@@ -1,30 +1,30 @@
-<% if (type === 'post') { %>
+<% if (notification.type === 'post') { %>
 <div class="notification" >
     <span class="material-symbols-outlined notification-symbol">
         arrow_circle_up
     </span>
-    <p>Your Post "<%= postTitle %>" got <%= votes %> Votes!!</p>
+    <p><%= notification.message %></p>
 </div>
-<% } else if (type === 'buzzspace') { %>
+<% } else if (notification.type === 'buzzspace') { %>
 <div class="notification" >
     <span class="material-symbols-outlined notification-symbol">
         groups_2
     </span>
-    <p>More than <%= members %> Members have joined your BuzzSpace <a href="/buzzspace/<%= buzzspace %>"><%= buzzspace %></a> !!</p>
+    <p><%= notification.message %></p>
 </div>
-<% } else if (type === 'comment') { %>
+<% } else if (notification.type === 'comment') { %>
 <div class="notification" >
     <span class="material-symbols-outlined notification-symbol" style="font-size: 2.5rem;" >
         comment
     </span>
-    <p><%= author %> commented on your post "<%= postTitle %>"</p>
+    <p><%= notification.message %></p>
 </div>
-<% } else if (type === 'reply') { %>
+<% } else if (notification.type === 'reply') { %>
 <div class="notification" >
     <span class="material-symbols-outlined notification-symbol" style="font-size: 2.5rem;" >
         reply
     </span>
-    <p><%= author %> replied on your comment on "<%= postTitle %>"</p>
+    <p><%= notification.message %></p>
 </div>
 <% } %>
     
