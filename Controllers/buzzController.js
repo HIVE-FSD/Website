@@ -22,19 +22,32 @@ const createBuzz = async (req, res) => {
 };
 
 const editBuzz = async (req, res) => {
-    const { title, buzz } = req.body;
+    const { buzz, userId } = req.body;
     const buzzId = req.params.id;
     let buzz1;
     try {
-        buzz1 = await Buzz.findByIdAndUpdate(buzzId, {
-            title,
-            buzz
-        })
+        if(userId == buzz.buzzer) buzz1 = await Buzz.findByIdAndUpdate(buzzId, buzz)
     } catch (err) {
         return console.log(err);
     }
     if (!buzz1) return res.status(500).json({ message: "Error updating Buzz" })
 
+    return res.status(200).json({ buzz1 })
+}
+
+const deleteBuzz = async(req, res) => {
+    const {userId, buzzId} = req.body;
+    let buzz1;
+    try{
+        buzz1 = await Buzz.findById(buzzId);
+        if(buzz1.buzzer == buzz1.buzzSpace.creator || buzz1.buzzer == userId){
+            await Buzz.findByIdAndDelete(buzzId)
+        }else{
+            return res.status(500).json({ message: "You cannot delete the Buzz" })
+        }
+    }catch(err){
+        console.log(err);
+    }
     return res.status(200).json({ buzz1 })
 }
 
@@ -171,4 +184,4 @@ const fetchRecentPosts = async (buzzSpaceIds) => {
 
 
 
-module.exports = { createBuzz, editBuzz, getBuzzsWithComments, fetchRecentPosts };
+module.exports = { createBuzz, editBuzz, getBuzzsWithComments, fetchRecentPosts, deleteBuzz};

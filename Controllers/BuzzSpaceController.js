@@ -20,15 +20,16 @@ const createBuzzSpace = async (buzzSpaceName, buzzSpaceTag, description, coverIm
 }
 
 const editBuzzSpace = async (req, res) => {
-    const { cover, logo, description } = req.body;
+    const { userId, rules,  description } = req.body;
     const buzzSpaceId = req.params.buzzSpaceId;
 
     try {
-        BuzzSpace1 = await BuzzSpace.findByIdAndUpdate(buzzSpaceId, {
-            cover,
-            logo,
+        BuzzSpace1 = await BuzzSpace.findById(buzzSpaceId)
+        if(userId == BuzzSpace1.creator) await BuzzSpace.findByIdAndUpdate(buzzSpaceId, {
+            rules,
             description
         })
+        else return res.status(500).json({ message: "You cannot update the BuzzSpace" })
     } catch (err) {
         return console.log(err);
     }
@@ -71,7 +72,8 @@ try {
         };
         if (buzzSpaceCreator.notifications) { 
             buzzSpaceCreator.notifications.push(notification);
-            await buzzSpaceCreator.save();
+
+            await buzzSpaceCreator.save(); 
         } else {
             console.log("BuzzSpace creator's notifications array does not exist.");
         }
@@ -91,5 +93,73 @@ try {
     res.status(200).json({ message: "Successfully joined the BuzzSpace!" });
 }
 
+const leaveBuzzSpace = async(req, res) => {
+    const {buzzSpaceId, userId} = req.body;
 
-module.exports = { createBuzzSpace, editBuzzSpace, joinBuzzSpace };
+    let existingUser;
+    let existingBuzzSpace;
+
+    try{
+        try{
+            existingUser = await User.findById(userId);
+            
+        }catch(err){
+            console.log(err);
+            return res.status(500).json({ message: "Error finding user" });
+        }
+        try{
+            existingBuzzSpace = await BuzzSpace.findById(buzzSpaceId);
+        }catch(err){
+            console.log(err);
+            return res.status(500).json({ message: "Error finding BuzzSpace" });
+        }
+        if(!existingUser) return res.status(404).json({message: "User doesn't exist"})
+        if(!existingBuzzSpace) return res.status(404).json({message: "BuzSpace doesn't exist"})
+        if(!existingUser.joined_buzzSpace_ids.includes(buzzSpaceId)){
+             return res.status(404).json({message: "You did not join the Buzzspace"})
+        }
+        existingUser.joined_buzzSpace_ids = existingUser.joined_buzzSpace_ids.filter(id => id != buzzSpaceId);
+        
+        await existingUser.save();
+            
+        res.status(200).json({ message: "Successfully left the BuzzSpace!" });
+    
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({ message: "Error leaving BuzzSpace" });
+    }
+}
+
+const requestPromotion = async (req, res) => {
+    const { userId, buzzSpaceId } = req.body;
+
+    try {
+        let buzzSpace1 = await BuzzSpace.findById(buzzSpaceId);
+        if (!buzzSpace1) return res.status(500).json({ message: "Cannot find buzzSpace" });
+
+        let creator1 = buzzSpace1.creator;
+        let creator2 = await User.findById(creator1)
+        if (!creator1) return res.status(500).json({ message: "Cannot find creator" });
+
+        const notificationMessage = `${creator2.username} has requested promotion for BuzzSpace ${buzzSpace1.name}`;
+
+        const notification = {
+            type: 'buzzspace',
+            message: notificationMessage,
+            request: {
+                user: { userId },
+                buzzspace: { buzzSpaceId },
+            }
+        };
+        creator2.notifications.push(notification);
+
+        await creator2.save();
+        
+        return res.status(201).json({ message: "Request Sent!!" });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Error processing request" });
+    }
+}
+
+module.exports = { createBuzzSpace, editBuzzSpace, joinBuzzSpace, leaveBuzzSpace, requestPromotion};

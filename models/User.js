@@ -12,11 +12,11 @@ const notificationSchema = new mongoose.Schema({
     },
     request: { 
         user: {
-            type: String,
+            type: mongoose.Schema.Types.Mixed,
             required: false 
         },
         buzzspace: {
-            type: String,
+            type: mongoose.Schema.Types.Mixed,
             required: false 
         }
     }
