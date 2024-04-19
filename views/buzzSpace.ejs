@@ -39,7 +39,38 @@ function getDaySuffix(day) {
       </div>
       <div class="buzzSpace-header-inner-right">
         <%  if (user.username == creator.username) { %>
-          <button onclick="openEditModal(this)" >Edit</button>
+          
+        <% } else if (!joined) {%>
+        <button onclick="joinBuzzSpace('<%= buzzSpace._id%>', '<%= user._id%>')">
+          Join
+        </button>
+        <% }else{%>
+          <button onclick="">
+            Leave
+          </button>
+       <% } %>
+        <a href="<%= `/buzz/newbuzz?buzzSpace=${buzzSpace.name}` %>">
+          <button>New Buzz</button>
+        </a>                              
+      </div>
+    </div>
+  </div>
+  
+  <div class="buzzSpace-content">
+    
+    <div class="space-buzzs-container">
+      <% buzzes.map((buzz, index)=> { %>
+        <%-  include('components/buzz', { buzz: buzz, index: index })  %>
+        <% }); %>
+      </div>
+      <div class="buzzSpace-info">
+        <h2>
+          About 
+          <button class="edit-btn" onclick="openEditModal(this)" >
+            <span class="material-symbols-outlined">
+              edit
+            </span>
+          </button>
           <div class="editbuzzSapce-cover">
             <div class="editbuzzSapce">
               <h2>About</h2>
@@ -70,32 +101,8 @@ function getDaySuffix(day) {
                 <button onclick="closeEditModal(this)">Cancel</button>
               </div>
             </div>
-          </div>
-        <% } else if (!joined) {%>
-        <button onclick="joinBuzzSpace('<%= buzzSpace._id%>', '<%= user._id%>')">
-          Join
-        </button>
-        <% }else{%>
-          <button onclick="">
-            Leave
-          </button>
-       <% } %>
-        <a href="<%= `/buzz/newbuzz?buzzSpace=${buzzSpace.name}` %>">
-          <button>New Buzz</button>
-        </a>                              
-      </div>
-    </div>
-  </div>
-  
-  <div class="buzzSpace-content">
-    
-    <div class="space-buzzs-container">
-      <% buzzes.map((buzz, index)=> { %>
-        <%-  include('components/buzz', { buzz: buzz, index: index })  %>
-        <% }); %>
-      </div>
-      <div class="buzzSpace-info">
-        <h2>About</h2>
+          </div>  
+        </h2>
         <p>
           <%= buzzSpace.description %>
         </p>
@@ -134,7 +141,7 @@ function getDaySuffix(day) {
 <script>
 
   function openEditModal(element) {
-    const editCoverDiv = element.closest('.buzzSpace-header-inner-right').querySelector('.editbuzzSapce-cover');
+    const editCoverDiv = element.closest('.buzzSpace-info').querySelector('.editbuzzSapce-cover');
 
     editCoverDiv.classList.add('modal');
   }
