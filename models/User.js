@@ -3,12 +3,22 @@ const mongoose = require('mongoose');
 const notificationSchema = new mongoose.Schema({
     type: {
         type: mongoose.Schema.Types.Mixed,
-        enum: ['post', 'buzzspace', 'comment', 'reply'],
+        enum: ['post', 'buzzspace', 'comment', 'reply', 'request'], 
         required: true
     },
     message: {
         type: String,
         required: true
+    },
+    request: { 
+        user: {
+            type: String,
+            required: false 
+        },
+        buzzspace: {
+            type: String,
+            required: false 
+        }
     }
 });
 

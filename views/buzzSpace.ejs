@@ -38,7 +38,40 @@ function getDaySuffix(day) {
         </h1>
       </div>
       <div class="buzzSpace-header-inner-right">
-        <% if (!joined) {%>
+        <%  if (user.username == creator.username) { %>
+          <button onclick="openEditModal(this)" >Edit</button>
+          <div class="editbuzzSapce-cover">
+            <div class="editbuzzSapce">
+              <h2>About</h2>
+              <textarea name="" id="" cols="30" rows="5"><%= buzzSpace.description %></textarea>
+              <div class="rules-input-main">
+                <h1>Rules</h1>
+                <div class="rules-container">
+                    <div class="rule-input-group">
+                        <input type="text" name="rule" placeholder="Enter a rule" value="<%= buzzSpace.rules[0] %>" required >
+                    </div>
+                    <% buzzSpace.rules.slice(1).map((rule, index) => { %>
+                      <div class="rule-input-group">
+                          <input type="text" name="rule" placeholder="Enter a rule" value="<%= rule %>" >
+                          <button type="button" onclick="removeRuleInput(this)">
+                            <span class="material-symbols-outlined">
+                            remove
+                            </span>
+                        </button>
+                      </div>
+                  <% }); %>
+                  
+                </div>
+        
+                <button type="button" onclick="addRuleInput(this)">Add Rule</button>
+            </div>
+              <div class="btn-container">
+                <button>Done</button>
+                <button onclick="closeEditModal(this)">Cancel</button>
+              </div>
+            </div>
+          </div>
+        <% } else if (!joined) {%>
         <button onclick="joinBuzzSpace('<%= buzzSpace._id%>', '<%= user._id%>')">
           Join
         </button>
@@ -68,9 +101,10 @@ function getDaySuffix(day) {
         </p>
         <h5>created by</h5>
         <div class="space-info-creator">
-          <img src="https://picsum.photos/100/100" alt="">
-          <p>Talion</p>
-            </div>
+          
+        <%- include('components/profileCard', { buzzer: creator.info }) %>
+
+          </div>
             <h5>created on</h5>
             <div class="space-info-creator">
                 <span class="material-symbols-outlined">
@@ -78,36 +112,86 @@ function getDaySuffix(day) {
                   </span>
                 <p><%= formatDate(buzzSpace.createdOn) %></p>
               </div>
+              <div class="info-dropdown">
+
+                <h2 class="drop-heading" onclick="expandInfo(this)" >
+                  Rules 
+                  <span class="material-symbols-outlined" >
+                    expand_more
+                  </span>
+                </h2>
+                <ol class="space-info-rules" >
+                  <% buzzSpace.rules.map(rule => { %>
+                    <li><%= rule %></li>
+                    <% }) %>
+                </ol>
+              </div>
             </div>
+          
     </div>
 
 </div>
-
 <script>
+
+  function openEditModal(element) {
+    const editCoverDiv = element.closest('.buzzSpace-header-inner-right').querySelector('.editbuzzSapce-cover');
+
+    editCoverDiv.classList.add('modal');
+  }
+
+  function closeEditModal(element) {
+    const editCoverDiv = element.closest('.editbuzzSapce-cover');
+    const inputs = editCoverDiv.querySelectorAll('textarea, input');
+    inputs.forEach(input => {
+      input.value = input.defaultValue;
+    });
+    editCoverDiv.classList.remove('modal');
+  }
+
+
+  function addRuleInput(btn) {
+    const rulesContainerMain = btn.closest('.rules-input-main');
+    const rulesContainer = rulesContainerMain.querySelector('.rules-container');
+    const newInputGroup = document.createElement('div');
+    newInputGroup.classList.add('rule-input-group');
+    newInputGroup.innerHTML = `
+        <input type="text" name="rule" placeholder="Enter a rule">
+        <button type="button" onclick="removeRuleInput(this)">
+            <span class="material-symbols-outlined">
+            remove
+            </span>
+        </button>
+    `;
+    rulesContainer.appendChild(newInputGroup);
+  }
+
+  const expandInfo = (head) => {
+    head.closest(".info-dropdown").classList.toggle('expand')
+  }
+
   async function joinBuzzSpace(buzzSpaceId, userId) {
     const url = '/buzzspace/joinBuzzSpace';
     const data = { buzzSpaceId, userId };
 
     try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
 
-        if (!response.ok) {
-            const errorMessage = await response.json();
-            throw new Error(errorMessage.message || 'Failed to join BuzzSpace');
-        }
+      if (!response.ok) {
+        const errorMessage = await response.json();
+        throw new Error(errorMessage.message || 'Failed to join BuzzSpace');
+      }
 
-        const responseData = await response.json();
-        window.location.reload();
+      const responseData = await response.json();
+      window.location.reload();
 
     } catch (error) {
-        console.error('Error joining BuzzSpace:', error.message);
-        // Handle the error appropriately, such as displaying an error message to the user
+      console.error('Error joining BuzzSpace:', error.message);
     }
-}
+  }
 </script>

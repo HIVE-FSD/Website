@@ -19,6 +19,17 @@
         placeholder="What Category does your BuzzSpace fall into? ex:sports, study etc..">
     <textarea name="description" cols="30" rows="5" placeholder="About yor BuzzSpace"></textarea>
 
+    <div class="rules-input-main">
+        <h1>Rules :</h1>
+        <div class="rules-container">
+            <div class="rule-input-group">
+                <input type="text" name="rule" placeholder="Enter a rule" required >
+            </div>
+        </div>
+
+        <button type="button" onclick="addRuleInput(this)">Add Rule</button>
+    </div>
+
     <button type="button" onclick="submitForm()">Submit</button>
 </form>
 
@@ -36,6 +47,26 @@
         image.drawTo(imgcanvas);
     }
 
+    function addRuleInput(btn) {
+        const rulesContainerMain = btn.closest('.rules-input-main');
+        const rulesContainer = rulesContainerMain.querySelector('.rules-container');
+        const newInputGroup = document.createElement('div');
+        newInputGroup.classList.add('rule-input-group');
+        newInputGroup.innerHTML = `
+            <input type="text" name="rule" placeholder="Enter a rule">
+            <button type="button" onclick="removeRuleInput(this)">
+                <span class="material-symbols-outlined">
+                remove
+                </span>
+            </button>
+        `;
+        rulesContainer.appendChild(newInputGroup);
+    }
+
+    function removeRuleInput(button) {
+        button.parentNode.remove();
+    }
+
     function clickinput(can) {
         const input = can.querySelector('.file-input');
         input.click();
@@ -44,13 +75,28 @@
     function submitForm() {
         const form = document.querySelector('.newbuzzSpaces-container');
         const formData = new FormData(form);
-
+    
+        // Get all the rule inputs
+        const ruleInputs = document.querySelectorAll('.rule-input-group input[name="rule"]');
+        const rulesArray = [];
+    
+        // Iterate through each rule input and add its value to the rules array
+        ruleInputs.forEach(input => {
+            if (input.value.trim() !== '') {
+                rulesArray.push(input.value.trim());
+            }
+        });
+    
+        // Append the rules array to the form data
+        formData.append('rules', JSON.stringify(rulesArray));
+    
         // Assuming you have access to the user's ID in a variable called userId
         const userId = '<%= user._id %>';
-
+    
         // Append the user's ID to the form data
         formData.append('creator', userId);
 
+    
         fetch('/buzzspace/createBuzzSpace', {
             method: 'POST',
             body: formData
@@ -68,12 +114,12 @@
                 if (data.redirect) {
                     window.location.href = data.redirect;
                 } else {
-                    console.log(data); 
+                    console.log(data);
                 }
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
             });
     }
-
+    
 </script>

@@ -13,8 +13,8 @@ const checkAuth = async (req, res, next) => {
             return res.status(404).send('User not found');
         }
 
-        req.user = user; // Attach user object to request for later use
-        next(); // Continue to the next middleware or route handler
+        req.user = user;
+        next(); 
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

@@ -37,7 +37,10 @@ const buzzSpaceSchema = new mongoose.Schema({
     numberOfPosts: {
         type: Number,
         default: 0
-    }
+    },
+    rules: [{
+        type: String
+    }]
 });
 
 const BuzzSpace = mongoose.model('BuzzSpace', buzzSpaceSchema);

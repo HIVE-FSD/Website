@@ -120,7 +120,7 @@ async function formatComment(comment, _id) {
 
 
 // Function to filter buzz posts based on date
-const filterBuzzPostsByDate = async (date) => {
+const filterBuzzPostsByDate = async (date, buzzSpaceIds) => {
     const startOfDay = new Date(date);
     startOfDay.setHours(0, 0, 0, 0);
 
@@ -132,36 +132,34 @@ const filterBuzzPostsByDate = async (date) => {
             buzzedon: {
                 $gte: startOfDay,
                 $lte: endOfDay
-            }
+            },
+            buzzSpace: { $in: buzzSpaceIds } 
         }).limit(10);
 
         return posts;
     } catch (error) {
         console.error('Error filtering posts:', error);
-        throw error; // Propagate the error to handle it where the function is called
+        throw error;
     }
 };
 
-// Get the current date and time
-
 
 // Function to fetch recent posts
-const fetchRecentPosts = async () => {
+const fetchRecentPosts = async (buzzSpaceIds) => {
     const now = new Date();
     let recentPosts = [];
     const HalfaYear = new Date();
     HalfaYear.setDate(HalfaYear.getDate() - 183);
 
     while (recentPosts.length < 10 && now > HalfaYear) {
-        const filteredPosts = await filterBuzzPostsByDate(now);
+        const filteredPosts = await filterBuzzPostsByDate(now, buzzSpaceIds); // Pass buzzSpaceIds to filter function
 
         if (filteredPosts.length > 0) {
             // Extract only the 'id' field from each post
             const postIds = filteredPosts.map(post => post.id);
             recentPosts.push(...postIds);
-           
         }
-         
+
         now.setDate(now.getDate() - 1); // Move to the previous day
     }
 
@@ -170,6 +168,7 @@ const fetchRecentPosts = async () => {
 
     return recentPosts;
 };
+
 
 
 module.exports = { createBuzz, editBuzz, getBuzzsWithComments, fetchRecentPosts };

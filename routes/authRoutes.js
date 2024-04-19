@@ -91,6 +91,17 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Error destroying session:', err);
+            res.status(500).send('Server Error');
+        } else {
+            res.redirect('/login');
+        }
+    });
+});
+
 router.get('/verify/:userId', (req, res) => {
     const userId = req.params.userId;
     User.verifyUser(userId);

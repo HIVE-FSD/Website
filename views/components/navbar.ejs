@@ -30,7 +30,7 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-profile">
+                <li class="nav-profile" id="profile-link">
                     <a href="/profile">
                         <span class="material-symbols-outlined">
                             account_circle
@@ -47,6 +47,12 @@
 <script src="js/navbar.js"></script>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var profileLink = document.getElementById('profile-link');
+        if (profileLink && window.location.pathname === '/profile') {
+            profileLink.innerHTML = '<a href="/logout"><button>Logout</button></a>';
+        }
+    });
     const fetchData = async () => {
         try {
             const response = await fetch('/buzzspace/all');

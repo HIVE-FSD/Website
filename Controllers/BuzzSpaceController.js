@@ -1,7 +1,7 @@
 const BuzzSpace = require('../models/BuzzSpace');
 const User = require('../models/User')
 
-const createBuzzSpace = async (buzzSpaceName, buzzSpaceTag, description, coverImage, logoImage, creator) => {
+const createBuzzSpace = async (buzzSpaceName, buzzSpaceTag, description, coverImage, logoImage, creator, rules) => {
     try {
         const newBuzzSpace = new BuzzSpace({
             name: buzzSpaceName,
@@ -9,7 +9,8 @@ const createBuzzSpace = async (buzzSpaceName, buzzSpaceTag, description, coverIm
             description: description,
             cover: coverImage,
             logo: logoImage,
-            creator: creator
+            creator: creator,
+            rules
         });
         await newBuzzSpace.save();
         return newBuzzSpace;
@@ -68,10 +69,9 @@ try {
             type: 'buzzspace',
             message: notificationMessage
         };
-        if (buzzSpaceCreator.notifications) { // Ensure notifications array exists
-           console.log('hello');
+        if (buzzSpaceCreator.notifications) { 
             buzzSpaceCreator.notifications.push(notification);
-            await buzzSpaceCreator.save(); // Save changes to buzzSpaceCreator
+            await buzzSpaceCreator.save();
         } else {
             console.log("BuzzSpace creator's notifications array does not exist.");
         }

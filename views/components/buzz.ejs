@@ -74,7 +74,7 @@
                             <% } %>
 
                             <% if (buzz.canEdit) { %>
-                            <div>
+                            <div onclick="openBuzzEditModal(this)" >
                                 <span class="material-symbols-outlined">
                                     edit
                                 </span>
@@ -100,9 +100,31 @@
                 </ul>
             </div>
         </div>
+        <div class="editbuzz-cover">
+            <div class="editbuzz">
+                <textarea id="" rows="5"><%= buzz.buzz %></textarea>
+                <div class="btn-container">
+                    <button>Submit</button>
+                    <button type="reset" onclick="closeBuzzEditModal(this)" >Cancel</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script>
+
+    function openBuzzEditModal(element) {
+        const editCoverDiv = element.closest('.buzz-super').querySelector('.editbuzz-cover');
+        
+        editCoverDiv.classList.add('modal');
+    }
+    function closeBuzzEditModal(element) {
+        const editCoverDiv = element.closest('.editbuzz-cover');
+        const textarea = editCoverDiv.querySelector('textarea');
+        textarea.value = textarea.defaultValue;
+        editCoverDiv.classList.remove('modal');
+    }
+    
 
     function buzzComment(commentButton, buzzID) {
         const buzzSuper = commentButton.closest('.buzz-super');
