@@ -37,53 +37,53 @@ const editBuzzSpace = async (req, res) => {
 }
 
 const joinBuzzSpace = async (req, res) => {
-    const { buzzSpaceId, userId } =  req.body;
+    const { buzzSpaceId, userId } = req.body;
     let existingUser;
     let existingBuzzSpace;
-    try{
+    try {
         existingUser = await User.findById(userId);
-        
-    }catch(err){
+
+    } catch (err) {
         console.log(err);
         return res.status(500).json({ message: "Error finding user" });
     }
-    try{
+    try {
         existingBuzzSpace = await BuzzSpace.findById(buzzSpaceId);
-    }catch(err){
+    } catch (err) {
         console.log(err);
         return res.status(500).json({ message: "Error finding BuzzSpace" });
     }
-    if(!existingUser) return res.status(404).json({message: "User doesn't exist"})
-    if(!existingBuzzSpace) return res.status(404).json({message: "BuzSpace doesn't exist"})
-    if(existingUser.joined_buzzSpace_ids.includes(buzzSpaceId))
-        return res.status(201).json({message: "You already joined the BuzzSpace!!"})
+    if (!existingUser) return res.status(404).json({ message: "User doesn't exist" })
+    if (!existingBuzzSpace) return res.status(404).json({ message: "BuzSpace doesn't exist" })
+    if (existingUser.joined_buzzSpace_ids.includes(buzzSpaceId))
+        return res.status(201).json({ message: "You already joined the BuzzSpace!!" })
 
     existingUser.joined_buzzSpace_ids.push(buzzSpaceId);
     existingBuzzSpace.numberOfMembersJoined++;
-    
+
     let buzzSpaceCreator;
-try {
-    buzzSpaceCreator = await User.findById(existingBuzzSpace.creator);
+    try {
+        buzzSpaceCreator = await User.findById(existingBuzzSpace.creator);
         const notificationMessage = `${existingUser.username} joined your BuzzSpace "${existingBuzzSpace.name}"`;
         const notification = {
             type: 'buzzspace',
             message: notificationMessage
         };
-        if (buzzSpaceCreator.notifications) { 
+        if (buzzSpaceCreator.notifications) {
             buzzSpaceCreator.notifications.push(notification);
             await buzzSpaceCreator.save();
         } else {
             console.log("BuzzSpace creator's notifications array does not exist.");
         }
-    
-} catch (err) {
-    console.log(err);
-}
 
-    try{
+    } catch (err) {
+        console.log(err);
+    }
+
+    try {
         await existingUser.save();
         await existingBuzzSpace.save();
-    }catch(err){
+    } catch (err) {
         console.log(err);
         return res.status(500).json({ message: "Error saving user or buzz space" });
     }
