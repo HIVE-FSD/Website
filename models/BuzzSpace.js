@@ -40,6 +40,11 @@ const buzzSpaceSchema = new mongoose.Schema({
     },
     rules: [{
         type: String
+    }],
+    moderators: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: false
     }]
 });
 
