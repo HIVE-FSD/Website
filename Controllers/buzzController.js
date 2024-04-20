@@ -1,4 +1,5 @@
 const Buzz = require('../models/Buzz');
+const Comment = require('../models/Comment');
 const BuzzSpace = require('../models/BuzzSpace');
 const User = require('../models/User');
 
@@ -63,13 +64,7 @@ async function getBuzzsWithComments(buzzIds, _id) {
     try {
         const buzzes = [];
         for (const buzzId of buzzIds) {
-            const buzz = await Buzz.findById(buzzId).populate({
-                path: 'comments',
-                populate: {
-                    path: 'replies'
-                }
-            });
-            console.log(buzz)
+            const buzz = await Buzz.findById(buzzId);
             const formattedCommentsPromises = buzz.comments.map(async comment => await formatComment(comment, _id));
             const formattedComments = await Promise.all(formattedCommentsPromises);
 
@@ -114,8 +109,10 @@ async function getBuzzsWithComments(buzzIds, _id) {
     }
 }
 
-async function formatComment(comment, _id) {
-    const formattedReplies = comment.replies.map(async reply => await formatComment(reply, _id));
+async function formatComment(commentId, _id) {
+    const comment = await Comment.findById(commentId)
+    const formattedRepliesPromises = comment.replies.map(async reply => await formatComment(reply, _id));
+    const formattedReplies = await Promise.all(formattedRepliesPromises);
     let buzzer = await User.findById(comment.buzzer);
     let votes = comment.upvotes.length - comment.downvotes.length
     let upvoted = false
@@ -126,6 +123,17 @@ async function formatComment(comment, _id) {
     if (comment.downvotes.includes(_id)) {
         downvoted = true
     }
+    console.log({
+        id: comment._id,
+        buzz: comment.buzz,
+        buzzer: buzzer.info,
+        comment: comment.comment,
+        votes,
+        upvoted,
+        downvoted,
+        commentedon: comment.commentedon,
+        replies: formattedReplies
+    })
     return {
         id: comment._id,
         buzz: comment.buzz,
@@ -173,7 +181,7 @@ const fetchRecentPosts = async (buzzSpaceIds) => {
     HalfaYear.setDate(HalfaYear.getDate() - 183);
 
     while (recentPosts.length < 10 && now > HalfaYear) {
-        const filteredPosts = await filterBuzzPostsByDate(now, buzzSpaceIds); // Pass buzzSpaceIds to filter function
+        const filteredPosts = await filterBuzzPostsByDate(now, buzzSpaceIds);
 
         if (filteredPosts.length > 0) {
             // Extract only the 'id' field from each post
