@@ -16,9 +16,9 @@ router.use(express.static(path.join(__dirname, '../public')));
 const renderPage = async (route, file, props) => {
     router.get(route, checkAuth, async (req, res) => {
         try {
-            const { buzzSpace_ids } = req.user;
+            const { joined_buzzSpace_ids } = req.user;
 
-            const buzzSpaces = await fetchBuzzSpaces(buzzSpace_ids);
+            const buzzSpaces = await fetchBuzzSpaces( joined_buzzSpace_ids );
 
             res.render(file, { ...props, user: req.user, buzzSpaces });
         } catch (error) {
