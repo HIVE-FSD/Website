@@ -66,6 +66,7 @@ function getDaySuffix(day) {
       <div class="buzzSpace-info">
         <h2>
           About 
+          <%  if (user.username == creator.username) { %>
           <button class="edit-btn" onclick="openEditModal(this)" >
             <span class="material-symbols-outlined">
               edit
@@ -102,6 +103,7 @@ function getDaySuffix(day) {
               </div>
             </div>
           </div>  
+          <% } %>
         </h2>
         <p>
           <%= buzzSpace.description %>

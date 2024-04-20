@@ -3,6 +3,7 @@ const Comment = require('../models/Comment');
 const BuzzSpace = require('../models/BuzzSpace');
 const User = require('../models/User');
 
+
 const createBuzz = async (req, res) => {
     try {
         const { buzzSpace, buzz, title, buzzer } = req.body;
@@ -46,6 +47,7 @@ const deleteBuzz = async(req, res) => {
         buzz1 = await Buzz.findById(buzzId);
         if(buzz1.buzzer == buzz1.buzzSpace.creator || buzz1.buzzer == userId){
             await Buzz.findByIdAndDelete(buzzId)
+            await Comment.deleteMany({ buzz: buzzId });
             await User.findByIdAndUpdate(userId, {
                 $pull: { buzz_ids: buzzId },
                 $inc: { 'info.buzz_count': -1 }

@@ -2,6 +2,7 @@ const BuzzSpace = require('../models/BuzzSpace');
 const User = require('../models/User')
 
 const createBuzzSpace = async (buzzSpaceName, buzzSpaceTag, description, coverImage, logoImage, creator, rules) => {
+    
     try {
         const newBuzzSpace = new BuzzSpace({
             name: buzzSpaceName,
@@ -12,7 +13,11 @@ const createBuzzSpace = async (buzzSpaceName, buzzSpaceTag, description, coverIm
             creator: creator,
             rules
         });
-        await newBuzzSpace.save();
+        const buzzSpaceId = await newBuzzSpace.save();
+        const creator1 = await User.findById(creator);
+        // console.log(creator1)
+        creator1.joined_buzzSpace_ids.push(buzzSpaceId._id);
+        newBuzzSpace._id.numberOfMembersJoined++;
         return newBuzzSpace;
     } catch (error) {
         throw error;
@@ -136,18 +141,18 @@ const requestPromotion = async (req, res) => {
     try {
         let buzzSpace1 = await BuzzSpace.findById(buzzSpaceId);
         if (!buzzSpace1) return res.status(500).json({ message: "Cannot find buzzSpace" });
-
+        const user = await User.findById(userId);
         let creator1 = buzzSpace1.creator;
         let creator2 = await User.findById(creator1)
         if (!creator1) return res.status(500).json({ message: "Cannot find creator" });
 
-        const notificationMessage = `${creator2.username} has requested promotion for BuzzSpace ${buzzSpace1.name}`;
+        const notificationMessage = `${creator2.username} has requested promotion in BuzzSpace ${buzzSpace1.name}`;
 
         const notification = {
-            type: 'buzzspace',
+            type: 'request',
             message: notificationMessage,
             request: {
-                user: userId,
+                user: { ...user.info, username:user.username },
                 buzzspace: buzzSpace1.name,
             }
         };

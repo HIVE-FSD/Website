@@ -16,8 +16,7 @@ app.get('/', checkAuth, async (req, res) => {
     const user = req.user
     const buzzes = await getBuzzsWithComments( await fetchRecentPosts(user.joined_buzzSpace_ids), user._id)
     const joinedSpaces = await fetchBuzzSpaces(user.joined_buzzSpace_ids)
-    console.log("buzzes")
-
+    
     res.render('index', { title: 'HIVE | Home', user, buzzes, joinedSpaces });
 })
 

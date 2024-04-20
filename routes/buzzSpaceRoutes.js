@@ -9,6 +9,7 @@ const { checkAuth } = require('../Middleware/mainware.js');
 const { getBuzzsWithComments } = require('../Controllers/buzzController.js');
 const Buzz = require('../models/Buzz.js');
 const { body } = require('express-validator');
+const { authUserBuzzSpace } = require('../Middleware/authoriser.js');
 
 router.use(express.static(path.join(__dirname, '../public')));
 
@@ -64,7 +65,7 @@ router.get('/:name', checkAuth, async (req, res) => {
 
 router.post('/joinBuzzSpace', joinBuzzSpace);
 router.post('/leaveBuzzSpace', leaveBuzzSpace);
-router.post('/editBuzzSpace', editBuzzSpace);
+router.post('/editBuzzSpace', authUserBuzzSpace, editBuzzSpace);
 router.post('/requestPromotion', requestPromotion)
 
 module.exports = router;

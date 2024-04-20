@@ -7,6 +7,7 @@ const { body, validationResult } = require('express-validator');
 const { fetchBuzzSpaces } = require('../Controllers/ProfileController.js');
 const { checkAuth } = require('../Middleware/mainware.js');
 const Comment = require('../models/Comment.js');
+const { authUserBuzz }  = require('../Middleware/authoriser.js')
 
 const router = express.Router();
 
@@ -44,7 +45,7 @@ router.post("/createBuzz",[
     }
 ], createBuzz);
 
-router.delete("/deleteBuzz", deleteBuzz);
+router.delete("/deleteBuzz", authUserBuzz, deleteBuzz);
 
 router.post("/editBuzz", [
     body('buzz').notEmpty().withMessage('Buzz content is required'),

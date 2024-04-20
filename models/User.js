@@ -12,7 +12,7 @@ const notificationSchema = new mongoose.Schema({
     },
     request: { 
         user: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.Mixed,
             ref: 'User',
             required: false 
         },
