@@ -46,9 +46,8 @@ router.post("/createBuzz",[
 
 router.delete("/deleteBuzz", deleteBuzz);
 
-router.post("/editBuzz/:id", [
+router.post("/editBuzz", [
     body('buzz').notEmpty().withMessage('Buzz content is required'),
-    body('title').notEmpty().withMessage('Title is required'),
     (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {

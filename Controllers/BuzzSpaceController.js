@@ -147,8 +147,8 @@ const requestPromotion = async (req, res) => {
             type: 'buzzspace',
             message: notificationMessage,
             request: {
-                user: { userId },
-                buzzspace: { buzzSpaceId },
+                user: userId,
+                buzzspace: buzzSpace1.name,
             }
         };
         creator2.notifications.push(notification);

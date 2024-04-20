@@ -65,7 +65,7 @@
                         </span>
                         <div class="buzz-actions">
                             <% if (buzz.canDelete) { %>
-                            <div>
+                            <div onclick="deleteBuzz(this, '<%= user._id %>', '<%= buzz.id %>')">
                                 <span class="material-symbols-outlined">
                                     delete
                                 </span>
@@ -102,9 +102,9 @@
         </div>
         <div class="editbuzz-cover">
             <div class="editbuzz">
-                <textarea id="" rows="5"><%= buzz.buzz %></textarea>
+                <textarea rows="5"><%= buzz.buzz %></textarea>
                 <div class="btn-container">
-                    <button>Submit</button>
+                    <button type="reset" onclick="updateBuzz(this, '<%= user._id %>', '<%= buzz.id %>')">Submit</button>
                     <button type="reset" onclick="closeBuzzEditModal(this)" >Cancel</button>
                 </div>
             </div>
@@ -115,7 +115,7 @@
 
     function openBuzzEditModal(element) {
         const editCoverDiv = element.closest('.buzz-super').querySelector('.editbuzz-cover');
-        
+
         editCoverDiv.classList.add('modal');
     }
     function closeBuzzEditModal(element) {
@@ -125,6 +125,64 @@
         editCoverDiv.classList.remove('modal');
     }
     
+    function updateBuzz(btn, userId, buzzID) {
+        
+        const editBuzzDiv = btn.closest(".editbuzz");
+        const buzzText = editBuzzDiv.querySelector("textarea").value;
+
+        fetch(`/buzz/editBuzz`, {
+            method: 'POST',
+            body: JSON.stringify({
+                buzz: buzzText,
+                userId,
+                buzzID
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Buzz Edited', data);
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error editing Buzz:', error);
+    });
+    }
+
+    function deleteBuzz(btn, userId, buzzId){
+        console.log(buzzId)
+        fetch(`buzz/deleteBuzz`, {
+            method: 'DELETE',
+            body: JSON.stringify({
+                userId,
+                buzzId
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Buzz Deleted', data);
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error Deleting Buzz:', error);
+    });
+    }
+
 
     function buzzComment(commentButton, buzzID) {
         const buzzSuper = commentButton.closest('.buzz-super');
@@ -150,9 +208,7 @@
             })
             .then(data => {
                 console.log('Comment saved:', data);
-                // Optionally, you can update the UI to show the newly added comment
-                buzzSuper.querySelector('.buzz-commentText').value = '';
-                buzzSuper.querySelector('.buzz-comment-area').style.display = 'none';
+                window.location.reload();
             })
             .catch(error => {
                 console.error('Error saving comment:', error);

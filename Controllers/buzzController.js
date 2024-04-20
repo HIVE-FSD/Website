@@ -22,11 +22,13 @@ const createBuzz = async (req, res) => {
 };
 
 const editBuzz = async (req, res) => {
-    const { buzz, userId } = req.body;
-    const buzzId = req.params.id;
+    const { buzz, userId, buzzID } = req.body;
     let buzz1;
+    const buzzobj = await Buzz.findById(buzzID)
     try {
-        if(userId == buzz.buzzer) buzz1 = await Buzz.findByIdAndUpdate(buzzId, buzz)
+        if(userId == buzzobj.buzzer) {
+            buzz1 = await Buzz.findByIdAndUpdate(buzzID, {buzz}, { new: true }); // Use buzzId consistently
+        }
     } catch (err) {
         return console.log(err);
     }
@@ -35,6 +37,7 @@ const editBuzz = async (req, res) => {
     return res.status(200).json({ buzz1 })
 }
 
+
 const deleteBuzz = async(req, res) => {
     const {userId, buzzId} = req.body;
     let buzz1;
@@ -42,6 +45,11 @@ const deleteBuzz = async(req, res) => {
         buzz1 = await Buzz.findById(buzzId);
         if(buzz1.buzzer == buzz1.buzzSpace.creator || buzz1.buzzer == userId){
             await Buzz.findByIdAndDelete(buzzId)
+            await User.findByIdAndUpdate(userId, {
+                $pull: { buzz_ids: buzzId },
+                $inc: { 'info.buzz_count': -1 }
+            });
+
         }else{
             return res.status(500).json({ message: "You cannot delete the Buzz" })
         }
@@ -61,7 +69,7 @@ async function getBuzzsWithComments(buzzIds, _id) {
                     path: 'replies'
                 }
             });
-
+            console.log(buzz)
             const formattedCommentsPromises = buzz.comments.map(async comment => await formatComment(comment, _id));
             const formattedComments = await Promise.all(formattedCommentsPromises);
 
