@@ -51,7 +51,7 @@
                 <span class="buzz-functions-left">
                     <div>
                         Posted by
-                        <%- include('profileCard', { buzzer: buzz.buzzer }) %>
+                        <%- include('profileCard', { buzzer: buzz.buzzer, username: '' }) %>
                     </div>
                     <%= formatTimeAgo(buzz.buzzedon) %> at <a href=<%= "/buzzspace/"+buzz.buzzSpace  %>><%= buzz.buzzSpace %></a>
                 </span>

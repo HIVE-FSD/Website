@@ -23,10 +23,19 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
 }
 
 button:hover {
     background-color: rgba(255, 166, 0, 0.8);
+}
+
+.btn-container {
+    display: flex;
+    gap: 10px;
 }
 
 /* Avatar styles */
@@ -1009,7 +1018,7 @@ footer img {
 }
 
 .edit-btn {
-    padding: 5px;
+    padding: 1px;
     margin-left: 5px;
 }
 
@@ -1080,6 +1089,10 @@ footer img {
 .buzzSpace-info h2 {
     padding-bottom: 1rem;
     border-bottom: 2px solid var(--orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
 }
 
 .buzzSpace-info h5 {
@@ -1101,8 +1114,8 @@ footer img {
 }
 
 .info-dropdown.expand {
-    max-height: 400px;
-    overflow: auto;
+    max-height: 1000px;
+    overflow: unset ;
 }
 
 .info-dropdown .drop-heading span {
@@ -1133,6 +1146,16 @@ footer img {
 
 .space-info-rules li {
     margin-bottom: 1rem;
+}
+
+.buzzSpace-info ul {
+    padding: 0;
+}
+
+.buzzSpace-info ul li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 @media (max-width:1000px) {
@@ -1889,11 +1912,11 @@ footer img {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 150px;
+    min-width: 125px;
 }
 
+
 .notification p {
-    padding: 1rem 1rem 1rem 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1905,7 +1928,47 @@ footer img {
     margin: 0 5px;
 }
 
+.request-notification {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    gap: .5rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
 
+.request-notification p{
+    display: inline-block;
+}
 
+.request-notification button {
+    padding: 7px 15px;
+}
+
+.notification-delete {
+    font-size: 2rem;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--grey);
+    font-weight: 900;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+    cursor: pointer;
+}
+
+@media (max-width : 500px) {
+    .notification-symbol {
+        font-size: 2rem;
+        min-width: 75px;
+    }
+
+    .notification-delete {
+        font-size: 1.5rem;
+    }
+}
 
 /* Notification styles */

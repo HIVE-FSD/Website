@@ -1,28 +1,42 @@
-
 <div class="user-mention">
-    <span class="mention-name" ><%= buzzer.display_name %></span>
-    
+    <span class="mention-name">
+        <% if (username !== '') { %>
+            <%= username %>
+        <% } else { %>
+               <%= buzzer.display_name %>
+        <% } %>
+    </span>
+
     <div class="profile-card">
         <div class="profile-card2">
             <%- include('avatar', { ind: buzzer.avatar_index }) %>
-        <div class="profile-name">
-            <h2>
-                <%= buzzer.display_name %>
-            </h2>
-        </div>
-        <div class="card-bio">
-            <%= buzzer.bio %>
-        </div>
-        <div class="count" >
-            <p>
-                <span class="title">Buzzes</span> 
-                 <span><%= buzzer.buzz_count %></span>
-            </p>
-            <p>
-                <span class="title">BuzzSpaces</span> 
-                 <span><%= buzzer.buzzSpace_count %></span>
-            </p>
+                <div class="profile-name">
+                    <h2>
+                        
+                        <% if (username !== '') { %>
+                         <%= username %>
+                         <% } else { %>
+                            <%= buzzer.display_name %>
+                        <% } %>
+                    </h2>
+                </div>
+                <div class="card-bio">
+                    <%= buzzer.bio %>
+                </div>
+                <div class="count">
+                    <p>
+                        <span class="title">Buzzes</span>
+                        <span>
+                            <%= buzzer.buzz_count %>
+                        </span>
+                    </p>
+                    <p>
+                        <span class="title">BuzzSpaces</span>
+                        <span>
+                            <%= buzzer.buzzSpace_count %>
+                        </span>
+                    </p>
+                </div>
         </div>
     </div>
-</div>
 </div>

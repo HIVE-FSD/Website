@@ -109,7 +109,7 @@ function getDaySuffix(day) {
         <h5>created by</h5>
         <div class="space-info-creator">
           
-        <%- include('components/profileCard', { buzzer: creator.info }) %>
+        <%- include('components/profileCard', { buzzer: creator.info, username: "" }) %>
 
           </div>
             <h5>created on</h5>
@@ -133,6 +133,60 @@ function getDaySuffix(day) {
                     <% }) %>
                 </ol>
               </div>
+              <div class="info-dropdown">
+
+                <h2 class="drop-heading" onclick="expandInfo(this)" >
+                  Moderators 
+                  <span class="material-symbols-outlined" >
+                    expand_more
+                  </span>
+                </h2>
+                <ul class="space-info-rules" >
+                  <%  if (user.username == creator.username) { %>
+                  <li>
+                    <%- include('components/profileCard', { buzzer: creator.info, username: "" }) %> 
+                    <button class="edit-btn" >
+                      <span class="material-symbols-outlined">
+                        remove_moderator
+                      </span>
+                    </button>
+                  </li>
+                  <li>
+                    <%- include('components/profileCard', { buzzer: creator.info, username: "" }) %> 
+                    <button class="edit-btn" >
+                      <span class="material-symbols-outlined">
+                        remove_moderator
+                      </span>
+                    </button>
+                  </li>
+                  <li>
+                    <%- include('components/profileCard', { buzzer: creator.info, username: "" }) %> 
+                    <button class="edit-btn" >
+                      <span class="material-symbols-outlined">
+                        remove_moderator
+                      </span>
+                    </button>
+                  </li>
+                  <li>
+                    <%- include('components/profileCard', { buzzer: creator.info, username: "" }) %> 
+                    <button class="edit-btn" >
+                      <span class="material-symbols-outlined">
+                        remove_moderator
+                      </span>
+                    </button>
+                  </li>
+                  <% } %>
+                </ul>
+              </div>
+              
+              <%  if (user.username !== creator.username) { %>
+              <button>
+                <span class="material-symbols-outlined">
+                  add_moderator
+                </span>
+                Apply as Moderator
+              </button>
+              <% } %>
             </div>
           
     </div>

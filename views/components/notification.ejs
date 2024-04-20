@@ -1,9 +1,12 @@
-<% if (notification.type === 'post') { %>
+<% if (notification.type === 'buzz') { %>
 <div class="notification" >
     <span class="material-symbols-outlined notification-symbol">
         arrow_circle_up
     </span>
     <p><%= notification.message %></p>
+    <span class="material-symbols-outlined notification-delete">
+        delete
+    </span>
 </div>
 <% } else if (notification.type === 'buzzspace') { %>
 <div class="notification" >
@@ -11,6 +14,9 @@
         groups_2
     </span>
     <p><%= notification.message %></p>
+    <span class="material-symbols-outlined notification-delete">
+        delete
+    </span>
 </div>
 <% } else if (notification.type === 'comment') { %>
 <div class="notification" >
@@ -18,6 +24,9 @@
         comment
     </span>
     <p><%= notification.message %></p>
+    <span class="material-symbols-outlined notification-delete">
+        delete
+    </span>
 </div>
 <% } else if (notification.type === 'reply') { %>
 <div class="notification" >
@@ -25,6 +34,22 @@
         reply
     </span>
     <p><%= notification.message %></p>
+    <span class="material-symbols-outlined notification-delete">
+        delete
+    </span>
+</div>
+<% } else if (notification.type === 'request') { %>
+<div class="notification" >
+    <span class="material-symbols-outlined notification-symbol" style="font-size: 2.5rem;" >
+        add_moderator
+    </span>
+    <div class="request-notification" >
+        <p><%= notification.request.user.username %> has requested to be a moderator at <a href="<%= `/buzzSpace/${notification.request.buzzspace}` %>"><%= notification.request.buzzspace %></a> </p>
+        <button>Approve</button>
+    </div>
+    <span class="material-symbols-outlined notification-delete">
+        delete
+    </span>
 </div>
 <% } %>
     
