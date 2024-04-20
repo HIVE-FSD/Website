@@ -123,17 +123,6 @@ async function formatComment(commentId, _id) {
     if (comment.downvotes.includes(_id)) {
         downvoted = true
     }
-    console.log({
-        id: comment._id,
-        buzz: comment.buzz,
-        buzzer: buzzer.info,
-        comment: comment.comment,
-        votes,
-        upvoted,
-        downvoted,
-        commentedon: comment.commentedon,
-        replies: formattedReplies
-    })
     return {
         id: comment._id,
         buzz: comment.buzz,

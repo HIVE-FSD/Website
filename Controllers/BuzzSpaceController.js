@@ -20,12 +20,12 @@ const createBuzzSpace = async (buzzSpaceName, buzzSpaceTag, description, coverIm
 }
 
 const editBuzzSpace = async (req, res) => {
-    const { userId, rules,  description } = req.body;
-    const buzzSpaceId = req.params.buzzSpaceId;
+    const { userId, rules,  description, buzzSpaceId } = req.body;
 
+    let buzzSpace;
     try {
-        BuzzSpace1 = await BuzzSpace.findById(buzzSpaceId)
-        if(userId == BuzzSpace1.creator) await BuzzSpace.findByIdAndUpdate(buzzSpaceId, {
+        buzzSpace = await BuzzSpace.findById(buzzSpaceId)
+        if(userId == buzzSpace.creator) await BuzzSpace.findByIdAndUpdate(buzzSpaceId, {
             rules,
             description
         })
@@ -33,8 +33,8 @@ const editBuzzSpace = async (req, res) => {
     } catch (err) {
         return console.log(err);
     }
-    if (!BuzzSpace1) return res.status(500).json({ message: "Error updating BuzzSpace" })
-    return res.status(200).json({ buzzSpace1 })
+    if (!buzzSpace) return res.status(500).json({ message: "Error updating BuzzSpace" })
+    return res.status(200).json({ buzzSpace })
 }
 
 const joinBuzzSpace = async (req, res) => {

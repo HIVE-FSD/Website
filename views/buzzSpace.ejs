@@ -97,7 +97,7 @@ function getDaySuffix(day) {
                 <button type="button" onclick="addRuleInput(this)">Add Rule</button>
             </div>
               <div class="btn-container">
-                <button>Done</button>
+                <button onclick="editForm(this, '<%= user._id %>', '<%= buzzSpace.id %>')" >Done</button>
                 <button onclick="closeEditModal(this)">Cancel</button>
               </div>
             </div>
@@ -281,6 +281,32 @@ function getDaySuffix(day) {
       console.error('Error joining BuzzSpace:', error.message);
     }
   }
+
+  const editForm = async (btn, userId, buzzSpaceId) => {
+    const editdiv = btn.closest(".editbuzzSapce")
+    const description = editdiv.querySelector('textarea').value;
+    const rules = Array.from(editdiv.querySelectorAll('.rule-input-group input')).map(input => input.value);
+
+    try {
+        const response = await fetch(`editBuzzSpace`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userId,
+                buzzSpaceId,
+                rules,
+                description
+            })
+        });
+
+        const data = await response.json();
+        window.location.reload()
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
 
 
 </script>

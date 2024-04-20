@@ -64,6 +64,7 @@ router.get('/:name', checkAuth, async (req, res) => {
 
 router.post('/joinBuzzSpace', joinBuzzSpace);
 router.post('/leaveBuzzSpace', leaveBuzzSpace);
+router.post('/editBuzzSpace', editBuzzSpace);
 router.post('/requestPromotion', requestPromotion)
 
 module.exports = router;
