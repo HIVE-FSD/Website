@@ -45,7 +45,7 @@ function getDaySuffix(day) {
           Join
         </button>
         <% }else{%>
-          <button onclick="">
+          <button onclick="leaveBuzzSpace('<%= buzzSpace._id%>', '<%= user._id%>')">
             Leave
           </button>
        <% } %>
@@ -255,4 +255,32 @@ function getDaySuffix(day) {
       console.error('Error joining BuzzSpace:', error.message);
     }
   }
+  
+  async function leaveBuzzSpace(buzzSpaceId, userId) {
+    const url = '/buzzspace/leaveBuzzSpace';
+    const data = { buzzSpaceId, userId };
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        const errorMessage = await response.json();
+        throw new Error(errorMessage.message || 'Failed to join BuzzSpace');
+      }
+
+      const responseData = await response.json();
+      window.location.reload();
+
+    } catch (error) {
+      console.error('Error joining BuzzSpace:', error.message);
+    }
+  }
+
+
 </script>
