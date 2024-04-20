@@ -69,17 +69,17 @@ router.post('/newcomment', async (req, res) => {
         });
 
         const savedComment = await newComment.save();
-        
-        const buzz = await Buzz.findById(buzzId).populate('buzzer');;
+        const buzz = await Buzz.findById(buzzId).populate('buzzer');
+        const buzzerObj = await User.findById(buzzer);
         if (buzz && buzz.buzzer) {
-            const notificationMessage = `${buzzer} commented on your buzz: "${buzz.title}""`;
+            const notificationMessage = `${buzzerObj.info.display_name} commented on your buzz: "${buzz.title}""`;
             const notification = {
                 type: 'comment',
                 message: notificationMessage
             };
-            if (buzz.buzzer && buzz.buzzer.notifications) { 
-                buzz.buzzer.notifications.push(notification);
-                await buzz.buzzer.save();
+            if (buzzerObj && buzzerObj.notifications) { 
+                buzzerObj.notifications.push(notification);
+                await buzzerObj.save();
             } else {
                 console.log(`Buzz creator's notifications array does not exist. "${buzzer.username}"`);
             }
