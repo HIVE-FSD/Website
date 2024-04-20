@@ -4,7 +4,7 @@ const router = express.Router();
 const User = require("../models/User");
 const { upload } = require('../Middleware/mutler.js');
 const BuzzSpace = require('../models/BuzzSpace.js');
-const { createBuzzSpace, editBuzzSpace, joinBuzzSpace, leaveBuzzSpace, requestPromotion } = require('../Controllers/BuzzSpaceController.js');
+const { createBuzzSpace, editBuzzSpace, joinBuzzSpace, leaveBuzzSpace, requestPromotion, approve, clearNotification } = require('../Controllers/BuzzSpaceController.js');
 const { checkAuth } = require('../Middleware/mainware.js');
 const { getBuzzsWithComments } = require('../Controllers/buzzController.js');
 const Buzz = require('../models/Buzz.js');
@@ -66,6 +66,8 @@ router.get('/:name', checkAuth, async (req, res) => {
 router.post('/joinBuzzSpace', joinBuzzSpace);
 router.post('/leaveBuzzSpace', leaveBuzzSpace);
 router.post('/editBuzzSpace', authUserBuzzSpace, editBuzzSpace);
-router.post('/requestPromotion', requestPromotion)
+router.post('/requestPromotion', requestPromotion);
+router.post('/approve', approve);
+router.post('/clearNotification', clearNotification);
 
 module.exports = router;

@@ -167,4 +167,27 @@ const requestPromotion = async (req, res) => {
     }
 }
 
-module.exports = { createBuzzSpace, editBuzzSpace, joinBuzzSpace, leaveBuzzSpace, requestPromotion};
+const approve = async(req, res) => {
+    const {userId, buzzSpaceId} = req.body;
+
+    try{
+        const buzzSpace = await BuzzSpace.findById(buzzSpaceId);
+        buzzSpace.moderators.push(userId);
+        return res.status(201).json({ message: "Moderator Added" });
+    }catch(err){
+        console.log(err);
+    }
+}
+
+const clearNotification = async(req, res) => {
+    const { UserId, notificationIndex } = req.body;
+    try{
+        const user = await User.findById(UserId);
+        user.notifications.splice(notificationIndex, 1);
+        return res.status(201).json({message: "Notofication deleted"});
+    }catch(err){
+        console.log(err);
+    }
+}
+
+module.exports = { createBuzzSpace, editBuzzSpace, joinBuzzSpace, leaveBuzzSpace, requestPromotion, approve, clearNotification};
