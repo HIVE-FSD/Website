@@ -180,6 +180,10 @@ const approve = async (req, res) => {
         const buzzSpace = await BuzzSpace.findOne({ name: buzzSpaceName });
         if (!buzzSpace) throw new Error('BuzzSpace not found');
         
+        if (buzzSpace.moderators.includes(user._id)) {
+            return res.status(400).json({ message: "User is already a moderator of this buzzspace" });
+        }
+        
         // Add the user as a moderator
         buzzSpace.moderators.push(user._id);
         await buzzSpace.save();
