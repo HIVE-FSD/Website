@@ -125,6 +125,11 @@ const leaveBuzzSpace = async (req, res) => {
         if (!existingUser.joined_buzzSpace_ids.includes(buzzSpaceId)) {
             return res.status(404).json({ message: "You did not join the Buzzspace" })
         }
+
+        if (existingBuzzSpace.moderators.includes(existingUser._id)) {
+            existingBuzzSpace.moderators = existingBuzzSpace.moderators.filter(modId => modId.toString() !== existingUser._id.toString());
+        }
+
         existingUser.joined_buzzSpace_ids = existingUser.joined_buzzSpace_ids.filter(id => id != buzzSpaceId);
 
         await existingUser.save();
@@ -205,6 +210,34 @@ const approve = async (req, res) => {
     }
 }
 
+const demoteModerator = async (req, res) => {
+    const { buzzSpaceId, moderatorId } = req.body;
+
+    try {
+        // Find the buzzspace
+        const buzzSpace = await BuzzSpace.findById(buzzSpaceId);
+        if (!buzzSpace) {
+            return res.status(404).json({ message: "BuzzSpace not found" });
+        }
+
+        // Check if the moderator exists in the buzzspace
+        if (!buzzSpace.moderators.includes(moderatorId)) {
+            return res.status(404).json({ message: "Moderator not found in this BuzzSpace" });
+        }
+
+        // Remove the moderator from the moderators list
+        buzzSpace.moderators = buzzSpace.moderators.filter(id => id.toString() !== moderatorId.toString());
+        
+        // Save the updated buzzspace
+        await buzzSpace.save();
+
+        return res.status(200).json({ message: "Moderator demoted successfully" });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
 const clearNotification = async (req, res) => {
     const { UserId, notificationIndex } = req.body;
     try {
@@ -217,4 +250,4 @@ const clearNotification = async (req, res) => {
     }
 }
 
-module.exports = { createBuzzSpace, editBuzzSpace, joinBuzzSpace, leaveBuzzSpace, requestPromotion, approve, clearNotification };
+module.exports = { createBuzzSpace, editBuzzSpace, joinBuzzSpace, leaveBuzzSpace, requestPromotion, approve, clearNotification, demoteModerator };

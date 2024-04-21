@@ -148,7 +148,7 @@ function getDaySuffix(day) {
                     <li>
                       <% if (user.username == creator.username) { %>
                         <%- include('components/profileCard', { buzzer: moderator.info, username: moderator.username }) %> 
-                        <button class="edit-btn" >
+                        <button class="edit-btn" onclick="demoteModerator( '<%= buzzSpace._id %>','<%= moderator._id %>')" >
                           <span class="material-symbols-outlined">
                             remove_moderator
                           </span>
@@ -317,6 +317,22 @@ const requestPromotion = async (btn, userId, buzzSpaceId) => {
   }
 };
 
-
+const demoteModerator = async (buzzSpaceId, moderatorId) => {
+  try {
+      const response = await fetch('/buzzspace/demoteModerator', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ buzzSpaceId, moderatorId })
+      });
+      
+      const data = await response.json();
+      window.location.reload()
+  } catch (error) {
+      console.error('Error demoting moderator:', error);
+      throw new Error('Failed to demote moderator');
+  }
+};
 
 </script>
