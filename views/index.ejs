@@ -1,6 +1,5 @@
 <div class="category-pills-container">
   <div class="category-pills" id="categoryPills">
-    <!-- Category buttons will be populated here -->
   </div>
  
 </div>
@@ -79,8 +78,18 @@
       const button = document.createElement('button');
       button.classList.add('category-button');
       button.textContent = category;
-      categoryPills.appendChild(button);
+      
+      // Create anchor tag
+      const anchor = document.createElement('a');
+      anchor.href = `/category/${category}`;
+      
+      // Append button to anchor
+      anchor.appendChild(button);
+      
+      // Append anchor to categoryPills
+      categoryPills.appendChild(anchor);
     });
+    
 
     updateScrollButtons();
   }

@@ -2,6 +2,7 @@ const express = require('express');
 const { checkAuth } = require('../Middleware/mainware');
 const { getBuzzsWithComments, fetchRecentPosts } = require('../Controllers/buzzController');
 const { fetchBuzzSpaces } = require('../Controllers/ProfileController');
+const path = require('path');
 const BuzzSpace = require('../models/BuzzSpace');
 
 

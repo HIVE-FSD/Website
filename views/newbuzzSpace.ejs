@@ -15,10 +15,12 @@
         <input type="file" multiple="false" accept="image/*" name="logo" class="file-input" onchange="uploadLogo(this)">
     </div>
     <input type="text" name="buzzSpaceName" placeholder="Enter the name of your BuzzSpace">
-    <input type="text" id="category" name="buzzSpaceTag" autocomplete="off"
+    <div class="input-group">
+        <input type="text" id="category" name="buzzSpaceTag" autocomplete="off"
         placeholder="What Category does your BuzzSpace fall into? ex:sports, study etc..">
-    <div class="autocomplete-items"></div>
-    <textarea name="description" cols="30" rows="5" placeholder="About your BuzzSpace"></textarea>
+        <div class="autocomplete-items"></div>
+    </div>
+        <textarea name="description" cols="30" rows="5" placeholder="About your BuzzSpace"></textarea>
 
     <div class="rules-input-main">
         <h1>Rules :</h1>
@@ -33,6 +35,7 @@
     <button type="button" onclick="submitForm()">Submit</button>
 </form>
 
+<script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js"></script>
 <script>
     const categories = [
         "Technology", "Fashion", "Travel", "Food", "Sports",

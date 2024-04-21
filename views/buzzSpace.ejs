@@ -33,9 +33,16 @@ function getDaySuffix(day) {
         <div class="space-logo">
           <img src="<%= `uploads/${buzzSpace.logo}` %>" alt="">
         </div>
-        <h1>
-          <%= buzzSpace.name %>
-        </h1>
+        <div class="text">
+          <h1>
+            <%= buzzSpace.name %>
+          </h1>
+          <a href="/category/<%= buzzSpace.category %>">
+            <span >
+              <%= buzzSpace.category %>
+            </span>
+          </a>
+        </div>
       </div>
       <div class="buzzSpace-header-inner-right">
         <%  if (user.username == creator.username) { %>

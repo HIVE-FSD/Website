@@ -5,6 +5,7 @@ const authRoutes = require('./routes/authRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const mainRoutes = require('./routes/mainRoutes');
 const buzzSpaceRoutes = require('./routes/buzzSpaceRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
 const buzzRoutes = require('./routes/buzzRoutes');
 const session = require('express-session');
 const app = express()
@@ -39,6 +40,7 @@ app.use(authRoutes);
 app.use(profileRoutes);
 app.use('/buzz', buzzRoutes)
 app.use('/buzzspace', buzzSpaceRoutes);
+app.use('/category', categoryRoutes );
 
 
 app.listen(port, () => console.log(`Server running on http://localhost:${port}`));

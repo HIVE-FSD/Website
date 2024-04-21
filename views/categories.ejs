@@ -1,138 +1,21 @@
-<% 
-const buzzSpaces = [
-  {
-    name: 'testSpace',
-    image : "https://picsum.photos/100/100",
-    id: 1,
-    joined: 22000,
-    category: 'Sports'
-  },
-  {
-    name: 'testSpace1',
-    image : "https://picsum.photos/100/100",
-    id: 2,
-    joined: 25000,
-    category: 'Music'
-  },
-  {
-    name: 'testSpace2',
-    image : "https://picsum.photos/100/100",
-    id: 3,
-    joined: 220,
-    category: 'Sports'
-  },
-  {
-    name: 'testSpace3',
-    image : "https://picsum.photos/100/100",
-    id: 4,
-    joined: 100,
-    category: 'Sports'
-  },
-  {
-    name: 'testSpace4',
-    image : "https://picsum.photos/100/100",
-    id: 5,
-    joined: 550000,
-    category: 'Music'
-  },
-  {
-    name: 'testSpace5',
-    image : "https://picsum.photos/100/100",
-    id: 6,
-    joined: 2200,
-    category: 'Sports'
-  },
-  {
-    name: 'testSpace6',
-    image : "https://picsum.photos/100/100",
-    id: 7,
-    joined: 500,
-    category: 'Sports'
-  },
-  {
-    name: 'testSpace7',
-    image : "https://picsum.photos/100/100",
-    id: 8,
-    joined: 75000,
-    category: 'Music'
-  },
-  {
-    name: 'testSpace8',
-    image : "https://picsum.photos/100/100",
-    id: 9,
-    joined: 1234567,
-    category: 'Sports'
-  },
-  {
-    name: 'testSpace9',
-    image : "https://picsum.photos/100/100",
-    id: 10,
-    joined: 9999,
-    category: 'Sports'
-  },
-  {
-    name: 'testSpace10',
-    image : "https://picsum.photos/100/100",
-    id: 11,
-    joined: 123,
-    category: 'Music'
-  },
-  {
-    name: 'testSpace11',
-    image : "https://picsum.photos/100/100",
-    id: 12,
-    joined: 987654321,
-    category: 'Sports'
-  },
-  {
-    name: 'testSpace12',
-    image : "https://picsum.photos/100/100",
-    id: 13,
-    joined: 777777,
-    category: 'Sports'
-  },
-  {
-    name: 'testSpace13',
-    image : "https://picsum.photos/100/100",
-    id: 14,
-    joined: 8888888,
-    category: 'Music'
-  },
-  {
-    name: 'testSpace14',
-    image : "https://picsum.photos/100/100",
-    id: 15,
-    joined: 111111,
-    category: 'Sports'
-  },
-  {
-    name: 'testSpace15',
-    image : "https://picsum.photos/100/100",
-    id: 16,
-    joined: 999,
-    category: 'Sports'
-  }
-].filter(space => space.category === 'Sports').sort((a, b) => b.joined - a.joined)
-
-%>
 
 <div class="topSpaces-supreme">
 
-  <h1>Sports</h1>
+  <h1> <%= category %> </h1>
   
   <ul class="topSpaces-container">
     <% buzzSpaces.map((space, index) => { %>
       <li>
         <span><%= index + 1 %>.</span>
         <a class="topSpaces-item" href="<%= `/buzzSpace/${space.name}` %>">
-          <img src="<%= space.image %>" alt="<%= space.name %>">
+          <img src="<%= `uploads/${space.logo}` %>" alt="<%= space.name %>">
           <div class="topSpaces-item-inner">
             <h4><%= space.name %></h4>
             <p><%= space.category %></p>
-            <p><%= formatJoined(space.joined) %> Members </p>
-          </div>
-        </a>
-      </li>
+            <p><%= formatJoined(space.numberOfMembersJoined) %> Members </p>
+        </div>
+      </a>
+    </li>
     <% }) %>
   </ul>
   

@@ -13,6 +13,18 @@ const { authUserBuzzSpace } = require('../Middleware/authoriser.js');
 
 router.use(express.static(path.join(__dirname, '../public')));
 
+const categories = [
+    "Technology", "Fashion", "Travel", "Food", "Sports",
+    "Music", "Movies", "Books", "Art", "Health",
+    "Fitness", "Finance", "Business", "Education", "Science",
+    "Nature", "Photography", "Animals", "Cars", "Games",
+    "Design", "DIY", "Gardening", "Cooking", "Crafts",
+    "Beauty", "Fitness", "History", "Space", "Architecture",
+    "Spirituality", "Pets", "Hobbies", "Environment", "Politics",
+    "News", "Weather", "Entertainment", "Celebrities", "Events",
+    "Culture", "Education", "Technology", "Finance", "Business"
+];
+
 router.post('/createBuzzSpace', upload, async (req, res) => {
     try {
         const { buzzSpaceName, buzzSpaceTag, description, creator } = req.body;
@@ -21,9 +33,13 @@ router.post('/createBuzzSpace', upload, async (req, res) => {
         const coverImage = req.files['cover'] ? req.files['cover'][0].filename : null;
         const logoImage = req.files['logo'] ? req.files['logo'][0].filename : null;
 
+        if (!categories.includes(buzzSpaceTag)) {
+            return res.status(400).json({ error: 'Invalid category' });
+        }
+
         // Create new buzzspace object
         const buzzSpace = await createBuzzSpace(buzzSpaceName, buzzSpaceTag, description, coverImage, logoImage, creator, rules);
-        await User.findByIdAndUpdate(creator, { $push: { buzzSpace_ids: buzzSpace._id }, $inc: { 'info.buzzSpace_count': 1 } });
+        await User.findByIdAndUpdate(creator, { $push: { buzzSpace_ids: buzzSpace._id },  $push: { joined_buzzSpace_ids: buzzSpace._id }, $inc: { 'info.buzzSpace_count': 1 } });
 
         const redirectRoute = `/buzzspace/${buzzSpace.name}`;
 
@@ -49,6 +65,9 @@ router.get('/:name', checkAuth, async (req, res) => {
 
     try {
         const buzzSpace = await BuzzSpace.findOne({ name: req.params.name }).populate('moderators');
+        if (!buzzSpace) {
+            return res.status(404).render('404.ejs', { title: '404 | No such buzzSpace!', layout: './layouts/authLayout', message : `The buzzSpace ${req.params.name} doesn't exist` });
+        }
         const user = req.user;
         const creator = await User.findById(buzzSpace.creator)
         const joined = user.joined_buzzSpace_ids.includes(buzzSpace._id);
