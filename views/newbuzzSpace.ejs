@@ -1,4 +1,4 @@
-<form class="newbuzzSpaces-container" enctype="multipart/form-data" autocomplete="off" >
+<form class="newbuzzSpaces-container" enctype="multipart/form-data" autocomplete="off">
     <div class="buzzSpace-cover-group" onclick="clickinput(this)">
         <span class="material-symbols-outlined">
             upload
@@ -15,15 +15,26 @@
         <input type="file" multiple="false" accept="image/*" name="logo" class="file-input" onchange="uploadLogo(this)">
     </div>
     <input type="text" name="buzzSpaceName" placeholder="Enter the name of your BuzzSpace">
-    <input type="text" name="buzzSpaceTag"
+    <input type="text" id="category" name="buzzSpaceTag" autocomplete="off"
         placeholder="What Category does your BuzzSpace fall into? ex:sports, study etc..">
-    <textarea name="description" cols="30" rows="5" placeholder="About yor BuzzSpace"></textarea>
-
+    <div class="autocomplete-items"></div>
+    <textarea name="description" cols="30" rows="5" placeholder="About your BuzzSpace"></textarea>
     <button type="button" onclick="submitForm()">Submit</button>
 </form>
 
-<script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js"></script>
 <script>
+    const categories = [
+        "Technology", "Fashion", "Travel", "Food", "Sports",
+        "Music", "Movies", "Books", "Art", "Health",
+        "Fitness", "Finance", "Business", "Education", "Science",
+        "Nature", "Photography", "Animals", "Cars", "Games",
+        "Design", "DIY", "Gardening", "Cooking", "Crafts",
+        "Beauty", "Fitness", "History", "Space", "Architecture",
+        "Spirituality", "Pets", "Hobbies", "Environment", "Politics",
+        "News", "Weather", "Entertainment", "Celebrities", "Events",
+        "Culture", "Education", "Technology", "Finance", "Business"
+    ];
+
     function uploadCover(fileinput) {
         var imgcanvas = document.getElementById("CoverCan");
         var image = new SimpleImage(fileinput);
@@ -41,39 +52,29 @@
         input.click();
     }
 
-    function submitForm() {
-        const form = document.querySelector('.newbuzzSpaces-container');
-        const formData = new FormData(form);
+    const categoryInput = document.getElementById('category');
+    const autocompleteItems = document.querySelector('.autocomplete-items');
 
-        // Assuming you have access to the user's ID in a variable called userId
-        const userId = '<%= user._id %>';
+    categoryInput.addEventListener('input', function() {
+        const inputValue = this.value.toLowerCase();
+        
+        // Clear previous items
+        autocompleteItems.innerHTML = '';
 
-        // Append the user's ID to the form data
-        formData.append('creator', userId);
+        categories.forEach(category => {
+            if (category.toLowerCase().includes(inputValue)) {
+                const item = document.createElement('div');
+                item.className = 'autocomplete-item';
+                item.textContent = category;
 
-        fetch('/buzzspace/createBuzzSpace', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                if (response.status === 201) {
-                    return response.json();
-                }
-                return response.text();
-            })
-            .then(data => {
-                if (data.redirect) {
-                    window.location.href = data.redirect;
-                } else {
-                    console.log(data); 
-                }
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
-    }
+                item.addEventListener('click', function() {
+                    categoryInput.value = category;
+                    autocompleteItems.innerHTML = ''; // Clear items after selection
+                });
+
+                autocompleteItems.appendChild(item);
+            }
+        });
+    });
 
 </script>

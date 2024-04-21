@@ -1,13 +1,18 @@
+<div class="category-pills-container">
+  <div class="category-pills" id="categoryPills">
+    <!-- Category buttons will be populated here -->
+  </div>
+ 
+</div>
 <div class="home">
-  
 
   <div class="home-buzzs-container">
     <% buzzes.map((buzz, index)=> { %>
-      <%-  include('components/buzz', { buzz: buzz, index: index })  %>
-      <% }); %>
+      <%- include('components/buzz', { buzz: buzz, index: index }) %>
+    <% }); %>
   </div>
-  <div class="home-right-cover">
 
+  <div class="home-right-cover">
     <div class="home-right">
       <div class="home-new-buzz home-right-inner">
         <p>Share your thoughts through a buzz.</p>
@@ -30,26 +35,56 @@
       </div>
     </div>
 
- 
-      <div class="home-communities-container">
-        <h2>
-          Joined BuzzSpaces
-        </h2>
-        <ul>
-          <% joinedSpaces.map((space)=> { %>
-            <li>
-              <a class="homeSpaces-item" href="<%= `/buzzSpace/${space.name}` %>">
-                <img src="<%= `uploads/${space.logo}` %>" alt="<%= space.name %>">
-                <div class="homeSpaces-item-inner">
-                  <h4>
-                    <%= space.name %>
-                  </h4>
-                  <p><%= space.category %></p>
-                </div>
-              </a>
-            </li>
-            <% }); %>
-        </ul>
-      </div>
+    <div class="home-communities-container">
+      <h2>Joined BuzzSpaces</h2>
+      <ul>
+        <% joinedSpaces.map((space) => { %>
+          <li>
+            <a class="homeSpaces-item" href="<%= `/buzzSpace/${space.name}` %>">
+              <img src="<%= `uploads/${space.logo}` %>" alt="<%= space.name %>">
+              <div class="homeSpaces-item-inner">
+                <h4><%= space.name %></h4>
+                <p><%= space.category %></p>
+              </div>
+            </a>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
   </div>
 </div>
+
+<!-- Category Pills Carousel JavaScript -->
+<script>
+  const categories = [
+    "Technology", "Fashion", "Travel", "Food", "Sports",
+    "Music", "Movies", "Books", "Art", "Health",
+    "Fitness", "Finance", "Business", "Education", "Science",
+    "Nature", "Photography", "Animals", "Cars", "Games",
+    "Design", "DIY", "Gardening", "Cooking", "Crafts",
+    "Beauty", "Fitness", "History", "Space", "Architecture",
+    "Spirituality", "Pets", "Hobbies", "Environment", "Politics",
+    "News", "Weather", "Entertainment", "Celebrities", "Events",
+    "Culture", "Education", "Technology", "Finance", "Business"
+  ];
+
+  const categoryPills = document.getElementById('categoryPills');
+  
+  const buttonWidth = 150; // Width of each category button
+
+  function renderCategories() {
+    categoryPills.innerHTML = '';
+    
+    categories.forEach(category => {
+      const button = document.createElement('button');
+      button.classList.add('category-button');
+      button.textContent = category;
+      categoryPills.appendChild(button);
+    });
+
+    updateScrollButtons();
+  }
+
+  
+  renderCategories();
+</script>
