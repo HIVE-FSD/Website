@@ -48,15 +48,16 @@ router.get('/all', async (req, res) => {
 router.get('/:name', checkAuth, async (req, res) => {
 
     try {
-        const buzzSpace = await BuzzSpace.findOne({ name: req.params.name });
+        const buzzSpace = await BuzzSpace.findOne({ name: req.params.name }).populate('moderators');
         const user = req.user;
         const creator = await User.findById(buzzSpace.creator)
         const joined = user.joined_buzzSpace_ids.includes(buzzSpace._id);
         const buzzes = await Buzz.find({ buzzSpace: buzzSpace._id }, '_id');
         const buzzIds = buzzes.map(buzz => buzz._id);
         const Formattedbuzzes = await getBuzzsWithComments(buzzIds, req.user._id);
+        const isMod = buzzSpace.moderators.some(mod => mod._id.equals(user._id));
 
-        res.render('buzzSpace', { title: `Hive | ${buzzSpace.name}`, buzzes: Formattedbuzzes, buzzSpace, creator, user, joined});
+        res.render('buzzSpace', { title: `Hive | ${buzzSpace.name}`, buzzes: Formattedbuzzes, buzzSpace, creator, user, joined, isMod});
     }   catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

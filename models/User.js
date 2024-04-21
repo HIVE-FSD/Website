@@ -10,6 +10,10 @@ const notificationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    time: {
+        type: Date,
+        default: Date.now
+    },
     request: { 
         user: {
             type: mongoose.Schema.Types.Mixed,
@@ -18,6 +22,11 @@ const notificationSchema = new mongoose.Schema({
         },
         buzzspace: {
             type: String,
+            required: false 
+        },
+        approved: {
+            type: Boolean,
+            default: false,
             required: false 
         }
     }

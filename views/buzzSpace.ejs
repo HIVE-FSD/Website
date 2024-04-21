@@ -144,45 +144,27 @@ function getDaySuffix(day) {
                   </span>
                 </h2>
                 <ul class="space-info-rules" >
-                  <%  if (user.username == creator.username) { %>
-                  <li>
-                    <%- include('components/profileCard', { buzzer: creator.info, username: "" }) %> 
-                    <button class="edit-btn" >
-                      <span class="material-symbols-outlined">
-                        remove_moderator
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <%- include('components/profileCard', { buzzer: creator.info, username: "" }) %> 
-                    <button class="edit-btn" >
-                      <span class="material-symbols-outlined">
-                        remove_moderator
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <%- include('components/profileCard', { buzzer: creator.info, username: "" }) %> 
-                    <button class="edit-btn" >
-                      <span class="material-symbols-outlined">
-                        remove_moderator
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <%- include('components/profileCard', { buzzer: creator.info, username: "" }) %> 
-                    <button class="edit-btn" >
-                      <span class="material-symbols-outlined">
-                        remove_moderator
-                      </span>
-                    </button>
-                  </li>
-                  <% } %>
+                  <% buzzSpace.moderators.map((moderator) => { %>
+                    <li>
+                      <% if (user.username == creator.username) { %>
+                        <%- include('components/profileCard', { buzzer: moderator.info, username: moderator.username }) %> 
+                        <button class="edit-btn" >
+                          <span class="material-symbols-outlined">
+                            remove_moderator
+                          </span>
+                        </button>
+                      <% } else { %>
+                        <div style="margin: auto;" >
+                          <%- include('components/profileCard', { buzzer: moderator.info, username: '' }) %> 
+                        </div>
+                      <% } %>
+                    </li>
+                  <% }) %>                  
                 </ul>
               </div>
               
-              <%  if (user.username !== creator.username) { %>
-              <button>
+              <%  if (user.username !== creator.username && !isMod) { %>
+              <button onclick="requestPromotion(this, '<%= user._id %>', '<%= buzzSpace.id %>')" >
                 <span class="material-symbols-outlined">
                   add_moderator
                 </span>
@@ -309,6 +291,32 @@ function getDaySuffix(day) {
         console.error('Error:', error);
     }
 };
+
+
+const requestPromotion = async (btn, userId, buzzSpaceId) => {
+  try {
+      const response = await fetch('/buzzspace/requestPromotion', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ userId, buzzSpaceId })
+      });
+
+      if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message);
+      }
+
+      const responseData = await response.json();
+      btn.innerHTML = 'Applied!!'
+      console.log(responseData)
+  } catch (error) {
+      console.error('Error:', error.message);
+      throw error;
+  }
+};
+
 
 
 </script>

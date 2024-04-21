@@ -15,7 +15,12 @@ const createBuzz = async (req, res) => {
             buzzer: buzzer
         });
         await newBuzz.save();
-        await User.findByIdAndUpdate(buzzer, { $push: { buzz_ids: newBuzz._id }, $inc: { 'info.buzz_count': 1 } });
+        await User.findByIdAndUpdate(buzzer, {
+            $push: {
+                buzz_ids: { $each: [newBuzz._id], $position: 0 }
+            },
+            $inc: { 'info.buzz_count': 1 }
+        });
         res.status(201).send('Buzz created.');
     } catch (err) {
         console.log(err);
@@ -28,8 +33,8 @@ const editBuzz = async (req, res) => {
     let buzz1;
     const buzzobj = await Buzz.findById(buzzID)
     try {
-        if(userId == buzzobj.buzzer) {
-            buzz1 = await Buzz.findByIdAndUpdate(buzzID, {buzz}, { new: true }); // Use buzzId consistently
+        if (userId == buzzobj.buzzer) {
+            buzz1 = await Buzz.findByIdAndUpdate(buzzID, { buzz }, { new: true }); // Use buzzId consistently
         }
     } catch (err) {
         return console.log(err);
@@ -40,12 +45,12 @@ const editBuzz = async (req, res) => {
 }
 
 
-const deleteBuzz = async(req, res) => {
-    const {userId, buzzId} = req.body;
+const deleteBuzz = async (req, res) => {
+    const { userId, buzzId } = req.body;
     let buzz1;
-    try{
+    try {
         buzz1 = await Buzz.findById(buzzId);
-        if(buzz1.buzzer == buzz1.buzzSpace.creator || buzz1.buzzer == userId){
+        if (buzz1.buzzer == buzz1.buzzSpace.creator || buzz1.buzzer == userId) {
             await Buzz.findByIdAndDelete(buzzId)
             await Comment.deleteMany({ buzz: buzzId });
             await User.findByIdAndUpdate(userId, {
@@ -53,10 +58,10 @@ const deleteBuzz = async(req, res) => {
                 $inc: { 'info.buzz_count': -1 }
             });
 
-        }else{
+        } else {
             return res.status(500).json({ message: "You cannot delete the Buzz" })
         }
-    }catch(err){
+    } catch (err) {
         console.log(err);
     }
     return res.status(200).json({ buzz1 })
@@ -83,12 +88,22 @@ async function getBuzzsWithComments(buzzIds, _id) {
             if (buzz.downvotes.includes(_id)) {
                 downvoted = true
             }
+            
+            if (buzzSpace.creator.toString() === _id.toString() || buzzSpace.moderators.includes(_id)) {
+                canDelete = true
+            }
+            if (buzzSpace.moderators.includes(_id) && buzzSpace.creator.toString() === buzz.buzzer.toString() ) {
+                canDelete = false
+            }
+            if (buzzSpace.moderators.includes(_id) && buzzSpace.moderators.includes(buzz.buzzer) ) {
+                canDelete = false
+            }
+
             if (buzz.buzzer.toString() === _id.toString()) {
                 canDelete = true
                 canEdit = true
-            } else if (buzzSpace.creator.toString() === _id.toString()) {
-                canDelete = true                
-            }
+            } 
+
             
             buzzes.push({
                 id: buzz._id,
@@ -105,6 +120,9 @@ async function getBuzzsWithComments(buzzIds, _id) {
                 canEdit
             });
         }
+        buzzes.sort((a, b) => {
+            return new Date(b.buzzedon) - new Date(a.buzzedon);
+        });
         return buzzes;
     } catch (error) {
         console.error('Error:', error);
@@ -153,7 +171,7 @@ const filterBuzzPostsByDate = async (date, buzzSpaceIds) => {
                 $gte: startOfDay,
                 $lte: endOfDay
             },
-            buzzSpace: { $in: buzzSpaceIds } 
+            buzzSpace: { $in: buzzSpaceIds }
         }).limit(10);
 
         return posts;
@@ -191,4 +209,4 @@ const fetchRecentPosts = async (buzzSpaceIds) => {
 
 
 
-module.exports = { createBuzz, editBuzz, getBuzzsWithComments, fetchRecentPosts, deleteBuzz};
+module.exports = { createBuzz, editBuzz, getBuzzsWithComments, fetchRecentPosts, deleteBuzz };

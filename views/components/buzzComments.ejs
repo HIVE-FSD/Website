@@ -35,7 +35,7 @@
                             <span class="material-symbols-outlined">
                                 person
                             </span>
-                            <%- include('profileCard', { buzzer: buzz.buzzer, username: '' }) %>
+                            <%- include('profileCard', { buzzer: comments[i].buzzer, username: '' }) %>
                         </span>
                     </div>
                     <div class="buzz-comment-content">
@@ -93,10 +93,9 @@
                             return response.json();
                         })
                         .then(data => {
-                            console.log('Comment saved:', data);
-                            // Optionally, you can update the UI to show the newly added comment
                             buzzSuper.querySelector('.buzz-commentText').value = '';
                             buzzSuper.querySelector('.buzz-comment-area').style.display = 'none';
+                            window.location.reload()
                         })
                         .catch(error => {
                             console.error('Error saving comment:', error);

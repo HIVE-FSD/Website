@@ -24,7 +24,11 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/notifications" class="unread">
+                    <% if (user.notifications.length > 0) { %>
+                        <a href="/notifications" class="unread">
+                    <% } else { %>
+                        <a href="/notifications" class="">
+                    <% } %>
                         <span class="material-symbols-outlined">
                             notifications
                         </span>

@@ -1,10 +1,35 @@
+<% function formatTimeAgo(datetimeString) { 
+    const now=new Date(); 
+    const commentedOn=new Date(datetimeString); 
+    const diffMs=now - commentedOn;
+    const diffSeconds=Math.floor(diffMs / 1000);
+    const diffMinutes=Math.floor(diffSeconds /60); 
+    const diffHours=Math.floor(diffMinutes / 60);
+    const diffDays=Math.floor(diffHours / 24); const
+    diffYears=Math.floor(diffDays / 365); if (diffYears> 0) {
+    return `${diffYears} year${diffYears > 1 ? 's' : ''} ago`;
+    } else if (diffDays > 0) {
+    return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    } else if (diffHours > 0) {
+    return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+    } else if (diffMinutes > 0) {
+    return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`;
+    } else {
+    return `${diffSeconds} second${diffSeconds > 1 ? 's' : ''} ago`;
+    }
+    } 
+%>
+
 <% if (notification.type === 'buzz') { %>
 <div class="notification" >
     <span class="material-symbols-outlined notification-symbol">
         arrow_circle_up
     </span>
-    <p><%= notification.message %></p>
-    <span class="material-symbols-outlined notification-delete">
+    <p>
+        <%= notification.message %>
+        <span class="notification-timeago" >~ <%= formatTimeAgo(notification.time) %> </span>
+    </p>
+    <span class="material-symbols-outlined notification-delete" onclick="clearNotification('<%= index %>')" >
         delete
     </span>
 </div>
@@ -13,8 +38,11 @@
     <span class="material-symbols-outlined notification-symbol">
         groups_2
     </span>
-    <p><%= notification.message %></p>
-    <span class="material-symbols-outlined notification-delete">
+    <p>
+        <%= notification.message %>
+        <span class="notification-timeago" >~ <%= formatTimeAgo(notification.time) %> </span>
+    </p>
+    <span class="material-symbols-outlined notification-delete" onclick="clearNotification('<%= index %>')" >
         delete
     </span>
 </div>
@@ -23,8 +51,11 @@
     <span class="material-symbols-outlined notification-symbol" style="font-size: 2.5rem;" >
         comment
     </span>
-    <p><%= notification.message %></p>
-    <span class="material-symbols-outlined notification-delete">
+    <p>
+        <%= notification.message %>
+        <span class="notification-timeago" >~ <%= formatTimeAgo(notification.time) %> </span>
+    </p>
+    <span class="material-symbols-outlined notification-delete" onclick="clearNotification('<%= index %>')" >
         delete
     </span>
 </div>
@@ -33,8 +64,11 @@
     <span class="material-symbols-outlined notification-symbol" style="font-size: 2.5rem;" >
         reply
     </span>
-    <p><%= notification.message %></p>
-    <span class="material-symbols-outlined notification-delete">
+    <p>
+        <%= notification.message %>
+        <span class="notification-timeago" >~ <%= formatTimeAgo(notification.time) %> </span>
+    </p>
+    <span class="material-symbols-outlined notification-delete" onclick="clearNotification('<%= index %>')" >
         delete
     </span>
 </div>
@@ -44,10 +78,18 @@
         add_moderator
     </span>
     <div class="request-notification" >
-        <p><%= notification.request.user.username %> has requested to be a moderator at <a href="<%= `/buzzSpace/${notification.request.buzzspace}` %>"><%= notification.request.buzzspace %></a> </p>
-        <button>Approve</button>
+        <p>
+            <%= notification.request.user.username %> has requested to be a moderator at <a href="<%= `/buzzSpace/${notification.request.buzzspace}` %>"><%= notification.request.buzzspace %></a> 
+            <span class="notification-timeago" >~ <%= formatTimeAgo(notification.time) %> </span>
+        </p>
+        
+        <% if (notification.request.approved) { %>
+            <button>Approved!!</button>
+        <% } else { %>
+            <button onclick="approveModeratorfunc('<%= notification.request.user.username %>', '<%= notification.request.buzzspace %>', '<%= index %>')" >Approve</button>  
+        <% } %>
     </div>
-    <span class="material-symbols-outlined notification-delete">
+    <span class="material-symbols-outlined notification-delete" onclick="clearNotification('<%= index %>')" >
         delete
     </span>
 </div>

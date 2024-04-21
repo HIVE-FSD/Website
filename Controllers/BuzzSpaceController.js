@@ -2,7 +2,7 @@ const BuzzSpace = require('../models/BuzzSpace');
 const User = require('../models/User')
 
 const createBuzzSpace = async (buzzSpaceName, buzzSpaceTag, description, coverImage, logoImage, creator, rules) => {
-    
+
     try {
         const newBuzzSpace = new BuzzSpace({
             name: buzzSpaceName,
@@ -25,12 +25,12 @@ const createBuzzSpace = async (buzzSpaceName, buzzSpaceTag, description, coverIm
 }
 
 const editBuzzSpace = async (req, res) => {
-    const { userId, rules,  description, buzzSpaceId } = req.body;
+    const { userId, rules, description, buzzSpaceId } = req.body;
 
     let buzzSpace;
     try {
         buzzSpace = await BuzzSpace.findById(buzzSpaceId)
-        if(userId == buzzSpace.creator) await BuzzSpace.findByIdAndUpdate(buzzSpaceId, {
+        if (userId == buzzSpace.creator) await BuzzSpace.findByIdAndUpdate(buzzSpaceId, {
             rules,
             description
         })
@@ -69,20 +69,20 @@ const joinBuzzSpace = async (req, res) => {
 
     let buzzSpaceCreator;
     try {
-        if(existingBuzzSpace.numberOfMembersJoined % 100 == 0){
+        if (existingBuzzSpace.numberOfMembersJoined % 100 == 0) {
             buzzSpaceCreator = await User.findById(existingBuzzSpace.creator);
-            const notificationMessage = `Number of users in ${ existingBuzzSpace.name } reached ${ existingBuzzSpace.numberOfMembersJoined }`;
+            const notificationMessage = `Number of users in ${existingBuzzSpace.name} reached ${existingBuzzSpace.numberOfMembersJoined}`;
             const notification = {
-            type: 'buzzspace',
-            message: notificationMessage
+                type: 'buzzspace',
+                message: notificationMessage
             };
-        if (buzzSpaceCreator.notifications) {
-            buzzSpaceCreator.notifications.push(notification);
+            if (buzzSpaceCreator.notifications) {
+                buzzSpaceCreator.notifications.unshift(notification);
 
-            await buzzSpaceCreator.save(); 
-        } else {
-            console.log("BuzzSpace creator's notifications array does not exist.");
-        }
+                await buzzSpaceCreator.save();
+            } else {
+                console.log("BuzzSpace creator's notifications array does not exist.");
+            }
         }
 
     } catch (err) {
@@ -100,38 +100,38 @@ const joinBuzzSpace = async (req, res) => {
     res.status(200).json({ message: "Successfully joined the BuzzSpace!" });
 }
 
-const leaveBuzzSpace = async(req, res) => {
-    const {buzzSpaceId, userId} = req.body;
+const leaveBuzzSpace = async (req, res) => {
+    const { buzzSpaceId, userId } = req.body;
 
     let existingUser;
     let existingBuzzSpace;
 
-    try{
-        try{
+    try {
+        try {
             existingUser = await User.findById(userId);
-            
-        }catch(err){
+
+        } catch (err) {
             console.log(err);
             return res.status(500).json({ message: "Error finding user" });
         }
-        try{
+        try {
             existingBuzzSpace = await BuzzSpace.findById(buzzSpaceId);
-        }catch(err){
+        } catch (err) {
             console.log(err);
             return res.status(500).json({ message: "Error finding BuzzSpace" });
         }
-        if(!existingUser) return res.status(404).json({message: "User doesn't exist"})
-        if(!existingBuzzSpace) return res.status(404).json({message: "BuzSpace doesn't exist"})
-        if(!existingUser.joined_buzzSpace_ids.includes(buzzSpaceId)){
-             return res.status(404).json({message: "You did not join the Buzzspace"})
+        if (!existingUser) return res.status(404).json({ message: "User doesn't exist" })
+        if (!existingBuzzSpace) return res.status(404).json({ message: "BuzSpace doesn't exist" })
+        if (!existingUser.joined_buzzSpace_ids.includes(buzzSpaceId)) {
+            return res.status(404).json({ message: "You did not join the Buzzspace" })
         }
         existingUser.joined_buzzSpace_ids = existingUser.joined_buzzSpace_ids.filter(id => id != buzzSpaceId);
-        
+
         await existingUser.save();
-            
+
         res.status(200).json({ message: "Successfully left the BuzzSpace!" });
-    
-    }catch(err){
+
+    } catch (err) {
         console.log(err);
         return res.status(500).json({ message: "Error leaving BuzzSpace" });
     }
@@ -154,14 +154,14 @@ const requestPromotion = async (req, res) => {
             type: 'request',
             message: notificationMessage,
             request: {
-                user: { ...user.info, username:user.username },
+                user: { ...user.info, username: user.username },
                 buzzspace: buzzSpace1.name,
             }
         };
-        creator2.notifications.push(notification);
+        creator2.notifications.unshift(notification);
 
         await creator2.save();
-        
+
         return res.status(201).json({ message: "Request Sent!!" });
     } catch (err) {
         console.log(err);
@@ -169,27 +169,48 @@ const requestPromotion = async (req, res) => {
     }
 }
 
-const approve = async(req, res) => {
-    const {userId, buzzSpaceId} = req.body;
-
-    try{
-        const buzzSpace = await BuzzSpace.findById(buzzSpaceId);
-        buzzSpace.moderators.push(userId);
+const approve = async (req, res) => {
+    const { username, buzzSpaceName, approverId, index } = req.body;
+    
+    try {
+        const user = await User.findOne({ username });
+        if (!user) throw new Error('User not found');
+        
+        // Find the buzzspace by name
+        const buzzSpace = await BuzzSpace.findOne({ name: buzzSpaceName });
+        if (!buzzSpace) throw new Error('BuzzSpace not found');
+        
+        // Add the user as a moderator
+        buzzSpace.moderators.push(user._id);
+        await buzzSpace.save();
+        const notificationMessage = `Congragulations you are now a moderator at ${buzzSpace.name}`;
+        const notification = {
+            type: 'buzzspace',
+            message: notificationMessage
+        };
+        user.notifications.unshift(notification);
+        
+        await user.save();
+        const approver = await User.findById(approverId);
+        approver.notifications[index].request.approved = true
+        await approver.save()
+        
         return res.status(201).json({ message: "Moderator Added" });
-    }catch(err){
+    } catch (err) {
         console.log(err);
     }
 }
 
-const clearNotification = async(req, res) => {
+const clearNotification = async (req, res) => {
     const { UserId, notificationIndex } = req.body;
-    try{
+    try {
         const user = await User.findById(UserId);
         user.notifications.splice(notificationIndex, 1);
-        return res.status(201).json({message: "Notofication deleted"});
-    }catch(err){
+        await user.save()
+        return res.status(201).json({ message: "Notofication deleted" });
+    } catch (err) {
         console.log(err);
     }
 }
 
-module.exports = { createBuzzSpace, editBuzzSpace, joinBuzzSpace, leaveBuzzSpace, requestPromotion, approve, clearNotification};
+module.exports = { createBuzzSpace, editBuzzSpace, joinBuzzSpace, leaveBuzzSpace, requestPromotion, approve, clearNotification };

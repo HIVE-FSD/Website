@@ -4,7 +4,7 @@
     return text;
     }
     }
-    %>
+%>
 
 <% function formatTimeAgo(datetimeString) { 
     const now=new Date(); 
@@ -25,7 +25,8 @@
     } else {
     return `${diffSeconds} second${diffSeconds > 1 ? 's' : ''} ago`;
     }
-    } %>
+    } 
+%>
 
 <div class="buzz-super" >
     <div class="buzz">
@@ -221,7 +222,7 @@
         const buzzSuper = buzz.closest('.buzz-super');
         buzzSuper.classList.add('modal');
         const paragraph = buzzSuper.querySelector('.buzz-description')
-        paragraph.innerHTML = '<%= buzz.buzz %>';
+        paragraph.innerHTML = `<%= buzz.buzz %>`;
     }
 
     function closeContent(close) {
@@ -230,7 +231,7 @@
         const commentArea = buzzSuper.querySelector('.buzz-comment-area');
         commentArea.style.display = 'none';
         buzzSuper.classList.remove('modal');
-        paragraph.innerHTML = '<%- truncateText(buzz.buzz, 75) %>';
+        paragraph.innerHTML = `<%- truncateText(buzz.buzz, 75) %>`;
     }
 
     function toggleCommentArea(commentButton) {

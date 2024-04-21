@@ -1,49 +1,66 @@
-<% 
-    const notifications = [
-        {
-          type: 'buzz',
-          message: 'New post added to the community!',
-          request: null
-        },
-        {
-          type: 'buzzspace',
-          message: 'New buzzspace created!',
-          request: null
-        },
-        {
-          type: 'comment',
-          message: 'Someone commented on your post!',
-          request: null
-        },
-        {
-          type: 'reply',
-          message: 'Someone replied to your comment!',
-          request: null
-        },
-        {
-          type: 'request',
-          message: 'You have a new friend request!',
-          request: {
-            user: {
-              _id: 'user123',
-              username: 'abc'
-            },
-            buzzspace: "Hello"
-          }
-        }
-    ]; 
-
-%>
-
-
 <div class="notifications-supreme">
     <h1>Notifications</h1>
 
     <div class="notifications-container">
 
-        <% notifications.map(notification=> { %>
-                <%- include('components/notification', { notification }) %>
-            
-            <% }); %>
+        <% user.notifications.map((notification, index) => { %>
+            <%- include('components/notification', { notification, index }) %>
+        <% }); %>
+        
     </div>
 </div>
+
+<script>
+
+    const clearNotification = async (notificationIndex) => {
+        const UserId = '<%= user._id %>'
+        try {
+            const response = await fetch('/buzzspace/clearNotification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ UserId, notificationIndex })
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message);
+            }
+    
+            const responseData = await response.json();
+            
+            window.location.reload()
+
+        } catch (error) {
+            console.error('Error:', error.message);
+            throw error;
+        }
+    };
+
+
+    const approveModeratorfunc = async (username, buzzSpaceName, index) => {
+        try {
+            const approverId = '<%= user._id %>'
+            const response = await fetch('/buzzspace/approve', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, buzzSpaceName , approverId, index})
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message);
+            }
+    
+            const responseData = await response.json();
+            window.location.reload()
+            return responseData;
+        } catch (error) {
+            console.error('Error:', error.message);
+            throw error;
+        }
+    };
+</script>

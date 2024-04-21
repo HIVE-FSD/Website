@@ -70,16 +70,16 @@ router.post('/newcomment', async (req, res) => {
 
         const savedComment = await newComment.save();
         const buzz = await Buzz.findById(buzzId).populate('buzzer');
-        const buzzerObj = await User.findById(buzzer);
+        const commentator = await User.findById(buzzer)
         if (buzz && buzz.buzzer) {
-            const notificationMessage = `${buzzerObj.info.display_name} commented on your buzz: "${buzz.title}""`;
+            const notificationMessage = `${commentator.info.display_name} commented on your buzz: "${buzz.title}""`;
             const notification = {
                 type: 'comment',
                 message: notificationMessage
             };
-            if (buzzerObj && buzzerObj.notifications) { 
-                buzzerObj.notifications.push(notification);
-                await buzzerObj.save();
+            if (buzz.buzzer && buzz.buzzer.notifications) { 
+                buzz.buzzer.notifications.unshift(notification);
+                await buzz.buzzer.save();
             } else {
                 console.log(`Buzz creator's notifications array does not exist. "${buzzer.username}"`);
             }
@@ -115,7 +115,8 @@ router.post('/newreply', async (req, res) => {
             return res.status(404).json({ message: 'Parent comment not found' });
         }
 
-        const notificationMessage = `${buzzer} replied to your comment: "${parentComment.comment}"`;
+        const Commenter = await User.findById(buzzer);
+        const notificationMessage = `${Commenter.info.display_name} replied to your comment: "${parentComment.comment}"`;
         const notification = {
             type: 'reply',
             message: notificationMessage
@@ -123,7 +124,7 @@ router.post('/newreply', async (req, res) => {
 
         const originalCommenter = await User.findById(parentComment.buzzer);
         if (originalCommenter && originalCommenter.notifications) {
-            originalCommenter.notifications.push(notification);
+            originalCommenter.notifications.unshift(notification);
             await originalCommenter.save();
         } else {
             console.log("Original commenter or notifications array not found.");
@@ -199,7 +200,7 @@ router.post('/vote/:type/:action', async (req, res) => {
 
             const user = await User.findById(userId);
             if (user) {
-                user.notifications.push(notification);
+                user.notifications.unshift(notification);
                 await user.save();
             } else {
                 console.log("User not found.");
