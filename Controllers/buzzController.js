@@ -200,7 +200,7 @@ const fetchRecentPosts = async (buzzSpaceIds) => {
 
         now.setDate(now.getDate() - 1); // Move to the previous day
     }
-
+ 
     // Slice the array to get only the first 10 post IDs
     recentPosts = recentPosts.slice(0, 10);
 

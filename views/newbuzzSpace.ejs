@@ -1,4 +1,4 @@
-<form class="newbuzzSpaces-container" enctype="multipart/form-data" autocomplete="off" >
+<form class="newbuzzSpaces-container" enctype="multipart/form-data" autocomplete="off">
     <div class="buzzSpace-cover-group" onclick="clickinput(this)">
         <span class="material-symbols-outlined">
             upload
@@ -15,9 +15,10 @@
         <input type="file" multiple="false" accept="image/*" name="logo" class="file-input" onchange="uploadLogo(this)">
     </div>
     <input type="text" name="buzzSpaceName" placeholder="Enter the name of your BuzzSpace">
-    <input type="text" name="buzzSpaceTag"
+    <input type="text" id="category" name="buzzSpaceTag" autocomplete="off"
         placeholder="What Category does your BuzzSpace fall into? ex:sports, study etc..">
-    <textarea name="description" cols="30" rows="5" placeholder="About yor BuzzSpace"></textarea>
+    <div class="autocomplete-items"></div>
+    <textarea name="description" cols="30" rows="5" placeholder="About your BuzzSpace"></textarea>
 
     <div class="rules-input-main">
         <h1>Rules :</h1>
@@ -29,12 +30,22 @@
 
         <button type="button" onclick="addRuleInput(this)">Add Rule</button>
     </div>
-
     <button type="button" onclick="submitForm()">Submit</button>
 </form>
 
-<script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js"></script>
 <script>
+    const categories = [
+        "Technology", "Fashion", "Travel", "Food", "Sports",
+        "Music", "Movies", "Books", "Art", "Health",
+        "Fitness", "Finance", "Business", "Education", "Science",
+        "Nature", "Photography", "Animals", "Cars", "Games",
+        "Design", "DIY", "Gardening", "Cooking", "Crafts",
+        "Beauty", "Fitness", "History", "Space", "Architecture",
+        "Spirituality", "Pets", "Hobbies", "Environment", "Politics",
+        "News", "Weather", "Entertainment", "Celebrities", "Events",
+        "Culture", "Education", "Technology", "Finance", "Business"
+    ];
+
     function uploadCover(fileinput) {
         var imgcanvas = document.getElementById("CoverCan");
         var image = new SimpleImage(fileinput);
@@ -122,4 +133,29 @@
             });
     }
     
+    const categoryInput = document.getElementById('category');
+    const autocompleteItems = document.querySelector('.autocomplete-items');
+
+    categoryInput.addEventListener('input', function() {
+        const inputValue = this.value.toLowerCase();
+        
+        // Clear previous items
+        autocompleteItems.innerHTML = '';
+
+        categories.forEach(category => {
+            if (category.toLowerCase().includes(inputValue)) {
+                const item = document.createElement('div');
+                item.className = 'autocomplete-item';
+                item.textContent = category;
+
+                item.addEventListener('click', function() {
+                    categoryInput.value = category;
+                    autocompleteItems.innerHTML = ''; // Clear items after selection
+                });
+
+                autocompleteItems.appendChild(item);
+            }
+        });
+    });
+
 </script>
