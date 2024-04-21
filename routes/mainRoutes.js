@@ -2,6 +2,7 @@ const express = require('express');
 const { checkAuth } = require('../Middleware/mainware');
 const { getBuzzsWithComments, fetchRecentPosts } = require('../Controllers/buzzController');
 const { fetchBuzzSpaces } = require('../Controllers/ProfileController');
+const BuzzSpace = require('../models/BuzzSpace');
 
 
 const app = express.Router();
@@ -31,10 +32,13 @@ renderPage('/notifications', 'notifications', {
     title: 'HIVE | My Notifications'
 })
 
-renderPage('/topbuzzspaces', 'topBuzzSpaces', {
-    title: 'HIVE | Top BuzzSpaces'
-})
 
+app.get('/topbuzzspaces', checkAuth, async (req, res) => {
+    const user = req.user
+    let buzzSpaces = await BuzzSpace.find()
+    buzzSpaces = buzzSpaces.sort((a, b) => b.numberOfMembersJoined - a.numberOfMembersJoined)
+    res.render('topBuzzSpaces', { title: 'HIVE | Top BuzzSpaces', user, buzzSpaces});
+})
 
 
 module.exports = app;
