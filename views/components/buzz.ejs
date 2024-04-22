@@ -58,7 +58,7 @@
                 </span>
                 <div class="buzz-inner-functions">
                     <div onclick="toggleCommentArea(this)"><span class="material-symbols-outlined">comment</span> Comment</div>
-                    <div><span class="material-symbols-outlined">flag</span> Report</div>
+                    <div onclick="reportBuzz('<%= buzz.id %>')" ><span class="material-symbols-outlined">flag</span> Report</div>
                     <% if (buzz.canEdit || buzz.canDelete) { %>
                     <div class="buzz-actions-container">
                         <span class="material-symbols-outlined buzz-actions-toggle">
@@ -224,6 +224,31 @@
         const paragraph = buzzSuper.querySelector('.buzz-description')
         paragraph.innerHTML = `<%= buzz.buzz %>`;
     }
+
+const reportBuzz = async (buzzId) => {
+
+    const requestData = {
+        buzzId: buzzId
+    };
+    console.log(requestData)
+
+    try {
+        const response = await fetch('/buzz/reportBuzz', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        });
+
+        const responseData = await response.json();
+        console.log(responseData); // Assuming the response contains a message property
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+
+
 
     function closeContent(close) {
         const buzzSuper = close.closest('.buzz-super');

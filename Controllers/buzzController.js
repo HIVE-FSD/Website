@@ -44,6 +44,51 @@ const editBuzz = async (req, res) => {
     return res.status(200).json({ buzz1 })
 }
 
+const reportBuzz = async (req, res) => {
+    const { buzzId } = req.body;
+    try {
+        const buzz = await Buzz.findById(buzzId);
+        const buzzSpace = await BuzzSpace.findById(buzz.buzzSpace);
+        const buzzer = await User.findById(buzz.buzzer)
+        const notificationMessage = `Buzz ${buzz.title} in ${buzzSpace.name} buzzed by ${buzzer.info.display_name}is reported`;
+        const notification = {
+            type: 'buzzspace',
+            message: notificationMessage
+        };
+        if (buzzSpace && buzzSpace.moderators && buzzSpace.moderators.length > 0) {
+
+            try {
+
+                for (const element of buzzSpace.moderators) {
+                    try {
+                        const user = await User.findById(element);
+                        if (user) {
+                            user.notifications.unshift(notification);
+                            await user.save();
+                        } else {
+                            console.log("No user found.");
+                        }
+                    } catch (error) {
+                        console.log(`Error while processing user with ID ${element}: ${error}`);
+                    }
+                }
+                
+            } catch (error) {
+                console.log(`Error while processing user with ID ${element}: ${error}`);
+            }
+        }
+        const creator = await User.findById(buzzSpace.creator)
+                if(creator){
+                    creator.notifications.unshift(notification);
+                    await creator.save();
+                }else{
+                    console.log("Creator does not exist")
+                }
+                return res.status(201).json({ message: "Notification Sent" })
+}catch (err) {
+    console.log(err)
+}
+}
 
 const deleteBuzz = async (req, res) => {
     const { userId, buzzId } = req.body;
@@ -88,23 +133,23 @@ async function getBuzzsWithComments(buzzIds, _id) {
             if (buzz.downvotes.includes(_id)) {
                 downvoted = true
             }
-            
+
             if (buzzSpace.creator.toString() === _id.toString() || buzzSpace.moderators.includes(_id)) {
                 canDelete = true
             }
-            if (buzzSpace.moderators.includes(_id) && buzzSpace.creator.toString() === buzz.buzzer.toString() ) {
+            if (buzzSpace.moderators.includes(_id) && buzzSpace.creator.toString() === buzz.buzzer.toString()) {
                 canDelete = false
             }
-            if (buzzSpace.moderators.includes(_id) && buzzSpace.moderators.includes(buzz.buzzer) ) {
+            if (buzzSpace.moderators.includes(_id) && buzzSpace.moderators.includes(buzz.buzzer)) {
                 canDelete = false
             }
 
             if (buzz.buzzer.toString() === _id.toString()) {
                 canDelete = true
                 canEdit = true
-            } 
+            }
 
-            
+
             buzzes.push({
                 id: buzz._id,
                 buzzSpace: buzzSpace.name,
@@ -200,7 +245,7 @@ const fetchRecentPosts = async (buzzSpaceIds) => {
 
         now.setDate(now.getDate() - 1); // Move to the previous day
     }
- 
+
     // Slice the array to get only the first 10 post IDs
     recentPosts = recentPosts.slice(0, 10);
 
@@ -209,4 +254,4 @@ const fetchRecentPosts = async (buzzSpaceIds) => {
 
 
 
-module.exports = { createBuzz, editBuzz, getBuzzsWithComments, fetchRecentPosts, deleteBuzz };
+module.exports = { createBuzz, editBuzz, getBuzzsWithComments, fetchRecentPosts, deleteBuzz, reportBuzz };

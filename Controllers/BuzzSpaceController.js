@@ -115,7 +115,7 @@ const leaveBuzzSpace = async (req, res) => {
             return res.status(500).json({ message: "Error finding user" });
         }
         try {
-            existingBuzzSpace = await BuzzSpace.findById(buzzSpaceId);
+            existingBuzzSpace = await BuzzSpace.findById(buzzSpaceId);  
         } catch (err) {
             console.log(err);
             return res.status(500).json({ message: "Error finding BuzzSpace" });
@@ -131,7 +131,6 @@ const leaveBuzzSpace = async (req, res) => {
         }
 
         existingUser.joined_buzzSpace_ids = existingUser.joined_buzzSpace_ids.filter(id => id != buzzSpaceId);
-
         await existingUser.save();
 
         res.status(200).json({ message: "Successfully left the BuzzSpace!" });

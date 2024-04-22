@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const Buzz = require("../models/Buzz");
 const User = require("../models/User");
-const { createBuzz, editBuzz, deleteBuzz } = require('../Controllers/buzzController.js');
+const { createBuzz, editBuzz, deleteBuzz, reportBuzz } = require('../Controllers/buzzController.js');
 const { body, validationResult } = require('express-validator');
 const { fetchBuzzSpaces } = require('../Controllers/ProfileController.js');
 const { checkAuth } = require('../Middleware/mainware.js');
@@ -139,7 +139,7 @@ router.post('/newreply', async (req, res) => {
     }
 });
 
-
+router.post('/reportBuzz', reportBuzz);
 
 router.post('/vote/:type/:action', async (req, res) => {
     const { type, action } = req.params;
