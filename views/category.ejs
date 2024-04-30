@@ -1,0 +1,34 @@
+
+<div class="topSpaces-supreme">
+
+  <h1> <%= category %> </h1>
+  
+  <ul class="topSpaces-container">
+    <% buzzSpaces.map((space, index) => { %>
+      <li>
+        <span><%= index + 1 %>.</span>
+        <a class="topSpaces-item" href="<%= `/buzzSpace/${space.name}` %>">
+          <img src="<%= `uploads/${space.logo}` %>" alt="<%= space.name %>">
+          <div class="topSpaces-item-inner">
+            <h4><%= space.name %></h4>
+            <p><%= space.category %></p>
+            <p><%= formatJoined(space.numberOfMembersJoined) %> Members </p>
+        </div>
+      </a>
+    </li>
+    <% }) %>
+  </ul>
+  
+</div>
+  
+<%
+function formatJoined(number) {
+  if (number >= 1000000) {
+    return (number / 1000000).toFixed(1) + 'M';
+  } else if (number >= 1000) {
+    return (number / 1000).toFixed(1) + 'K';
+  } else {
+    return number.toString();
+  }
+}
+%>

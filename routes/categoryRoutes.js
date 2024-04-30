@@ -8,24 +8,61 @@ const router = express.Router();
 router.use(express.static(path.join(__dirname, '../public')));
 
 
+router.get('/', checkAuth, async (req, res) => {
+    const user = req.user
+    res.render('categories', { title: 'HIVE | Categories', user });
+})
+
+
 // Define the middleware to check if the category exists
 const checkCategoryExists = (req, res, next) => {
     const categories = [
-        "Technology", "Fashion", "Travel", "Food", "Sports",
-        "Music", "Movies", "Books", "Art", "Health",
-        "Fitness", "Finance", "Business", "Education", "Science",
-        "Nature", "Photography", "Animals", "Cars", "Games",
-        "Design", "DIY", "Gardening", "Cooking", "Crafts",
-        "Beauty", "Fitness", "History", "Space", "Architecture",
-        "Spirituality", "Pets", "Hobbies", "Environment", "Politics",
-        "News", "Weather", "Entertainment", "Celebrities", "Events",
-        "Culture", "Education", "Technology", "Finance", "Business"
+        "animals",
+        "architecture",
+        "art",
+        "beauty",
+        "books",
+        "business",
+        "cars",
+        "celebrities",
+        "cooking",
+        "crafts",
+        "culture",
+        "design",
+        "diy",
+        "education",
+        "entertainment",
+        "environment",
+        "events",
+        "fashion",
+        "finance",
+        "fitness",
+        "food",
+        "games",
+        "gardening",
+        "health",
+        "history",
+        "hobbies",
+        "movies",
+        "music",
+        "nature",
+        "news",
+        "pets",
+        "photography",
+        "politics",
+        "science",
+        "space",
+        "spirituality",
+        "sports",
+        "technology",
+        "travel",
+        "weather"
     ];
     const category = req.params.category;
-    if (categories.includes(category)) {
+    if (categories.includes(category.toLowerCase())) {
         next();
     } else {
-        res.status(404).render('404.ejs', { title: '404 | No such category!', layout: './layouts/authLayout', message : `The category ${category} doesn't exist` });
+        res.status(404).render('404.ejs', { title: '404 | No such category!', layout: './layouts/authLayout', message: `The category ${category} doesn't exist` });
     }
 };
 
@@ -35,16 +72,8 @@ router.get('/:category', checkAuth, checkCategoryExists, async (req, res) => {
     const category = req.params.category; // Extracting the category from the URL
     let buzzSpaces = await BuzzSpace.find({ category: category }); // Assuming you have a 'category' field in your BuzzSpace model
     buzzSpaces = buzzSpaces.sort((a, b) => b.numberOfMembersJoined - a.numberOfMembersJoined);
-    res.render('categories', { title: `HIVE | Top ${category} BuzzSpaces`, user, buzzSpaces, category });
+    res.render('category', { title: `HIVE | Top ${category} BuzzSpaces`, user, buzzSpaces, category });
 });
 
-
-router.get('/:category', checkAuth, async (req, res) => {
-    const user = req.user;
-    const category = req.params.category; // Extracting the category from the URL
-    let buzzSpaces = await BuzzSpace.find({ category: category }); // Assuming you have a 'category' field in your BuzzSpace model
-    buzzSpaces = buzzSpaces.sort((a, b) => b.numberOfMembersJoined - a.numberOfMembersJoined);
-    res.render('categories', { title: `HIVE | Top ${category} BuzzSpaces`, user, buzzSpaces, category });
-});
 
 module.exports = router;

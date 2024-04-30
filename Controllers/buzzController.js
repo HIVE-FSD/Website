@@ -50,7 +50,7 @@ const reportBuzz = async (req, res) => {
         const buzz = await Buzz.findById(buzzId);
         const buzzSpace = await BuzzSpace.findById(buzz.buzzSpace);
         const buzzer = await User.findById(buzz.buzzer)
-        const notificationMessage = `Buzz ${buzz.title} in ${buzzSpace.name} buzzed by ${buzzer.info.display_name}is reported`;
+        const notificationMessage = `Buzz ${buzz.title} in ${buzzSpace.name} buzzed by ${buzzer.info.display_name} was reported`;
         const notification = {
             type: 'buzzspace',
             message: notificationMessage
@@ -127,6 +127,7 @@ async function getBuzzsWithComments(buzzIds, _id) {
             let downvoted = false
             let canDelete = false
             let canEdit = false
+            let canReport = true
             if (buzz.upvotes.includes(_id)) {
                 upvoted = true
             }
@@ -136,18 +137,26 @@ async function getBuzzsWithComments(buzzIds, _id) {
 
             if (buzzSpace.creator.toString() === _id.toString() || buzzSpace.moderators.includes(_id)) {
                 canDelete = true
+                canReport = false
             }
             if (buzzSpace.moderators.includes(_id) && buzzSpace.creator.toString() === buzz.buzzer.toString()) {
                 canDelete = false
             }
             if (buzzSpace.moderators.includes(_id) && buzzSpace.moderators.includes(buzz.buzzer)) {
+                canReport = true
                 canDelete = false
             }
-
+            
+            if (buzzSpace.creator.toString() === buzz.buzzer.toString()) {
+                canReport = false
+            }
+            
             if (buzz.buzzer.toString() === _id.toString()) {
                 canDelete = true
                 canEdit = true
+                canReport = false
             }
+            
 
 
             buzzes.push({
@@ -162,7 +171,8 @@ async function getBuzzsWithComments(buzzIds, _id) {
                 buzzer: buzzer.info,
                 comments: formattedComments,
                 canDelete,
-                canEdit
+                canEdit,
+                canReport
             });
         }
         buzzes.sort((a, b) => {

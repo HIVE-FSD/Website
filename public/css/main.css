@@ -109,7 +109,7 @@ nav a {
     justify-content: space-between;
     align-items: center;
     width: 15%;
-    min-width: 200px;
+    min-width: 300px;
 }
 
 .nav-list li,
@@ -2072,6 +2072,7 @@ footer img {
 .category-button {
     padding: 10px;
     margin-right: 10px;
+    text-transform: capitalize;
 }
 
 .scroll-button {
@@ -2087,3 +2088,47 @@ footer img {
 .scroll-button.right {
     right: 0;
 }
+/* Categpry-pills*/
+
+/* Categpry-page*/
+
+.categories-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    gap: 2rem;
+}
+
+.categories-container input {
+    width: 100%;
+    padding: 1rem;
+    font-size: 16px;
+}
+
+.categories-container ul {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.categories-container ul li {
+    list-style: none;
+    margin: 5px auto;
+}
+
+.categories-container ul li a {
+    font-size: 1.25rem;
+    color: rgba(240, 255, 255, 0.5);
+    padding: 3px 5px;
+    border: 2px solid var(--grey);
+    border-radius: 5px;
+    width: fit-content;
+}
+
+.categories-container ul li a:hover{
+    border: 2px solid var(--orange);
+}
+
+/* Categpry-page*/

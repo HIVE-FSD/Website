@@ -1,34 +1,46 @@
-
-<div class="topSpaces-supreme">
-
-  <h1> <%= category %> </h1>
-  
-  <ul class="topSpaces-container">
-    <% buzzSpaces.map((space, index) => { %>
-      <li>
-        <span><%= index + 1 %>.</span>
-        <a class="topSpaces-item" href="<%= `/buzzSpace/${space.name}` %>">
-          <img src="<%= `uploads/${space.logo}` %>" alt="<%= space.name %>">
-          <div class="topSpaces-item-inner">
-            <h4><%= space.name %></h4>
-            <p><%= space.category %></p>
-            <p><%= formatJoined(space.numberOfMembersJoined) %> Members </p>
-        </div>
-      </a>
-    </li>
-    <% }) %>
-  </ul>
-  
+<div class="categories-container">
+    <input type="text" placeholder="Search categories..." oninput="filterCategories(this)">
+    <ul>
+    </ul>
 </div>
-  
-<%
-function formatJoined(number) {
-  if (number >= 1000000) {
-    return (number / 1000000).toFixed(1) + 'M';
-  } else if (number >= 1000) {
-    return (number / 1000).toFixed(1) + 'K';
-  } else {
-    return number.toString();
-  }
-}
-%>
+
+<script>
+    const categories = [
+        "Technology", "Fashion", "Travel", "Food", "Sports",
+        "Music", "Movies", "Books", "Art", "Health",
+        "Fitness", "Finance", "Business", "Education", "Science",
+        "Nature", "Photography", "Animals", "Cars", "Games",
+        "Design", "DIY", "Gardening", "Cooking", "Crafts",
+        "Beauty", "Fitness", "History", "Space", "Architecture",
+        "Spirituality", "Pets", "Hobbies", "Environment", "Politics",
+        "News", "Weather", "Entertainment", "Celebrities", "Events",
+        "Culture", "Education", "Technology", "Finance", "Business"
+    ];
+
+    const categoriesList = document.querySelector('.categories-container ul');
+
+    // Function to filter categories based on input
+    function filterCategories(input) {
+        const searchText = input.value.toLowerCase();
+        const filteredCategories = categories.filter(category =>
+            category.toLowerCase().includes(searchText)
+        );
+        displayCategories(filteredCategories);
+    }
+
+    // Function to display categories
+    function displayCategories(categories) {
+        categoriesList.innerHTML = '';
+        categories.forEach(category => {
+            const listItem = document.createElement('li');
+            const link = document.createElement('a');
+            link.href = `/category/${category.toLowerCase()}`;
+            link.textContent = category;
+            listItem.appendChild(link);
+            categoriesList.appendChild(listItem);
+        });
+    }
+
+    // Initial display of all categories
+    displayCategories(categories);
+</script>

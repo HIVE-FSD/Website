@@ -58,7 +58,9 @@
                 </span>
                 <div class="buzz-inner-functions">
                     <div onclick="toggleCommentArea(this)"><span class="material-symbols-outlined">comment</span> Comment</div>
+                    <% if (buzz.canReport) { %>
                     <div onclick="reportBuzz('<%= buzz.id %>')" ><span class="material-symbols-outlined">flag</span> Report</div>
+                    <% } %>
                     <% if (buzz.canEdit || buzz.canDelete) { %>
                     <div class="buzz-actions-container">
                         <span class="material-symbols-outlined buzz-actions-toggle">
