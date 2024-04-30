@@ -1,6 +1,10 @@
 # Dependency directories
 node_modules/
+
 public/uploads/*
+
+!public/uploads/.gitkeep
+
 
 # Environment variables file
 .env
