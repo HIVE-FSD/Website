@@ -86,3 +86,33 @@ async function downVote(voteButton, id, type, userId) {
 
     }
 }
+
+const reportBuzz = async (btn, buzzId) => {
+
+    const requestData = {
+        buzzId: buzzId
+    };
+
+    try {
+        const response = await fetch('/buzz/reportBuzz', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        });
+
+        const responseData = await response.json();
+        btn.innerHTML = 'Reported!'
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+
+function truncateText(text, maxLength) {
+    if (text.length > maxLength) {
+        return text.slice(0, maxLength) + ' <span class="more">...more</span>';
+    } else {
+        return text;
+    }
+}

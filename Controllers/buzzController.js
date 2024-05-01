@@ -95,14 +95,15 @@ const deleteBuzz = async (req, res) => {
     let buzz1;
     try {
         buzz1 = await Buzz.findById(buzzId);
-        if (buzz1.buzzer == buzz1.buzzSpace.creator || buzz1.buzzer == userId) {
+        const buzzSpace = await BuzzSpace.findById(buzz1.buzzSpace)
+        if (userId == buzzSpace.creator || buzz1.buzzer == userId) {
             await Buzz.findByIdAndDelete(buzzId)
             await Comment.deleteMany({ buzz: buzzId });
-            await User.findByIdAndUpdate(userId, {
+            await User.findByIdAndUpdate(buzz1.buzzer, {
                 $pull: { buzz_ids: buzzId },
                 $inc: { 'info.buzz_count': -1 }
             });
-
+            
         } else {
             return res.status(500).json({ message: "You cannot delete the Buzz" })
         }

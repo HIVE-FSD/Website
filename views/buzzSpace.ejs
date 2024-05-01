@@ -12,6 +12,16 @@ function formatDate(dateString) {
   return `${month} ${day}${suffix} ${year}`;
 }
 
+function formatJoined(number) {
+  if (number >= 1000000) {
+    return (number / 1000000).toFixed(1) + 'M';
+  } else if (number >= 1000) {
+    return (number / 1000).toFixed(1) + 'K';
+  } else {
+    return number.toString();
+  }
+}
+
 function getDaySuffix(day) {
   if (day >= 11 && day <= 13) {
     return "th";
@@ -37,11 +47,16 @@ function getDaySuffix(day) {
           <h1>
             <%= buzzSpace.name %>
           </h1>
-          <a href="/category/<%= buzzSpace.category %>">
+          <div>
+            <a href="/category/<%= buzzSpace.category %>">
+              <span >
+                <%= buzzSpace.category %>
+              </span>
+            </a>
             <span >
-              <%= buzzSpace.category %>
+              <%= formatJoined(buzzSpace.numberOfMembersJoined) %> Members 
             </span>
-          </a>
+          </div>
         </div>
       </div>
       <div class="buzzSpace-header-inner-right">
@@ -68,6 +83,7 @@ function getDaySuffix(day) {
   <div class="buzzSpace-content">
     
     <div class="space-buzzs-container">
+      <input type="text" oninput="filterBuzzes(this)" placeholder="Search Buzz">
       <% buzzes.map((buzz, index)=> { %>
         <%-  include('components/buzz', { buzz: buzz, index: index })  %>
         <% }); %>
@@ -186,6 +202,22 @@ function getDaySuffix(day) {
 
 </div>
 <script>
+  function filterBuzzes(input) {
+    const searchValue = input.value.toLowerCase();
+    const buzzSpaceContent = input.closest('.space-buzzs-container');
+    const buzzContainers = buzzSpaceContent.querySelectorAll('.buzz-super');
+
+    buzzContainers.forEach(function(buzzContainer) {
+      const textContainer = buzzContainer.querySelector('.buzz-top')
+
+      const buzzText = textContainer.textContent.toLowerCase();
+      if (buzzText.includes(searchValue)) {
+        buzzContainer.style.display = 'block';
+      } else {
+        buzzContainer.style.display = 'none';
+      }
+    });
+  }
 
   function openEditModal(element) {
     const editCoverDiv = element.closest('.buzzSpace-info').querySelector('.editbuzzSapce-cover');

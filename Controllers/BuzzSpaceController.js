@@ -127,11 +127,17 @@ const leaveBuzzSpace = async (req, res) => {
         }
 
         if (existingBuzzSpace.moderators.includes(existingUser._id)) {
-            existingBuzzSpace.moderators = existingBuzzSpace.moderators.filter(modId => modId.toString() !== existingUser._id.toString());
+            console.log('hi')
+            existingBuzzSpace.moderators = existingBuzzSpace.moderators.filter(modId => {
+                console.log('Comparing:', modId.toString(), existingUser._id.toString());
+                return modId.toString() !== existingUser._id.toString();
+            });
         }
 
         existingUser.joined_buzzSpace_ids = existingUser.joined_buzzSpace_ids.filter(id => id != buzzSpaceId);
+        existingBuzzSpace.numberOfMembersJoined--;
         await existingUser.save();
+        await existingBuzzSpace.save()
 
         res.status(200).json({ message: "Successfully left the BuzzSpace!" });
 

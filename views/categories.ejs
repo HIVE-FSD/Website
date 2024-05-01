@@ -1,3 +1,48 @@
+<% 
+const categories = [
+    "animals",
+    "architecture",
+    "art",
+    "beauty",
+    "books",
+    "business",
+    "cars",
+    "celebrities",
+    "cooking",
+    "crafts",
+    "culture",
+    "design",
+    "diy",
+    "education",
+    "entertainment",
+    "environment",
+    "events",
+    "fashion",
+    "finance",
+    "fitness",
+    "food",
+    "games",
+    "gardening",
+    "health",
+    "history",
+    "hobbies",
+    "movies",
+    "music",
+    "nature",
+    "news",
+    "pets",
+    "photography",
+    "politics",
+    "science",
+    "space",
+    "spirituality",
+    "sports",
+    "technology",
+    "travel",
+    "weather"
+  ];
+%>
+
 <div class="categories-container">
     <input type="text" placeholder="Search categories..." oninput="filterCategories(this)">
     <ul>
@@ -5,17 +50,7 @@
 </div>
 
 <script>
-    const categories = [
-        "Technology", "Fashion", "Travel", "Food", "Sports",
-        "Music", "Movies", "Books", "Art", "Health",
-        "Fitness", "Finance", "Business", "Education", "Science",
-        "Nature", "Photography", "Animals", "Cars", "Games",
-        "Design", "DIY", "Gardening", "Cooking", "Crafts",
-        "Beauty", "Fitness", "History", "Space", "Architecture",
-        "Spirituality", "Pets", "Hobbies", "Environment", "Politics",
-        "News", "Weather", "Entertainment", "Celebrities", "Events",
-        "Culture", "Education", "Technology", "Finance", "Business"
-    ];
+    const categories = JSON.parse('<%- JSON.stringify(categories)  %>')
 
     const categoriesList = document.querySelector('.categories-container ul');
 

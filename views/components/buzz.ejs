@@ -39,15 +39,15 @@
                 expand_more
             </span>
         </div>
-        <span class="material-symbols-outlined buzz-close" onclick="closeContent(this)">close</span>
+        <span class="material-symbols-outlined buzz-close" onclick="closeContent(this, '<%= buzz.buzz %>')">close</span>
         <div class="buzz-main">
-            <div class="buzz-top" onclick="expandContent(this)">
+            <div class="buzz-top" onclick="expandContent(this, '<%= buzz.buzz %>')">
                 <h1>
                     <%= buzz.title %>
                 </h1>
                 
+                <p class="buzz-description"><%- truncateText(buzz.buzz, 75) %></p>
             </div>
-            <p class="buzz-description" onclick="expandContent(this)"><%- truncateText(buzz.buzz, 75) %></p>
             <div class="buzz-functions">
                 <span class="buzz-functions-left">
                     <div>
@@ -59,7 +59,7 @@
                 <div class="buzz-inner-functions">
                     <div onclick="toggleCommentArea(this)"><span class="material-symbols-outlined">comment</span> Comment</div>
                     <% if (buzz.canReport) { %>
-                    <div onclick="reportBuzz('<%= buzz.id %>')" ><span class="material-symbols-outlined">flag</span> Report</div>
+                    <div onclick="reportBuzz(this,'<%= buzz.id %>')" ><span class="material-symbols-outlined">flag</span> Report</div>
                     <% } %>
                     <% if (buzz.canEdit || buzz.canDelete) { %>
                     <div class="buzz-actions-container">
@@ -161,7 +161,7 @@
 
     function deleteBuzz(btn, userId, buzzId){
         console.log(buzzId)
-        fetch(`buzz/deleteBuzz`, {
+        fetch(`/buzz/deleteBuzz`, {
             method: 'DELETE',
             body: JSON.stringify({
                 userId,
@@ -220,45 +220,23 @@
     }
 
 
-    function expandContent(buzz) {
+    function expandContent(buzz, description) {
         const buzzSuper = buzz.closest('.buzz-super');
         buzzSuper.classList.add('modal');
         const paragraph = buzzSuper.querySelector('.buzz-description')
-        paragraph.innerHTML = `<%= buzz.buzz %>`;
+        paragraph.innerHTML = description;
     }
 
-const reportBuzz = async (buzzId) => {
-
-    const requestData = {
-        buzzId: buzzId
-    };
-    console.log(requestData)
-
-    try {
-        const response = await fetch('/buzz/reportBuzz', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestData)
-        });
-
-        const responseData = await response.json();
-        console.log(responseData); // Assuming the response contains a message property
-    } catch (error) {
-        console.error('Error:', error);
-    }
-};
 
 
 
-    function closeContent(close) {
+    function closeContent(close, description) {
         const buzzSuper = close.closest('.buzz-super');
         const paragraph = buzzSuper.querySelector('.buzz-description');
         const commentArea = buzzSuper.querySelector('.buzz-comment-area');
         commentArea.style.display = 'none';
         buzzSuper.classList.remove('modal');
-        paragraph.innerHTML = `<%- truncateText(buzz.buzz, 75) %>`;
+        paragraph.innerHTML = truncateText(description, 75);
     }
 
     function toggleCommentArea(commentButton) {
@@ -275,5 +253,3 @@ const reportBuzz = async (buzzId) => {
         expandContent(buzzSuper.querySelector('.buzz-description'));
     }
 </script>
-
-<script src="js/buzz.js"></script>
