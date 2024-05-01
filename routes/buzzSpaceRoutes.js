@@ -14,15 +14,46 @@ const { authUserBuzzSpace } = require('../Middleware/authoriser.js');
 router.use(express.static(path.join(__dirname, '../public')));
 
 const categories = [
-    "Technology", "Fashion", "Travel", "Food", "Sports",
-    "Music", "Movies", "Books", "Art", "Health",
-    "Fitness", "Finance", "Business", "Education", "Science",
-    "Nature", "Photography", "Animals", "Cars", "Games",
-    "Design", "DIY", "Gardening", "Cooking", "Crafts",
-    "Beauty", "Fitness", "History", "Space", "Architecture",
-    "Spirituality", "Pets", "Hobbies", "Environment", "Politics",
-    "News", "Weather", "Entertainment", "Celebrities", "Events",
-    "Culture", "Education", "Technology", "Finance", "Business"
+    "animals",
+    "architecture",
+    "art",
+    "beauty",
+    "books",
+    "business",
+    "cars",
+    "celebrities",
+    "cooking",
+    "crafts",
+    "culture",
+    "design",
+    "diy",
+    "education",
+    "entertainment",
+    "environment",
+    "events",
+    "fashion",
+    "finance",
+    "fitness",
+    "food",
+    "games",
+    "gardening",
+    "health",
+    "history",
+    "hobbies",
+    "movies",
+    "music",
+    "nature",
+    "news",
+    "pets",
+    "photography",
+    "politics",
+    "science",
+    "space",
+    "spirituality",
+    "sports",
+    "technology",
+    "travel",
+    "weather"
 ];
 
 router.post('/createBuzzSpace', upload, async (req, res) => {
@@ -39,7 +70,11 @@ router.post('/createBuzzSpace', upload, async (req, res) => {
 
         // Create new buzzspace object
         const buzzSpace = await createBuzzSpace(buzzSpaceName, buzzSpaceTag, description, coverImage, logoImage, creator, rules);
+
         await User.findByIdAndUpdate(creator, { $push: { buzzSpace_ids: buzzSpace._id },  $push: { joined_buzzSpace_ids: buzzSpace._id }, $inc: { 'info.buzzSpace_count': 1 } });
+        const user = await User.findById(creator)
+        console.log(user.buzzSpace_ids)
+        console.log(buzzSpace._id)
 
         const redirectRoute = `/buzzspace/${buzzSpace.name}`;
 

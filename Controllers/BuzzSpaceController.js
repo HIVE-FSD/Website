@@ -13,12 +13,9 @@ const createBuzzSpace = async (buzzSpaceName, buzzSpaceTag, description, coverIm
             creator: creator,
             rules
         });
-        const buzzSpaceId = await newBuzzSpace.save();
-        const creator1 = await User.findById(creator);
-        // console.log(creator1)
-        creator1.joined_buzzSpace_ids.push(buzzSpaceId._id);
-        newBuzzSpace._id.numberOfMembersJoined++;
-        return newBuzzSpace;
+        const buzzSpace = await newBuzzSpace.save();
+        
+        return buzzSpace;
     } catch (error) {
         throw error;
     }
@@ -232,10 +229,17 @@ const demoteModerator = async (req, res) => {
 
         // Remove the moderator from the moderators list
         buzzSpace.moderators = buzzSpace.moderators.filter(id => id.toString() !== moderatorId.toString());
-        
+        const user = await User.findById(moderatorId);
         // Save the updated buzzspace
         await buzzSpace.save();
-
+        const notificationMessage = `You are no longer a moderator at ${buzzSpace.name}`;
+        const notification = {
+            type: 'buzzspace',
+            message: notificationMessage
+        };
+        user.notifications.unshift(notification);
+        
+        await user.save();
         return res.status(200).json({ message: "Moderator demoted successfully" });
     } catch (err) {
         console.log(err);
