@@ -60,7 +60,7 @@ router.post('/createBuzzSpace', upload, async (req, res) => {
     try {
         const { buzzSpaceName, buzzSpaceTag, description, creator } = req.body;
         const rules = JSON.parse(req.body.rules);
-        
+
         const coverImage = req.files['cover'] ? req.files['cover'][0].filename : null;
         const logoImage = req.files['logo'] ? req.files['logo'][0].filename : null;
 
@@ -71,10 +71,13 @@ router.post('/createBuzzSpace', upload, async (req, res) => {
         // Create new buzzspace object
         const buzzSpace = await createBuzzSpace(buzzSpaceName, buzzSpaceTag, description, coverImage, logoImage, creator, rules);
 
-        await User.findByIdAndUpdate(creator, { $push: { buzzSpace_ids: buzzSpace._id },  $push: { joined_buzzSpace_ids: buzzSpace._id }, $inc: { 'info.buzzSpace_count': 1 } });
-        const user = await User.findById(creator)
-        console.log(user.buzzSpace_ids)
-        console.log(buzzSpace._id)
+        await User.findByIdAndUpdate(creator, {
+            $push: {
+                buzzSpace_ids: buzzSpace._id,
+                joined_buzzSpace_ids: buzzSpace._id
+            },
+            $inc: { 'info.buzzSpace_count': 1 }
+        });
 
         const redirectRoute = `/buzzspace/${buzzSpace.name}`;
 
@@ -101,7 +104,7 @@ router.get('/:name', checkAuth, async (req, res) => {
     try {
         const buzzSpace = await BuzzSpace.findOne({ name: req.params.name }).populate('moderators');
         if (!buzzSpace) {
-            return res.status(404).render('404.ejs', { title: '404 | No such buzzSpace!', layout: './layouts/authLayout', message : `The buzzSpace ${req.params.name} doesn't exist` });
+            return res.status(404).render('404.ejs', { title: '404 | No such buzzSpace!', layout: './layouts/authLayout', message: `The buzzSpace ${req.params.name} doesn't exist` });
         }
         const user = req.user;
         const creator = await User.findById(buzzSpace.creator)
@@ -111,8 +114,8 @@ router.get('/:name', checkAuth, async (req, res) => {
         const Formattedbuzzes = await getBuzzsWithComments(buzzIds, req.user._id);
         const isMod = buzzSpace.moderators.some(mod => mod._id.equals(user._id));
 
-        res.render('buzzSpace', { title: `Hive | ${buzzSpace.name}`, buzzes: Formattedbuzzes, buzzSpace, creator, user, joined, isMod});
-    }   catch (err) {
+        res.render('buzzSpace', { title: `Hive | ${buzzSpace.name}`, buzzes: Formattedbuzzes, buzzSpace, creator, user, joined, isMod });
+    } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
     }

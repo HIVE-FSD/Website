@@ -1793,6 +1793,7 @@ footer img {
     padding: 3px 5px;
     border: 1px solid var(--grey);
     border-radius: 5px;
+    text-transform: capitalize;
 }
 
 .edit-profile-form-cover {

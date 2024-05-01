@@ -16,6 +16,7 @@ const createBuzzSpace = async (buzzSpaceName, buzzSpaceTag, description, coverIm
         const buzzSpace = await newBuzzSpace.save();
         
         return buzzSpace;
+
     } catch (error) {
         throw error;
     }
@@ -124,7 +125,6 @@ const leaveBuzzSpace = async (req, res) => {
         }
 
         if (existingBuzzSpace.moderators.includes(existingUser._id)) {
-            console.log('hi')
             existingBuzzSpace.moderators = existingBuzzSpace.moderators.filter(modId => {
                 console.log('Comparing:', modId.toString(), existingUser._id.toString());
                 return modId.toString() !== existingUser._id.toString();

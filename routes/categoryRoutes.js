@@ -69,8 +69,8 @@ const checkCategoryExists = (req, res, next) => {
 // Implement the route with the middleware
 router.get('/:category', checkAuth, checkCategoryExists, async (req, res) => {
     const user = req.user;
-    const category = req.params.category; // Extracting the category from the URL
-    let buzzSpaces = await BuzzSpace.find({ category: category }); // Assuming you have a 'category' field in your BuzzSpace model
+    const category = req.params.category; 
+    let buzzSpaces = await BuzzSpace.find({ category: category }); 
     buzzSpaces = buzzSpaces.sort((a, b) => b.numberOfMembersJoined - a.numberOfMembersJoined);
     res.render('category', { title: `HIVE | Top ${category} BuzzSpaces`, user, buzzSpaces, category });
 });
