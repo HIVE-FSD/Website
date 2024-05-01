@@ -60,14 +60,17 @@ function getDaySuffix(day) {
         </div>
       </div>
       <div class="buzzSpace-header-inner-right">
+        <%  if (user.username == creator.username || isMod ) { %>
+          <%- include('components/spaceMembers', {members, buzzSpaceId : buzzSpace._id }) %>
+        <% } %>
         <%  if (user.username == creator.username) { %>
           
         <% } else if (!joined) {%>
-        <button onclick="joinBuzzSpace('<%= buzzSpace._id%>', '<%= user._id%>')">
+        <button onclick="joinBuzzSpace('<%= buzzSpace._id %>', '<%= user._id%>')">
           Join
         </button>
         <% }else{%>
-          <button onclick="leaveBuzzSpace('<%= buzzSpace._id%>', '<%= user._id%>')">
+          <button onclick="leaveBuzzSpace('<%= buzzSpace._id %>', '<%= user._id%>')">
             Leave
           </button>
           <% } %>

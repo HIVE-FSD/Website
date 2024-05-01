@@ -1,0 +1,34 @@
+<div class="members">
+    <button onclick="openMembers(this)">Members</button>
+    <div class="members-list-cover">
+        <div class="members-list">
+            <span class="material-symbols-outlined close" onclick="closeMembers(this)">close</span>
+            <h1>Members</h1>
+            <ul class="space-info-rules" >
+                <% members.map((member) => { %>
+                  <li>
+                      <%- include('profileCard', { buzzer: member.info, username: member.username }) %> 
+
+                      <button class="edit-btn" onclick="leaveBuzzSpace('<%= buzzSpaceId %>', '<%= member._id %>')" >
+                        <span class="material-symbols-outlined">
+                            person_remove
+                            </span>
+                      </button>
+                  </li>
+                <% }) %>                  
+              </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openMembers(btn) {
+        const memberSuper = btn.closest('.members').querySelector('.members-list-cover');
+        memberSuper.classList.add('modal');
+    }
+
+    function closeMembers(close) {
+        const memberSuper = close.closest('.members').querySelector('.members-list-cover');
+        memberSuper.classList.remove('modal');
+    }
+</script>

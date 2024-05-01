@@ -1039,7 +1039,7 @@ footer img {
 }
 
 .edit-btn {
-    padding: 1px;
+    padding: 3px;
     margin-left: 5px;
 }
 
@@ -1191,6 +1191,53 @@ footer img {
         align-items: center;
         gap: 3rem;
     }
+}
+
+.members-list-cover {
+    display: none;
+}
+
+.members-list-cover.modal {
+    position: fixed;
+    top: 0;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.5);
+    max-width: none;
+    width: 100vw;
+    height: 100vh;
+    z-index: 200;
+}
+
+.members-list {
+    background-color: var(--buzz-black);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    border: 1px solid var(--grey);
+    border-radius: 10px;
+    gap: 1rem;
+    min-width: 30%;
+    max-width: 90%;
+    position: relative;
+}
+
+.members-list h1{
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--orange);
+    width: 90%;
+    text-align: center;
+}
+
+.space-info-rules li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
 }
 
 /* BuzzSpace-page styles */

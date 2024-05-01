@@ -18,7 +18,6 @@ const renderPage = async (route, file, props) => {
             res.render(file, { ...props, user: req.user, buzzes, buzzSpaces });
         } catch (error) {
             console.error('Error fetching data:', error);
-            // Handle error response
             res.status(500).send('Server Error');
         }
     });
@@ -29,12 +28,11 @@ renderPage('/profile', 'profile', {
     title: 'HIVE | My profile'
 })
 
-// PUT route to update user's avatar index
+
 app.put('/users/:userId/update-avatar', async (req, res) => {
     const userId = req.params.userId;
     const { avatarIndex } = req.body;
     try {
-        // Find the user by ID and update the avatar_index field
         const user = await User.findByIdAndUpdate(userId, { 'info.avatar_index': avatarIndex }, { new: true });
 
         if (!user) {
@@ -48,7 +46,7 @@ app.put('/users/:userId/update-avatar', async (req, res) => {
     }
 });
 
-// PUT route to update user's profile
+
 app.put('/users/:userId/update-profile', async (req, res) => {
     const userId = req.params.userId;
     const { displayName, bio } = req.body;
@@ -59,7 +57,7 @@ app.put('/users/:userId/update-profile', async (req, res) => {
         updateFields['info.display_name'] = displayName.trim();
     }
 
-    // Check if bio is provided and not empty
+    
     if (bio && bio.trim() !== '') {
         updateFields['info.bio'] = bio.trim();
     }

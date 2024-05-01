@@ -4,7 +4,7 @@ const router = express.Router();
 const User = require("../models/User");
 const { upload } = require('../Middleware/mutler.js');
 const BuzzSpace = require('../models/BuzzSpace.js');
-const { createBuzzSpace, editBuzzSpace, joinBuzzSpace, leaveBuzzSpace, requestPromotion, approve, clearNotification, demoteModerator } = require('../Controllers/BuzzSpaceController.js');
+const { createBuzzSpace, editBuzzSpace, joinBuzzSpace, leaveBuzzSpace, requestPromotion, approve, clearNotification, demoteModerator, getJoinedUsers } = require('../Controllers/BuzzSpaceController.js');
 const { checkAuth } = require('../Middleware/mainware.js');
 const { getBuzzsWithComments } = require('../Controllers/buzzController.js');
 const Buzz = require('../models/Buzz.js');
@@ -113,8 +113,9 @@ router.get('/:name', checkAuth, async (req, res) => {
         const buzzIds = buzzes.map(buzz => buzz._id);
         const Formattedbuzzes = await getBuzzsWithComments(buzzIds, req.user._id);
         const isMod = buzzSpace.moderators.some(mod => mod._id.equals(user._id));
+        const members = await getJoinedUsers(buzzSpace._id)
 
-        res.render('buzzSpace', { title: `Hive | ${buzzSpace.name}`, buzzes: Formattedbuzzes, buzzSpace, creator, user, joined, isMod });
+        res.render('buzzSpace', { title: `Hive | ${buzzSpace.name}`, buzzes: Formattedbuzzes, buzzSpace, creator, user, joined, isMod, members });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
