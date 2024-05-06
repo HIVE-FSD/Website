@@ -60,7 +60,7 @@ router.post('/signup', [
         // Create new user
         const newUser = await User.createUser(username, hashedPassword, email);
 
-        const verificationLink = `http://localhost:3000/verify/${newUser.id}`;
+        const verificationLink = `${process.env.SITE}:${process.env.PORT}/verify/${newUser.id}`;
         sendVerificationEmail(newUser.email, verificationLink);
         res.redirect('/verification?emailSent=true');
 
@@ -113,8 +113,8 @@ function sendVerificationEmail(email, verificationLink) {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'hive0024@gmail.com',
-            pass: 'gurk kczx gqxm latn'
+            user: process.env.VERIFIERMAIL,
+            pass: process.env.VERIFIERMAILPASS
         }
     });
     

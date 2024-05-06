@@ -1,4 +1,5 @@
 const connectToMongo = require("./db");
+require('dotenv').config();
 const express = require("express")
 const expressEjsLayouts = require("express-ejs-layouts")
 const authRoutes = require('./routes/authRoutes');
@@ -9,10 +10,10 @@ const categoryRoutes = require('./routes/categoryRoutes');
 const buzzRoutes = require('./routes/buzzRoutes');
 const session = require('express-session');
 const app = express()
-const port = 3000
+const port = process.env.PORT
 
 app.use(session({
-    secret: 'Ballaya',
+    secret: process.env.SESSIONSECRET,
     resave: false,
     saveUninitialized: false
 }));

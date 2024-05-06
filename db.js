@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 
 // MongoDB connection URI
-const mongoURI = "mongodb://127.0.0.1:27017/hive";
+const mongoURI = process.env.MONGOURI;
 
 // Function to connect to MongoDB
 const connectToMongo = async () => {
