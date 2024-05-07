@@ -10,7 +10,7 @@ To get started with HIVE, make sure you have Node.js installed on your computer.
 
 To install dependencies and start the application, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your/repository.git`
+1. Clone the repository: `git clone https://github.com/HIVE-FSD/Website.git`
 2. Navigate to the project directory: `cd HIVE`
 3. Install dependencies: `npm install`
 4. Start the application: `npm start`
@@ -31,36 +31,27 @@ If you want to disable email verification, follow the instructions provided in t
 
 ### Directory Structure
 
-- **/public/assets**: Images directory
-- **/public/css**: CSS files
-- **/public/js**: JavaScript files
-- **/public/uploads**: Directory for buzzspace logos and cover images
+The project follows a classic MVC (Model-View-Controller) folder structure:
 
-### Roles and Permissions
-
-Within a buzzspace, users have different roles:
-
-- **Creator**: The creator of the buzzspace with full control
-- **Moderator**: Appointed by the creator to moderate buzzes and members
-- **Member**: Regular member of the buzzspace
-
-### Middleware
-
-CheckAuth middleware in `/Middleware/mainware.js` verifies user authentication status.
-
-### Creating a Buzz
-
-To create a buzz, you must first join a buzzspace. Then, you can create buzzes within the buzzspace.
-
-### EJS Pages and Layouts
-
+- **/controllers**: Controller files handling logic
+- **/middleware**: Middleware files
+  - `/Middleware/mainware.js`: CheckAuth middleware verifying user authentication status
+- **/models**: Mongoose model files
+- **/public**:
+  - **/assets**: Images directory
+  - **/css**: CSS files
+  - **/js**: JavaScript files
+  - **/uploads**: Directory for buzzspace logos and cover images
+- **/routes**: Route files handling HTTP requests
+  - `/routes/authRoutes.js`: Routes related to authentication
 - **/views**: EJS pages
-- **/views/components**: Partial components
-- **/views/layouts**: Layout templates (authLayout, mainLayout)
+  - **/components**: Partial components
+    - `/views/components/avatar.ejs`: Component for selecting avatars
+  - **/layouts**: Layout templates (authLayout, mainLayout)
 
 ### Avatar Selection
 
-Users can select avatars by including the `avatar.ejs` component and passing the index.
+Avatars can be used by including the `avatar.ejs` component and passing an index.
 
 Example:
 ```ejs
