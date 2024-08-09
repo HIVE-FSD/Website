@@ -57,7 +57,7 @@
                     <%= formatTimeAgo(buzz.buzzedon) %> at <a href=<%= "/buzzspace/"+buzz.buzzSpace  %>><%= buzz.buzzSpace %></a>
                 </span>
                 <div class="buzz-inner-functions">
-                    <div onclick="toggleCommentArea(this)"><span class="material-symbols-outlined">comment</span> Comment</div>
+                    <div onclick="toggleCommentArea(this, '<%= buzz.buzz %>')"><span class="material-symbols-outlined">comment</span> Comment</div>
                     <% if (buzz.canReport) { %>
                     <div onclick="reportBuzz(this,'<%= buzz.id %>')" ><span class="material-symbols-outlined">flag</span> Report</div>
                     <% } %>
@@ -239,17 +239,16 @@
         paragraph.innerHTML = truncateText(description, 75);
     }
 
-    function toggleCommentArea(commentButton) {
+    function toggleCommentArea(commentButton, description) {
         const buzzSuper = commentButton.closest('.buzz-super');
         const commentArea = buzzSuper.querySelector('.buzz-comment-area');
         commentArea.style.display = 'block';
-        expandContent(buzzSuper.querySelector('.buzz-description'));
+        expandContent(buzzSuper.querySelector('.buzz-description'), description);
     }
 
     function toggleReplyArea(commentButton) {
         const buzzSuper = commentButton.closest('.buzz-comment-main');
         const commentArea = buzzSuper.querySelector('.buzz-comment-area');
         commentArea.style.display = 'block';
-        expandContent(buzzSuper.querySelector('.buzz-description'));
     }
 </script>
